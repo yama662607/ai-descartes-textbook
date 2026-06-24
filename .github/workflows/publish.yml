@@ -1,8 +1,8 @@
 name: Quarto Publish
 
 on:
-  push:
-    branches: [main]
+  # 自動公開はオフ（手動デプロイ=検証済みローカルビルドの gh-pages push に統一）。
+  # 手動再開する場合は GitHub Actions タブから dispatch、または下に push トリガを戻す。
   workflow_dispatch:
 
 permissions:
