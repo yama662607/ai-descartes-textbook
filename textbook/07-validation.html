@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>実験的検証の全体像 – AI-Descartes 精読教科書</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../textbook/08-discussion.html" rel="next">
+<link href="../textbook/06-interplay.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-3e8480e34e3b36c3885f95ed1670e7a8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "一致なし",
+    "search-matching-documents-text": "一致した文書",
+    "search-copy-link-title": "検索へのリンクをコピー",
+    "search-hide-matches-text": "追加の検索結果を非表示",
+    "search-more-match-text": "追加の検索結果",
+    "search-more-matches-text": "追加の検索結果",
+    "search-clear-button-title": "消去",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "検索",
+    "search-label": "サーチ"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!--
+  Quarto Live (filter mode) does not auto-load plotly.js even when a
+  {pyodide} cell uses plotly. Load it from CDN once per page so that
+  mime-type renders (`Plotly.newPlot(...)`) work.
+-->
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../templates/styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">AI-Descartes 精読教科書</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="サーチ"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">ホーム</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/yama662607/ai-descartes-textbook" title="ソースコード" class="quarto-navigation-tool px-1" aria-label="ソースコード"><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../textbook/03-problem.html">第 II 部 — AI-Descartes の枠組み（Results）</a></li><li class="breadcrumb-item"><a href="../textbook/07-validation.html"><span class="chapter-title">実験的検証の全体像</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">AI-Descartes 精読教科書</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 I 部 — 導入と全体像</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/00-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">本書の歩き方と AI-Descartes 全体像</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/01-abstract.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">タイトル・著者・要旨</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/02-introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">導入：なぜ「導出可能な」発見か</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 II 部 — AI-Descartes の枠組み（Results）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/03-problem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">発見の形式的定式化 ⟨B, C, D, M⟩</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/04-distance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">距離の一般化：データ誤差 ε と理論誤差 β</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/05-integration.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">統計的 AI と記号的 AI の統合</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/06-interplay.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">データと理論の相互作用：MINLP-SR と定理証明</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/07-validation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">実験的検証の全体像</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 III 部 — 考察（Discussion）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/08-discussion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">考察</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 IV 部 — 事例研究（Methods）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/09-kepler.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 I：ケプラーの第三法則</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/10-timedilation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 II：相対論的時間遅延</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/11-langmuir.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 III：ラングミュアの吸着式</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/12-limitations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">システムの限界と将来の発展</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 V 部 — 付録</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/13-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">付録：参考文献・用語集・ライセンス</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">このページの目次</h2>
+   
+  <ul class="collapse">
+  <li><a href="#sec-validation" id="toc-sec-validation" class="nav-link active" data-scroll-target="#sec-validation">実験的検証の全体像</a></li>
+  <li><a href="#sec-validation-faq" id="toc-sec-validation-faq" class="nav-link" data-scroll-target="#sec-validation-faq">よくある質問（FAQ）</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/yama662607/ai-descartes-textbook/edit/main/textbook/07-validation.qmd" class="toc-action"><i class="bi bi-github"></i>編集</a></li><li><a href="https://github.com/yama662607/ai-descartes-textbook/issues/new" class="toc-action"><i class="bi empty"></i>問題を報告</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../textbook/03-problem.html">第 II 部 — AI-Descartes の枠組み（Results）</a></li><li class="breadcrumb-item"><a href="../textbook/07-validation.html"><span class="chapter-title">実験的検証の全体像</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">実験的検証の全体像</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> コード</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-validation" class="level2">
+<h2 class="anchored" data-anchor-id="sec-validation">実験的検証の全体像</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“We tested the different capabilities of our system on three problems (more details in the Methods section). First, we considered the problem of deriving Kepler’s third law of planetary motion, providing reasoning-based measures to analyze the quality and generalizablity of the generated formulae. […] We then considered Einstein’s time-dilation formula. Although we did not recover this formula from data, we used the reasoning module to identify the formula that generalizes best. […] Finally, we considered Langmuir’s adsorption equation, whose background theory contains material-dependent coefficients. By relating these coefficients to the ones in the SR-generated models via existential quantification, we were able to logically prove one of the extracted formulae.” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<section id="忠実な日本語訳" class="level3">
+<h3 class="anchored" data-anchor-id="忠実な日本語訳">忠実な日本語訳</h3>
+<p>我々は、本システムが持つさまざまな能力を 3 つの問題で検証した（詳細は Methods 節を参照）。</p>
+<p>第一に、ケプラーの惑星運動第 3 法則を導出する問題を取り上げ、生成された複数の式の品質と汎化性を分析するための、推論に基づいた指標を与えた。この法則を実験データから抽出することは、とりわけ関与する諸質量の大きさが大きく異なるときに困難である。これは太陽系の場合に当てはまり、太陽の質量は惑星の質量よりはるかに大きい。推論モジュールは、複数の候補式のあいだから選択し、よく汎化する式を同定するのを助ける。すなわち、データと理論の統合を用いることで、我々はケプラーの第 3 法則を再発見することができた。</p>
+<p>次に、アインシュタインの時間の遅れ（時間遅延）の式を取り上げた。我々はこの式をデータから復元することはできなかったが、推論モジュールを用いて、最もよく汎化する式を同定した。さらに、2 つの異なる公理の集合——一方は「ニュートン的」な仮定を持ち、他方は相対論的なもの——で推論誤差を分析することにより、その現象をよりよく説明する理論を同定することができた。</p>
+<p>最後に、ラングミュアの吸着式を取り上げた。この式の背景理論は物質依存の係数を含む。これらの係数を、記号回帰（SR）が生成したモデル中の係数と存在量化によって結び付けることで、抽出された式の 1 つを論理的に証明することができた。</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：3 事例はそれぞれ「異なる検証目的」を担う
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>この短い段落は、本論文の実験パート全体（第 09・10・11 章で詳述）の <strong>設計図</strong> である。注意深く読むと、3 つの題材は単なる「3 つの例題」ではなく、AI-Descartes の能力のうち <strong>互いに異なる側面</strong> を意図的に切り分けて試す構成になっている。ジャーナルクラブで実験結果を読み解く前に、この設計意図をはっきりさせておくことが理解の近道になる。</p>
+<p>3 事例を「データから式が復元できるか」「推論モジュールが何をするか」「証明まで到達するか」という軸で並べると、難度が段階的に上がっていく。</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    K["ケプラー第3法則&lt;br/&gt;(第09章)"] --&gt; KT["データから法則を&lt;br/&gt;再発見できる&lt;br/&gt;+ 汎化を推論誤差で評価"]
+    T["時間遅延&lt;br/&gt;(第10章)"] --&gt; TT["データから式は&lt;br/&gt;復元できない&lt;br/&gt;→ 推論で最良式を選ぶ&lt;br/&gt;+ 公理系の比較で理論同定"]
+    L["ラングミュア吸着式&lt;br/&gt;(第11章)"] --&gt; LT["物質依存の係数を&lt;br/&gt;存在量化で結合&lt;br/&gt;→ 式を論理的に証明"]
+    KT --&gt; G["データ + 理論の&lt;br/&gt;統合の価値を実証"]
+    TT --&gt; G
+    LT --&gt; G
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>事例 1：ケプラー第 3 法則（第 09 章）— 「再発見」と「汎化の定量評価」。</strong> 惑星の公転周期 <span class="math inline">p</span> と距離 <span class="math inline">d</span>、二質量 <span class="math inline">m_1, m_2</span> の関係 <span class="math inline">p = \sqrt{4\pi^2 d^3 / (G(m_1+m_2))}</span> を、実測データだけから取り戻せるか、を問う。ここでの難しさは原文が明言するとおり <strong>質量スケールの極端な差</strong> にある。太陽系では太陽質量が惑星質量を圧倒するため、データ上は <span class="math inline">m_1 + m_2 \approx m_1</span>（太陽質量）にほぼ一定と見え、SR は <span class="math inline">m_2</span> への依存をしばしば取りこぼす。素朴な数値あてはめ（データ誤差の最小化）だけでは「データには合うが理論的には誤った式」を選びかねない。そこで推論モジュールが、各候補式が公理から導出可能な真の式とどれだけ近いか（<strong>推論誤差</strong>）と、どの変数に依存すべきか（<strong>変数依存性</strong>）を評価し、データ範囲の外でも正しく振る舞う式——すなわち <strong>よく汎化する式</strong>——を選び出す。この事例で導入される推論に基づく指標（点ごとの推論誤差・汎化推論誤差・変数依存性）は第 04 章で定義され、第 09 章で実データに適用される。</p>
+<p><strong>事例 2：時間遅延（第 10 章）— 「式は復元できないが理論を同定できる」。</strong> 相対論的な時間の遅れ <span class="math inline">\Delta t = \Delta t_0 / \sqrt{1 - v^2/c^2}</span> は、SR ではデータから直接は復元できなかった、と著者は正直に述べている。ここがこの事例の眼目である。AI-Descartes の価値は「常に正解の式を吐く」ことではなく、<strong>得られた候補のなかから最もよく汎化するものを推論で選べること</strong>、そしてさらに踏み込んで——<strong>どの背景理論（公理系）がその現象をよりよく説明するかを判定できること</strong> にある。具体的には、ニュートン的仮定に基づく公理集合と、相対論的な公理集合の 2 つを用意し、それぞれを背景理論としたときの推論誤差を比較する。相対論的公理系のほうが推論誤差を小さくできるなら、データはその理論を支持している、と論理的に言える。これは「式の発見」を超えて「<strong>理論の選択（モデル選択）</strong>」に推論を使う、本論文で最も野心的な使い方である。</p>
+<p><strong>事例 3：ラングミュア吸着式（第 11 章）— 「論理的証明への到達」。</strong> 吸着量を表すラングミュアの等温式は、背景理論のなかに <strong>物質依存の係数</strong>（吸着・脱離に関わる定数で、どの物質・温度かによって値が変わる）を含む。この係数は特定の数値として固定できないため、ケプラーのように「真の式」と直接係数を突き合わせる素朴な比較ができない。そこで使うのが <strong>存在量化</strong> である。「ある定数の組が存在して、SR が出した式の係数と背景理論の係数が一致する」という形の論理式を立て、自動定理証明器でそれを示す。これが成功すれば、その候補式は単に「データに合う」だけでなく、背景理論から <strong>導出可能であることが論理的に証明された</strong> ことになる——本論文で 3 事例中ただ一つ、証明まで到達した最も強い結論である。</p>
+<p>この段階的な構成こそが「3 つの能力（capabilities）を検証した」という原文表現の正体である。ケプラーで <strong>指標の妥当性</strong>、時間遅延で <strong>推論による選択と理論同定</strong>、ラングミュアで <strong>論理的証明</strong> を、それぞれ示しているのだ。</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：なぜ「データから理論へ」なのか（発見サイクルとの接続）
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>本節の直前（第 06 章で詳述）で著者は、自分たちのアプローチが通常の科学的方法の実装と <strong>逆向き</strong> であることを強調している。すなわち、従来の多くのシステムは「理論から仮説を得て、それをデータに照らして確認する（theory → hypothesis → check against data）」のに対し、AI-Descartes は「<strong>データから仮説を得て、それを理論に照らして評価する（data → hypothesis → assess against theory）</strong>」。</p>
+<p>この向きは、第 06 章の発見サイクル図（<a href="06-interplay.html#fig-cycle" class="quarto-xref">図&nbsp;<span>8.1</span></a>）に集約されている。</p>
+<p>この向きの違いが、本節の 3 事例すべてに通底している。SR が <strong>データから候補式を生成（Study → Hypothesize）</strong> し、推論モジュールが <strong>それらを背景理論に照らして評価・選別（Test → Assess）</strong> し、最良の候補を報告する（Report）。<a href="06-interplay.html#fig-cycle" class="quarto-xref">図&nbsp;<span>8.1</span></a> の発見サイクルでいえば、本節の検証は「Hypothesize で生まれた複数候補を、Test と Assess で篩い分ける」段階が、実データでどこまで機能するかを問うものにほかならない。</p>
+<p>3 事例で「篩い分けの厳しさ」が段階的に上がっていくのは前述のとおりで、ケプラーは推論誤差で <strong>順位付け</strong>、時間遅延は推論誤差で <strong>公理系を選択</strong>、ラングミュアは存在量化で <strong>証明</strong> に至る。続く各章では、この篩い分けが具体的にどの式・どの数値で行われたかを、誤差表（<a href="09-kepler.html#tbl-kepler" class="quarto-xref">表&nbsp;<span>11.1</span></a>, <a href="10-timedilation.html#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a>, <a href="11-langmuir.html#tbl-langmuir" class="quarto-xref">表&nbsp;<span>13.1</span></a>）と散布図（<a href="09-kepler.html#fig-kepler-eb" class="quarto-xref">図&nbsp;<span>11.1</span></a>, <a href="11-langmuir.html#fig-langmuir" class="quarto-xref">図&nbsp;<span>13.1</span></a>）を追いながら精読していく。</p>
+</div>
+</div>
+</section>
+<section id="各事例章への橋渡し" class="level3">
+<h3 class="anchored" data-anchor-id="各事例章への橋渡し">各事例章への橋渡し</h3>
+<p>本節で予告された 3 事例は、それぞれ独立の章で詳細に検証する。読み進める際は、上で整理した「各事例が担う検証目的」を念頭に置くとよい。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 22%">
+<col style="width: 35%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>事例</th>
+<th>担当章</th>
+<th>中心的な問い</th>
+<th>推論モジュールの役割</th>
+<th>結論の強さ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ケプラー第 3 法則</td>
+<td>第 09 章</td>
+<td>データから法則を再発見できるか</td>
+<td>推論誤差・変数依存性で候補を順位付け、よく汎化する式を選ぶ</td>
+<td>法則を <strong>再発見</strong></td>
+</tr>
+<tr class="even">
+<td>時間遅延</td>
+<td>第 10 章</td>
+<td>式が復元できないとき何ができるか</td>
+<td>最良汎化式を選び、2 公理系の比較で理論を同定</td>
+<td><strong>理論を同定</strong></td>
+</tr>
+<tr class="odd">
+<td>ラングミュア吸着式</td>
+<td>第 11 章</td>
+<td>物質依存係数をどう扱うか</td>
+<td>係数を存在量化で結合し、式を論理的に証明</td>
+<td>式を <strong>証明</strong></td>
+</tr>
+</tbody>
+</table>
+<p>なお、3 事例の詳細な方法論（公理集合・データセット・誤差指標の数式）は Methods 節（第 08〜11 章）で展開される。ケプラーの式 <a href="09-kepler.html#eq-kepler" class="quarto-xref">式&nbsp;<span>11.1</span></a> とその公理系 <a href="09-kepler.html#eq-kepler-axioms" class="quarto-xref">式&nbsp;<span>11.2</span></a>、推論誤差の定義（第 04 章）が、これらすべての検証の共通言語となる。</p>
+</section>
+</section>
+<section id="sec-validation-faq" class="level2">
+<h2 class="anchored" data-anchor-id="sec-validation-faq">よくある質問（FAQ）</h2>
+<p>学部生がつまずきやすい点を Q&amp;A 形式で補足します。</p>
+<section id="q1.-推論誤差って結局どうやって測るの-データに合うかどうかの普通の誤差あてはめ誤差と何が違うの" class="level3">
+<h3 class="anchored" data-anchor-id="q1.-推論誤差って結局どうやって測るの-データに合うかどうかの普通の誤差あてはめ誤差と何が違うの">Q1. 「推論誤差」って結局どうやって測るの？ データに合うかどうかの普通の誤差（あてはめ誤差）と何が違うの？</h3>
+<p>まず用語の整理から。<strong>あてはめ誤差（データ誤差）</strong> は「手元のデータ点とどれだけずれているか」だけを見る指標で、たとえば各点の予測値と実測値の差の二乗を足し合わせたものです。一方 <strong>推論誤差（reasoning error）</strong> は「その候補式が、背景理論（公理）から導かれる本来正しい式とどれだけ食い違うか」を測る、いわば理論との距離です。</p>
+<p>決定的な違いは「何を正解の基準にするか」です。データ誤差はデータ点だけを正解とみなすので、データの外側（外挿）では何の保証もありません。推論誤差は公理という理論を正解の基準にするので、データのない領域でも正しく振る舞うか（汎化）を評価できます。本章で言う「推論誤差で候補式を順位付けする」とは、データへの当てはまりではなく、この理論との整合性で順番を決める、という意味です。なお具体的な計算式（点ごとの推論誤差・汎化推論誤差）は第 04 章で定義され、ケプラーの公理系 <a href="09-kepler.html#eq-kepler-axioms" class="quarto-xref">式&nbsp;<span>11.2</span></a> と合わせて使われます。</p>
+</section>
+<section id="q2.-データには合うのに理論的には間違った式を選んでしまうというのが直感に反するデータに合っているなら正しい式では" class="level3">
+<h3 class="anchored" data-anchor-id="q2.-データには合うのに理論的には間違った式を選んでしまうというのが直感に反するデータに合っているなら正しい式では">Q2. データには合うのに理論的には間違った式を選んでしまう、というのが直感に反する。データに合っているなら正しい式では？</h3>
+<p>「データに合う」と「正しい」は同じではない、というのがこの事例の核心です。ポイントは、データが現象の <strong>一部の範囲しか映していない</strong> こと。</p>
+<p>ケプラーの真の式は <a href="09-kepler.html#eq-kepler" class="quarto-xref">式&nbsp;<span>11.1</span></a>、つまり <span class="math inline">p = \sqrt{4\pi^2 d^3 / (G(m_1+m_2))}</span> で、本来は二つの質量の <strong>和</strong> <span class="math inline">m_1+m_2</span> に依存します。ところが太陽系では太陽質量 <span class="math inline">m_1</span> が惑星質量 <span class="math inline">m_2</span> を圧倒するので、データ上はほぼ常に <span class="math inline">m_1+m_2 \approx m_1</span>（ほぼ一定）にしか見えません。すると数値あてはめは「<span class="math inline">m_2</span> なんて要らない」と判断し、<span class="math inline">m_2</span> を落とした式でもデータには見事に合ってしまいます。</p>
+<p>たとえるなら、体重計に毎回 100kg のおもりを乗せたまま人の体重を測るようなものです。手元のデータ（針の振れ）にはぴったり合う式が作れますが、おもりを外した瞬間（=<span class="math inline">m_1</span> が惑星級になる別の系）に大外れします。これが「データには合うが汎化に失敗する」状態で、だから理論との距離＝推論誤差で選び直す必要があるのです。</p>
+</section>
+<section id="q3.-存在量化って何-なぜ物質依存の係数を扱うのにわざわざある定数が存在してという言い方が必要になるの" class="level3">
+<h3 class="anchored" data-anchor-id="q3.-存在量化って何-なぜ物質依存の係数を扱うのにわざわざある定数が存在してという言い方が必要になるの">Q3. 「存在量化」って何？ なぜ物質依存の係数を扱うのにわざわざ「ある定数が存在して…」という言い方が必要になるの？</h3>
+<p><strong>存在量化</strong> とは「〜を満たすものが（少なくとも一つ）存在する」と主張する論理学の言い回しで、記号では <span class="math inline">\exists</span>（存在する）で書きます。「ある <span class="math inline">x</span> が存在して条件 P(<span class="math inline">x</span>) が成り立つ」という形です。</p>
+<p>なぜこれが要るのか。ラングミュアの吸着式の背景理論には <strong>物質依存の係数</strong>（吸着・脱離に関わる定数で、物質や温度ごとに値が変わる）が含まれます。ケプラーの <span class="math inline">G</span> のように一個の決まった数値に固定できないので、「SR が出した式の係数 = 背景理論の係数」と数値を直接突き合わせる比較ができないのです。</p>
+<p>そこで「<strong>ある定数の組が存在して</strong>、その値を入れれば SR の式の係数と背景理論の係数が一致する」と主張する形に書き換えます。具体的な数値を当てる代わりに「うまく一致させる値が一つでもあればよい」と緩めるわけで、これなら自動定理証明器で機械的に示せます。これに成功すれば、その式は単にデータに合うだけでなく、背景理論から導出可能であることが論理的に証明された、という最も強い結論（3 事例中ただ一つ）になります。</p>
+</section>
+<section id="q4.-時間遅延の事例は式を復元できなかったと書いてあるのになぜ失敗ではなく成果なの-正解を出せないシステムに何の価値があるの" class="level3">
+<h3 class="anchored" data-anchor-id="q4.-時間遅延の事例は式を復元できなかったと書いてあるのになぜ失敗ではなく成果なの-正解を出せないシステムに何の価値があるの">Q4. 時間遅延の事例は「式を復元できなかった」と書いてあるのに、なぜ失敗ではなく成果なの？ 正解を出せないシステムに何の価値があるの？</h3>
+<p>それは、この事例ではゴールが「正しい式を出すこと」から「<strong>正しい理論（公理系）を選ぶこと</strong>」に切り替わっているからです。著者が「式は復元できなかった」と正直に書いているのは、まさにそこを強調するためです。</p>
+<p>AI-Descartes の価値は、常に正解の式を吐くことではなく、(1) 得られた複数の候補から最もよく汎化するものを推論で選べること、(2) さらに <strong>どの背景理論がその現象をよりよく説明するかを判定できること</strong>、にあります。時間遅延では、ニュートン的な公理集合と相対論的な公理集合という二つの理論を用意し、それぞれを基準にしたときの推論誤差を比べます。相対論的公理系のほうが推論誤差を小さくできれば、「データはその理論を支持している」と論理的に言えます。</p>
+<p>身近にたとえるなら、犯人（式）を名指しできなくても、二つの仮説（容疑者グループ）のうちどちらが証拠（データ）とより整合するかを判定できれば、捜査としては大きな前進だ、ということです。これは「式の発見」を超えて「理論の選択（モデル選択）」に推論を使う、本論文で最も野心的な使い方であり、だからこそ失敗ではなく成果として扱われます。</p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-cornelio2023" class="csl-entry" role="listitem">
+Cornelio, Cristina, Sanjeeb Dash, Vernon Austel, Tyler R. Josephson, Joao Goncalves, Kenneth L. Clarkson, Nimrod Megiddo, Bachir El Khadir, と Lior Horesh. 2023. <span>「Combining data and theory for derivable scientific discovery with <span>AI-Descartes</span>」</span>. <em>Nature Communications</em> 14 (1): 1777. <a href="https://doi.org/10.1038/s41467-023-37236-y">https://doi.org/10.1038/s41467-023-37236-y</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ── 右サイドバー（目次）トグル ──────────────────────────
+  const rightSidebar = document.getElementById('quarto-margin-sidebar');
+  if (rightSidebar) {
+    const btn = document.createElement('button');
+    btn.id = 'right-sidebar-toggle';
+    btn.setAttribute('aria-label', '目次を折りたたむ');
+    btn.innerHTML = '&#8250;'; // ›
+
+    document.body.appendChild(btn);
+
+    function positionRightBtn() {
+      const rect = rightSidebar.getBoundingClientRect();
+      const visible = rect.width > 10;
+      btn.innerHTML = visible ? '&#8250;' : '&#8249;';
+      btn.style.left = visible
+        ? (rect.left - 24) + 'px'
+        : (window.innerWidth - 14) + 'px';
+    }
+    positionRightBtn();
+
+    btn.addEventListener('click', function () {
+      const isVisible = rightSidebar.getBoundingClientRect().width > 10;
+      if (isVisible) {
+        rightSidebar.style.width = '0';
+        rightSidebar.style.minWidth = '0';
+        rightSidebar.style.overflow = 'hidden';
+        rightSidebar.style.padding = '0';
+        btn.innerHTML = '&#8249;';
+        btn.style.left = (window.innerWidth - 14) + 'px';
+      } else {
+        rightSidebar.style.width = '';
+        rightSidebar.style.minWidth = '';
+        rightSidebar.style.overflow = '';
+        rightSidebar.style.padding = '';
+        btn.innerHTML = '&#8250;';
+        requestAnimationFrame(() => positionRightBtn());
+      }
+    });
+
+    window.addEventListener('resize', positionRightBtn);
+  }
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "コピーしました");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "コピーしました");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../textbook/06-interplay.html" class="pagination-link" aria-label="データと理論の相互作用：MINLP-SR と定理証明">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">データと理論の相互作用：MINLP-SR と定理証明</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../textbook/08-discussion.html" class="pagination-link" aria-label="考察">
+        <span class="nav-page-text"><span class="chapter-title">考察</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">ソースコード</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "実験的検証の全体像"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">engine:</span><span class="co"> markdown</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>{{&lt; include _07-validation.qmd &gt;}}</span></code></pre></div><button title="コピー" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Journal Club ／ 原論文 © 2023 The Author(s), CC BY 4.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/yama662607/ai-descartes-textbook/edit/main/textbook/07-validation.qmd" class="toc-action"><i class="bi bi-github"></i>編集</a></li><li><a href="https://github.com/yama662607/ai-descartes-textbook/issues/new" class="toc-action"><i class="bi empty"></i>問題を報告</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../index.html">
+<p>ホーム</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

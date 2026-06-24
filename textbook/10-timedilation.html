@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>事例 II：相対論的時間遅延 – AI-Descartes 精読教科書</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../textbook/11-langmuir.html" rel="next">
+<link href="../textbook/09-kepler.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-3e8480e34e3b36c3885f95ed1670e7a8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "一致なし",
+    "search-matching-documents-text": "一致した文書",
+    "search-copy-link-title": "検索へのリンクをコピー",
+    "search-hide-matches-text": "追加の検索結果を非表示",
+    "search-more-match-text": "追加の検索結果",
+    "search-more-matches-text": "追加の検索結果",
+    "search-clear-button-title": "消去",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "検索",
+    "search-label": "サーチ"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!--
+  Quarto Live (filter mode) does not auto-load plotly.js even when a
+  {pyodide} cell uses plotly. Load it from CDN once per page so that
+  mime-type renders (`Plotly.newPlot(...)`) work.
+-->
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../templates/styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">AI-Descartes 精読教科書</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="サーチ"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">ホーム</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/yama662607/ai-descartes-textbook" title="ソースコード" class="quarto-navigation-tool px-1" aria-label="ソースコード"><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../textbook/09-kepler.html">第 IV 部 — 事例研究（Methods）</a></li><li class="breadcrumb-item"><a href="../textbook/10-timedilation.html"><span class="chapter-title">事例 II：相対論的時間遅延</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">AI-Descartes 精読教科書</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 I 部 — 導入と全体像</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/00-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">本書の歩き方と AI-Descartes 全体像</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/01-abstract.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">タイトル・著者・要旨</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/02-introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">導入：なぜ「導出可能な」発見か</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 II 部 — AI-Descartes の枠組み（Results）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/03-problem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">発見の形式的定式化 ⟨B, C, D, M⟩</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/04-distance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">距離の一般化：データ誤差 ε と理論誤差 β</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/05-integration.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">統計的 AI と記号的 AI の統合</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/06-interplay.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">データと理論の相互作用：MINLP-SR と定理証明</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/07-validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">実験的検証の全体像</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 III 部 — 考察（Discussion）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/08-discussion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">考察</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 IV 部 — 事例研究（Methods）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/09-kepler.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 I：ケプラーの第三法則</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/10-timedilation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">事例 II：相対論的時間遅延</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/11-langmuir.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 III：ラングミュアの吸着式</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/12-limitations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">システムの限界と将来の発展</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 V 部 — 付録</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/13-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">付録：参考文献・用語集・ライセンス</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">このページの目次</h2>
+   
+  <ul class="collapse">
+  <li><a href="#sec-timedilation" id="toc-sec-timedilation" class="nav-link active" data-scroll-target="#sec-timedilation">事例 II：相対論的時間遅延</a></li>
+  <li><a href="#sec-timedilation-faq" id="toc-sec-timedilation-faq" class="nav-link" data-scroll-target="#sec-timedilation-faq">よくある質問（FAQ）</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/yama662607/ai-descartes-textbook/edit/main/textbook/10-timedilation.qmd" class="toc-action"><i class="bi bi-github"></i>編集</a></li><li><a href="https://github.com/yama662607/ai-descartes-textbook/issues/new" class="toc-action"><i class="bi empty"></i>問題を報告</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../textbook/09-kepler.html">第 IV 部 — 事例研究（Methods）</a></li><li class="breadcrumb-item"><a href="../textbook/10-timedilation.html"><span class="chapter-title">事例 II：相対論的時間遅延</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">事例 II：相対論的時間遅延</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> コード</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">すべてのコードを表示</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">すべてのコードを非表示</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">ソースコードを表示</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-timedilation" class="level2">
+<h2 class="anchored" data-anchor-id="sec-timedilation">事例 II：相対論的時間遅延</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“Einstein’s theory of relativity postulates that the speed of light is constant, and implies that two observers in relative motion to each other will experience time differently and observe different clock frequencies. The frequency <span class="math inline">f</span> for a clock moving at speed <span class="math inline">v</span> is related to the frequency <span class="math inline">f_0</span> of a stationary clock by the formula [eq. (5)] … where <span class="math inline">c</span> is the speed of light. This formula was recently confirmed experimentally by Chou et al.&nbsp;using high precision atomic clocks.” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio, Dash, ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<section id="sec-timedilation-trans" class="level3">
+<h3 class="anchored" data-anchor-id="sec-timedilation-trans">忠実な日本語訳：時間遅延の法則と定式化</h3>
+<p>アインシュタインの相対性理論は、光速が一定であると要請し、互いに相対運動する 2 人の観測者は時間を異なって経験し、異なるクロック周波数を観測することを含意する。速さ <span class="math inline">v</span> で運動するクロックの周波数 <span class="math inline">f</span> は、静止したクロックの周波数 <span class="math inline">f_0</span> と、次の式によって関係づけられる。</p>
+<p><span id="eq-timedilation"><span class="math display">
+\frac{f - f_0}{f_0} = \sqrt{1 - \frac{v^2}{c^2}} - 1 ,
+\tag{12.1}</span></span></p>
+<p>ここで <span class="math inline">c</span> は光速である。この式は最近、Chou ら <span class="citation" data-cites="chou2010">(<a href="#ref-chou2010" role="doc-biblioref">Chou ほか 2010</a>)</span> によって高精度原子時計を用いて実験的に確認された。我々は、Chou ら <span class="citation" data-cites="chou2010">(<a href="#ref-chou2010" role="doc-biblioref">Chou ほか 2010</a>)</span> が報告した実験データ——<span class="math inline">v</span> の測定値と、それに対応する <span class="math inline">(f - f_0)/f_0</span> の値からなる——で本システムを検証する。このデータは補足情報に再掲してある。時間遅延の式を導出するための公理は、Behroozi <span class="citation" data-cites="behroozi2014">(<a href="#ref-behroozi2014" role="doc-biblioref">Behroozi 2014</a>)</span> と Smith <span class="citation" data-cites="smith2011">(<a href="#ref-smith2011" role="doc-biblioref">Smith 2011</a>)</span> の仕事から取った。これらも補足情報に挙げてあり、実験データには現れない変数を含む。</p>
+<p><a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> に、入力演算子の集合として <span class="math inline">\{+, -, \times, \div, \sqrt{\ }\}</span> を用いて、本システムの記号回帰（SR）モジュールが得たいくつかの関数を、それらの数値誤差および汎化推論誤差とともに示す。</p>
+<p><img src="../assets/images/table2.png" id="fig-timedilation-orig" class="img-fluid" alt="表2 | 時間遅延データから得られた候補式と関連する誤差値（出典: Cornelio et al.&nbsp;2023, Table 2, CC BY 4.0 (Cornelio, Dash, ほか 2023)）"> 第 6 列は、第 1 列の関数の絶対汎化推論誤差が高々 1 であることを推論モジュールが検証できる <span class="math inline">v</span> の区間として、集合 <span class="math inline">S</span> を与える。最終列は、相対汎化推論誤差が高々 2% であることを検証できる <span class="math inline">v</span> の区間を与える。最後の関数は、この指標の下では相対誤差が小さいにもかかわらず、もし真の関数が連続であると仮定するならば、合理的な候補から除外できる（<span class="math inline">v = 1</span> で特異性をもつ）。したがって、元の関数を得ることはできないものの、別の関数——非常に広い速度範囲にわたって優れた予測を与えるという意味で、よく汎化する関数——を我々は得る。</p>
+<p>この事例では、本システムは代替的な公理系を排除する助けにもなる。光速が一定値 <span class="math inline">c</span> であるという公理を、光が他の力学的物体と同じように振る舞うという「ニュートン的（Newtonian）」仮定で置き換えることを考えよう。すなわち、物体の運動方向に垂直な方向へ、速度 <span class="math inline">v</span> の物体から放たれた光は、速度 <span class="math inline">\sqrt{v^2 + c^2}</span> をもつとする。補足情報の公理 R2 における <span class="math inline">c</span> を <span class="math inline">\sqrt{v^2 + c^2}</span> で置き換えて R2’ を得ると、（定理証明器によって確認される通り）自己無矛盾な公理系が得られるが、それは時間遅延が生じない系である。我々の推論モジュールは、<a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> のどの関数もこの更新された公理系とは整合しないと結論する。すなわち、絶対汎化推論誤差はデータ領域上でさえ 1 を超え、点ごとの推論誤差もそうである。その結果、データは、研究対象の現象に関連する公理系を弁別するために間接的に用いられる。SR は、正確な式のみを予想（conjecture）として提示するのである。</p>
+</section>
+<section id="sec-timedilation-lesson" class="level3">
+<h3 class="anchored" data-anchor-id="sec-timedilation-lesson">詳細授業：真の式は復元できなくても「最良の汎化」は選べる</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>この節の主張を一言で
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>ケプラーの事例（<a href="04-distance.html#sec-distance" class="quarto-xref"><span>距離の一般化：データ誤差 ε と理論誤差 β</span></a>, 09 章）では真の式そのものを再発見できたが、時間遅延の事例は<strong>あえて「失敗例」を見せる</strong>章である。SR は <a href="#eq-timedilation" class="quarto-xref">式&nbsp;<span>12.1</span></a> を一度も出力しなかった。それでもこの章には 2 つの重要なメッセージがある——(1) <strong>真の式を復元できなくても、推論モジュールは「最もよく汎化する候補」を選び出せる</strong>、(2) <strong>データそのものが公理系の良し悪しを判定する材料になる</strong>。</p>
+</div>
+</div>
+<section id="sec-timedilation-why" class="level4">
+<h4 class="anchored" data-anchor-id="sec-timedilation-why">なぜ真の式 <a href="#eq-timedilation" class="quarto-xref">式&nbsp;<span>12.1</span></a> は出てこないのか</h4>
+<p>Chou ら <span class="citation" data-cites="chou2010">(<a href="#ref-chou2010" role="doc-biblioref">Chou ほか 2010</a>)</span> のデータは、地上で実現できる速度——光速 <span class="math inline">c \approx 3.0 \times 10^8\,\text{m/s}</span> に対してせいぜい数 m/s から数十 m/s——の範囲しかカバーしない。この範囲では <span class="math inline">v/c</span> は <span class="math inline">10^{-7}</span> 程度の極端に小さい量であり、<a href="#eq-timedilation" class="quarto-xref">式&nbsp;<span>12.1</span></a> を Taylor 展開すると</p>
+<p><span id="eq-timedilation-taylor"><span class="math display">
+\frac{f - f_0}{f_0} = \sqrt{1 - \frac{v^2}{c^2}} - 1 \approx -\frac{1}{2}\frac{v^2}{c^2} - \frac{1}{8}\frac{v^4}{c^4} - \cdots
+\tag{12.2}</span></span></p>
+<p>となる。データ領域では第 1 項 <span class="math inline">-\tfrac{1}{2}v^2/c^2 \approx -0.00556\,v^2</span> が支配的で、高次項は測定誤差に完全に埋もれる。したがって、<strong>データだけを見れば「<span class="math inline">f</span> は <span class="math inline">v^2</span> に比例して下がる」という二次関数が最も自然な当てはめ</strong>になる。実際 <a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> の第 1 候補 <span class="math inline">-0.00563\,v^2</span> は、まさにこの先頭項を拾ったものである（係数 <span class="math inline">0.00563</span> は <span class="math inline">1/(2c^2)</span> に近い）。平方根の中身 <span class="math inline">1 - v^2/c^2</span> を「平方根として」復元するには、<span class="math inline">v</span> が <span class="math inline">c</span> に近づく領域のデータが必要だが、そんなデータは地上には存在しない。これが「データから真の式を復元できない」ことの直観である。</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>用語の確認：汎化推論誤差と区間 <span class="math inline">S</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>点ごとの推論誤差</strong>（pointwise reasoning error）：各データ点 1 つ 1 つにおける、候補式と公理から導かれる真の振る舞いとのずれ。</li>
+<li><strong>汎化推論誤差</strong>（generalization reasoning error）：データ領域<strong>外</strong>まで含めた区間全体での最大ずれ。<span class="math inline">\beta^a_{\infty,S}</span> は区間 <span class="math inline">S</span> 上の絶対汎化推論誤差（<span class="math inline">L_\infty</span> ノルム、すなわち最悪値）、<span class="math inline">\beta^r_{\infty,S}</span> は同じく相対版を表す。</li>
+<li><strong>区間 <span class="math inline">S</span></strong>：推論モジュール（自動定理証明器 KeYmaera X と Mathematica）が「この区間に限れば誤差が閾値以下だと<strong>証明できる</strong>」と保証した <span class="math inline">v</span> の範囲。<span class="math inline">S</span> が広いほど、その候補式は遠くまで信頼できる＝よく汎化する。</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="sec-timedilation-compare" class="level4">
+<h4 class="anchored" data-anchor-id="sec-timedilation-compare">候補式を「汎化の広さ」で読み比べる</h4>
+<p><a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> の各候補は、データ上の数値誤差だけ見ればどれも似たり寄ったりである（絶対誤差 <span class="math inline">\varepsilon^a_2</span> は 0.30〜0.38 の範囲）。差がつくのは右側 2 列の<strong>区間 <span class="math inline">S</span></strong> である。論文値を読み解くと次のようになる。</p>
+<div id="tbl-timedilation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-timedilation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;12.1: 時間遅延データから得られた候補式と誤差・区間 <span class="math inline">S</span>（値は <a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> 画像より。<span class="math inline">v</span> の単位は m/s）。
+</figcaption>
+<div aria-describedby="tbl-timedilation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>候補式 <span class="math inline">f =</span></th>
+<th>絶対誤差 <span class="math inline">\varepsilon^a_2</span></th>
+<th>絶対 <span class="math inline">\beta^a_{\infty,S}\le 1</span> の区間 <span class="math inline">S</span></th>
+<th>相対 <span class="math inline">\beta^r_{\infty,S}\le.02</span> の区間 <span class="math inline">S</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">-0.00563\,v^2</span></td>
+<td>0.3822</td>
+<td><span class="math inline">37 \le v \le 115</span></td>
+<td><span class="math inline">37 \le v \le 10^8</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\dfrac{v}{1+0.00689\,v} - v</span></td>
+<td>0.3152</td>
+<td><span class="math inline">37 \le v \le 49</span></td>
+<td><span class="math inline">37 \le v \le 38</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">-0.00537\,\dfrac{v^2\sqrt{v+v^2}}{(v-1)}</span></td>
+<td>0.3027</td>
+<td><span class="math inline">37 \le v \le 98</span></td>
+<td><span class="math inline">37 \le v \le 109</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">-0.00545\,\dfrac{v^4}{\sqrt{v^2+v^{-2}}\,(v-1)}</span></td>
+<td>0.3238</td>
+<td><span class="math inline">37 \le v \le 126</span></td>
+<td><span class="math inline">37 \le v \le 10^7</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>ここで決定的なのは<strong>最終列の右端</strong>である。第 1 候補 <span class="math inline">-0.00563\,v^2</span> は相対誤差 2% 以内を <span class="math inline">v \le 10^8\,\text{m/s}</span> まで保証できる——光速の 1/3 に達するほど遠くまで信頼できる。これは <a href="#eq-timedilation-taylor" class="quarto-xref">式&nbsp;<span>12.2</span></a> の先頭項そのものだから当然で、<strong>真の式に最も近い候補がそのまま「最良の汎化」として浮かび上がる</strong>。一方、第 2 候補 <span class="math inline">\frac{v}{1+0.00689v}-v</span> は <span class="math inline">v \le 38</span> までしか保証できず、データ領域をわずかに出ただけで破綻する。<strong>数値誤差ではほぼ同点だった候補たちが、汎化の広さでは桁違いに差がつく</strong>——これが推論モジュールの付加価値である。</p>
+</section>
+<section id="sec-timedilation-continuity" class="level4">
+<h4 class="anchored" data-anchor-id="sec-timedilation-continuity">連続性の仮定で特異な候補を棄却する</h4>
+<p><a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> 画像の最終行の候補 <span class="math inline">-0.00545\,\dfrac{v^4}{\sqrt{v^2+v^{-2}}\,(v-1)}</span> は、相対誤差 2% を <span class="math inline">v \le 10^7</span> まで保証でき、見かけ上はよく汎化する。しかしこの式は <span class="math inline">v = 1</span> で分母が 0 になり、<strong>特異性（発散）をもつ</strong>。物理的なクロック周波数が特定の速度でいきなり無限大に飛ぶことはあり得ない。そこで「真の関数は連続であるべき」という<strong>モデラーの選好</strong>を 1 つ加えるだけで、この候補は合理的な候補から外れる。</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">重要</span>教訓：仮説クラスは「数値当てはめ」だけでは絞れない
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>データへの当てはまり（数値誤差）と、遠方での信頼性（汎化推論誤差）と、形そのものへの先験的制約（連続性などのモデラーの選好）は、<strong>互いに独立な判定軸</strong>である。3 つを併用して初めて、無数の候補から物理的に妥当な 1 つへ絞り込める。AI-Descartes の核心は「データ＋論理＋選好」のこの三位一体にある。</p>
+</div>
+</div>
+</section>
+<section id="sec-timedilation-axioms" class="level4">
+<h4 class="anchored" data-anchor-id="sec-timedilation-axioms">データで公理系そのものを弁別する</h4>
+<p>この事例の最も面白い論点は最後にある。SR が出した候補はどれも「真の式」ではなかった。では推論モジュールは無力かというと逆で、<strong>どの公理系の下でデータを説明すべきか</strong>を判定する。</p>
+<p>論文は思考実験として、特殊相対論の核心公理「光速は不変の定数 <span class="math inline">c</span> である」を、ニュートン力学風の仮定で差し替える。すなわち「光も他の物体と同じく、運動する光源（速度 <span class="math inline">v</span>）から運動方向に垂直に放たれると、速度 <span class="math inline">\sqrt{v^2 + c^2}</span> をもつ」とする。形式的には、補足情報の公理 R2 中の <span class="math inline">c</span> を <span class="math inline">\sqrt{v^2+c^2}</span> に置換して R2’ を作る。</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A["SR 候補式&lt;br/&gt;（Table 2 の関数）"] --&gt; B{"推論モジュール&lt;br/&gt;KeYmaera X で照合"}
+    R2["公理系 R&lt;br/&gt;（相対論的: 光速 = c 一定）"] --&gt; B
+    R2p["公理系 R'&lt;br/&gt;（ニュートン的 R2': 光速 = √(v²+c²)）"] --&gt; C{"推論モジュール&lt;br/&gt;で照合"}
+    A --&gt; C
+    B --&gt;|"よく整合する候補あり&lt;br/&gt;（β が小さい区間 S を保証）"| D["R が現象を説明する"]
+    C --&gt;|"全候補で β &gt; 1&lt;br/&gt;（データ領域上でさえ不整合）"| E["R' は棄却&lt;br/&gt;（時間遅延が生じない）"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>定理証明器で確認する限り、R2’ に差し替えた公理系<strong>それ自体は自己無矛盾</strong>である（論理的な破綻はない）。しかしこの系は<strong>時間遅延を全く生じない</strong>——<span class="math inline">\sqrt{v^2+c^2}</span> という速度合成は、ちょうど時間の遅れを打ち消す向きに効くからである。結果として、推論モジュールは「<a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> のどの候補式も R2’ 系とは整合しない」と結論する。具体的には、絶対汎化推論誤差がデータ領域上でさえ 1 を超え、点ごとの推論誤差も同様に大きい。</p>
+<p>これが意味することは深い。<strong>データは公理系を間接的に弁別する道具になる</strong>。相対論的公理系 R の下では「データによく合い、かつ広く汎化する」候補が存在したのに、ニュートン的公理系 R’ の下では「データ領域上ですべての候補が不整合」になる。したがって「R’ は現象に不適切な公理系だ」と論理的に結論できる。SR は正確な式だけを予想として提示し、その予想が<strong>どちらの理論の下で導出可能か</strong>を推論モジュールが照合する——この往復によって、データだけでは決められなかった「理論の選択」が可能になる。</p>
+</section>
+</section>
+<section id="sec-timedilation-code" class="level3">
+<h3 class="anchored" data-anchor-id="sec-timedilation-code">コード解説：推論モジュールはどこで区間 <span class="math inline">S</span> を出すか</h3>
+<p>公理と候補式の照合、および区間 <span class="math inline">S</span> の算出は、Python の推論モジュール（<code>reasoning/src/</code>）が KeYmaera X と Mathematica を呼び出して行う。時間遅延の公理 R/R’ は <code>data/</code> 配下に格納され、候補式（SR 出力）に対して点ごと・汎化の推論誤差を評価し、誤差が閾値以下となる <span class="math inline">v</span> の区間を二分探索的に詰めることで <a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> の第 6・7 列を生成する。ニュートン的公理系 R’ の評価は、同じ候補式集合に対して公理ファイルだけを R2 から R2’ へ差し替えて再実行する形になっており、<strong>コードの変更点は公理定義の 1 箇所のみで、候補式・データ・推論パイプラインは共通</strong>である点が、「データで公理系を弁別する」という主張を実装上も裏づけている（リポジトリ構成の詳細は調査ドキュメント参照 <span class="citation" data-cites="aidescartes_repo">(<a href="#ref-aidescartes_repo" role="doc-biblioref">Cornelio ほか 2023</a>)</span>）。</p>
+</section>
+<section id="sec-timedilation-demo" class="level3">
+<h3 class="anchored" data-anchor-id="sec-timedilation-demo">対話デモ：データ領域と汎化領域の見え方</h3>
+<p>下のデモは、横軸を速度 <span class="math inline">v</span>、縦軸を <span class="math inline">(f-f_0)/f_0</span> として、真の式 <a href="#eq-timedilation" class="quarto-xref">式&nbsp;<span>12.1</span></a>（<span class="math inline">\sqrt{1-v^2/c^2}-1</span>）と <a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> の代表候補 <span class="math inline">-0.00563\,v^2</span> を重ね描きする。スライダーで横軸の最大速度（対数スケールの指数）を動かすと、<strong>データ領域（〜10² m/s 程度）では両者が完全に重なって区別できないのに、<span class="math inline">v</span> が <span class="math inline">c</span> に近づくと真の式だけが平方根的に折れ曲がり、二次近似が破綻していく</strong>様子が見える。これが「狭いデータ領域では真の式と近似式を弁別できない／広い領域で初めて差がつく」という本章の主張の可視化である。</p>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>コード</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="0" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -1;"><span id="cb1-0"><a href="#cb1-0" aria-hidden="true" tabindex="-1"></a>viewof tdLogVmax <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">2</span><span class="op">,</span> <span class="fl">8.5</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="fu">tex</span><span class="vs">`</span><span class="sc">\l</span><span class="vs">og_{10}(v_{</span><span class="sc">\m</span><span class="vs">ax}</span><span class="sc">\,</span><span class="vs">[</span><span class="sc">\t</span><span class="vs">ext{m/s}])`</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">3</span>})</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVkaXQiOnRydWUsImV2YWwiOnRydWUsImlucHV0IjpbInRkTG9nVm1heCJdfSwiY29kZSI6ImltcG9ydCBvcywgd2FybmluZ3MsIG1hdHBsb3RsaWJcbmZyb20gbWF0cGxvdGxpYiBpbXBvcnQgZm9udF9tYW5hZ2VyXG53YXJuaW5ncy5zaW1wbGVmaWx0ZXIoXCJpZ25vcmVcIilcbnRyeTpcbiAgICBmcm9tIHB5b2RpZGUuaHR0cCBpbXBvcnQgcHlmZXRjaFxuICAgIGlmIG5vdCBvcy5wYXRoLmV4aXN0cyhcIi90bXAvTm90b1NhbnNKUC50dGZcIik6XG4gICAgICAgIHJlc3AgPSBhd2FpdCBweWZldGNoKFwiLi4vLi4vLi4vYXNzZXRzL2ZvbnRzL05vdG9TYW5zSlAtUmVndWxhci50dGZcIilcbiAgICAgICAgd2l0aCBvcGVuKFwiL3RtcC9Ob3RvU2Fuc0pQLnR0ZlwiLCBcIndiXCIpIGFzIGY6XG4gICAgICAgICAgICBmLndyaXRlKGF3YWl0IHJlc3AuYnl0ZXMoKSlcbiAgICBmb250X21hbmFnZXIuZm9udE1hbmFnZXIuYWRkZm9udChcIi90bXAvTm90b1NhbnNKUC50dGZcIilcbiAgICBtYXRwbG90bGliLnJjUGFyYW1zW1wiZm9udC5mYW1pbHlcIl0gPSBcIk5vdG8gU2FucyBKUFwiXG5leGNlcHQgSW1wb3J0RXJyb3I6XG4gICAgcGFzc1xubWF0cGxvdGxpYi5yY1BhcmFtc1tcImF4ZXMudW5pY29kZV9taW51c1wiXSA9IEZhbHNlXG5pbXBvcnQgbnVtcHkgYXMgbnBcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHRcblxuYyA9IDIuOTk4ZTggICMg5YWJ6YCfIFttL3NdXG52bWF4ID0gMTAuMCAqKiB0ZExvZ1ZtYXhcbiMg44OH44O844K/6aCY5Z+f44Gv44GK44KI44GdIDM3IG0vcyDku6XkuIrvvIhDaG91IGV0IGFsLiDjga7ljLrplpPkuIvpmZDvvIlcbnYgPSBucC5saW5zcGFjZSgxLjAsIHZtYXgsIDIwMDApXG5cbiMg55yf44Gu5byPIChlcS4gNSlcbnJhdGlvID0gMS4wIC0gKHYgLyBjKSAqKiAyXG50cnVlID0gbnAud2hlcmUocmF0aW8gPj0gMCwgbnAuc3FydChucC5jbGlwKHJhdGlvLCAwLCBOb25lKSkgLSAxLjAsIG5wLm5hbilcbiMgVGFibGUgMiDjga7mnIDoia/msY7ljJblgJnoo5zvvIjkuozmrKHov5HkvLzvvIlcbnF1YWQgPSAtMC4wMDU2MyAqIHYgKiogMlxuXG5maWcsIGF4ID0gcGx0LnN1YnBsb3RzKGZpZ3NpemU9KDcsIDQuNCkpXG5heC5wbG90KHYsIHRydWUsIGNvbG9yPVwiIzFmNzdiNFwiLCBsdz0yLjIsIGxhYmVsPXJcIuecn+OBruW8jyAkXFxzcXJ0ezEtdl4yL2NeMn0tMSRcIilcbmF4LnBsb3QodiwgcXVhZCwgY29sb3I9XCIjZDYyNzI4XCIsIGx3PTEuOCwgbHM9XCItLVwiLCBsYWJlbD1yXCLlgJnoo5wgJC0wLjAwNTYzXFwsdl4yJFwiKVxuXG4jIOODh+ODvOOCv+mgmOWfn+OBruebruWuieOCkuODj+OCpOODqeOCpOODiFxuYXguYXh2c3BhbigzNywgbWluKDExNSwgdm1heCksIGNvbG9yPVwiIzk5OTk5OVwiLCBhbHBoYT0wLjE1LCBsYWJlbD1cIuODh+ODvOOCv+i/keWCjSAoMzfigJMxMTUgbS9zKVwiKVxuXG5heC5zZXRfeGxhYmVsKFwi6YCf5bqmIHYgW20vc11cIilcbmF4LnNldF95bGFiZWwoclwiJChmLWZfMCkvZl8wJFwiKVxuYXguc2V0X3RpdGxlKFwi5pmC6ZaT6YGF5bu277ya55yf44Gu5byPIHZzIFNSIOWAmeijnO+8iOaxjuWMluOBruimi+OBiOaWue+8iVwiKVxuYXgubGVnZW5kKGxvYz1cImxvd2VyIGxlZnRcIiwgZm9udHNpemU9OSlcbmF4LmdyaWQoYWxwaGE9MC4zKVxuXG4jIOW3ruOBjOimi+OBiOOCi+OBi+OBqeOBhuOBi+OCkuazqOiomFxucmVsX2dhcCA9IG5wLm5hbm1heChucC5hYnModHJ1ZSAtIHF1YWQpKSBpZiBucC5hbnkobnAuaXNmaW5pdGUodHJ1ZSkpIGVsc2UgMC4wXG5heC50ZXh0KDAuOTgsIDAuMDUsXG4gICAgICAgIGZcIuacgOWkp3znnJ/iiJLlgJnoo5x8ID0ge3JlbF9nYXA6LjJlfVxcbnZfbWF4ID0ge3ZtYXg6LjFlfSBtL3NcIixcbiAgICAgICAgdHJhbnNmb3JtPWF4LnRyYW5zQXhlcywgaGE9XCJyaWdodFwiLCB2YT1cImJvdHRvbVwiLCBmb250c2l6ZT04LFxuICAgICAgICBiYm94PWRpY3QoYm94c3R5bGU9XCJyb3VuZFwiLCBmYz1cIndoaXRlXCIsIGVjPVwiIzg4OFwiLCBhbHBoYT0wLjgpKVxuXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5nY2YoKSJ9
+</script>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>デモの読み方
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>スライダーを左端（<span class="math inline">v_{\max}\sim 10^2</span>）に置くと、青（真の式）と赤破線（二次候補）は<strong>重なって 1 本にしか見えない</strong>。右下の「最大<span class="math inline">|</span>真<span class="math inline">-</span>候補<span class="math inline">|</span>」もほぼ 0。これが Chou ら <span class="citation" data-cites="chou2010">(<a href="#ref-chou2010" role="doc-biblioref">Chou ほか 2010</a>)</span> のデータ領域の状況で、SR が二次式を出すのは当然だと分かる。</li>
+<li>スライダーを右（<span class="math inline">v_{\max}\to 10^8 \approx c/3</span>）へ動かすと、真の式だけが下に折れ曲がり、二次近似との差が開く。<strong>広い速度範囲で初めて両者を弁別できる</strong>——だが地上のデータはそこまで届かない。</li>
+<li>区間 <span class="math inline">S</span>（37〜115 m/s）のハイライトが、推論モジュールが「絶対誤差 1 以下」を保証した範囲。候補が真の式とほぼ一致しているこの帯の中では、データだけからの弁別は原理的に不可能である。</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-timedilation-faq" class="level2">
+<h2 class="anchored" data-anchor-id="sec-timedilation-faq">よくある質問（FAQ）</h2>
+<p>学部生がつまずきやすい点を Q&amp;A 形式で補足します。</p>
+<section id="q1.-そもそも公理axiomとか定理証明器keymaera-xで照合するって具体的に何をやっているんですかデータに式を当てはめるなら回帰だけで済む気がしてなぜ論理の証明が必要なのか分かりません" class="level3">
+<h3 class="anchored" data-anchor-id="q1.-そもそも公理axiomとか定理証明器keymaera-xで照合するって具体的に何をやっているんですかデータに式を当てはめるなら回帰だけで済む気がしてなぜ論理の証明が必要なのか分かりません">Q1. そもそも「公理(axiom)」とか「定理証明器(KeYmaera X)で照合する」って具体的に何をやっているんですか？データに式を当てはめるなら回帰だけで済む気がして、なぜ論理の証明が必要なのか分かりません。</h3>
+<p>ここでは 2 つの別々の道具が連携しています。<strong>記号回帰(SR)</strong>は「データ点に最もよく合う数式の形」を探す係です(例: <a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> の <span class="math inline">-0.00563\,v^2</span> を見つける)。一方<strong>公理</strong>とは、相対性理論の出発点となる前提命題(「光速は不変の定数 <span class="math inline">c</span> である」など、本章の R2)のことで、<strong>定理証明器(KeYmaera X)</strong>は「その公理から候補式が論理的に導けるか／どれだけずれるか」を数学的に証明する係です。</p>
+<p>たとえるなら、回帰は「点を結ぶ曲線を鉛筆で描く人」、定理証明器は「その曲線が物理法則という前提と矛盾しないか論理的に検算する数学者」です。回帰だけだと「データには合うが物理的に意味不明な式」も同点で残ってしまうので、<a href="#eq-timedilation" class="quarto-xref">式&nbsp;<span>12.1</span></a> を生む前提(公理)から本当に導けるかを論理で確かめる工程が要るのです。</p>
+</section>
+<section id="q2.-候補式に-v1-で発散する項-v-1-があると棄却されますがデータは-37115-ms-なのになぜ範囲外の-v1-での発散を問題にするんですか使う範囲で誤差が小さければ良いのでは" class="level3">
+<h3 class="anchored" data-anchor-id="q2.-候補式に-v1-で発散する項-v-1-があると棄却されますがデータは-37115-ms-なのになぜ範囲外の-v1-での発散を問題にするんですか使う範囲で誤差が小さければ良いのでは">Q2. 候補式に <span class="math inline">v=1</span> で発散する項 <span class="math inline">(v-1)</span> があると棄却されますが、データは 37〜115 m/s なのに、なぜ範囲外の <span class="math inline">v=1</span> での発散を問題にするんですか？使う範囲で誤差が小さければ良いのでは？</h3>
+<p>鋭い疑問ですが、本章の核心は「判定軸が独立に 3 つある」ことです(<a href="#sec-timedilation-continuity" class="quarto-xref"><span>連続性の仮定で特異な候補を棄却する</span></a>)。</p>
+<ul>
+<li><strong>数値誤差</strong>: データ点への当てはまりの良さ(表の <span class="math inline">\varepsilon^a_2</span>)。これだけなら確かに範囲内が良ければ十分。</li>
+<li><strong>汎化推論誤差</strong>: データの外まで含めた信頼性。</li>
+<li><strong>連続性という先験的選好</strong>: 「物理的なクロック周波数が、ある速度でいきなり無限大に飛ぶことはあり得ない」という、形そのものへの事前の好み。</li>
+</ul>
+<p><span class="math inline">v=1</span> での発散が問題なのは数値誤差の話ではなく、3 番目の選好に反するからです。本物の物理量が連続なら、たとえ使う範囲の外であっても「途中で無限大に飛ぶ関数」は真の式の候補としてふさわしくない、と判断できる。だから <span class="math inline">-0.00545\,\dfrac{v^4}{\sqrt{v^2+v^{-2}}\,(v-1)}</span> は範囲内の誤差が小さくても棄却されます。</p>
+</section>
+<section id="q3.-区間-s-が-108-ms-まで保証できるとよく汎化すると言いますがデータは-100-ms-くらいまでしかないのにどうやってデータの無い遠方で誤差が小さいと証明できるんですか外挿はあてにならないと習った気がします" class="level3">
+<h3 class="anchored" data-anchor-id="q3.-区間-s-が-108-ms-まで保証できるとよく汎化すると言いますがデータは-100-ms-くらいまでしかないのにどうやってデータの無い遠方で誤差が小さいと証明できるんですか外挿はあてにならないと習った気がします">Q3. 区間 <span class="math inline">S</span> が <span class="math inline">10^8</span> m/s まで保証できると「よく汎化する」と言いますが、データは 100 m/s くらいまでしかないのに、どうやってデータの無い遠方で誤差が小さいと『証明』できるんですか？外挿はあてにならないと習った気がします。</h3>
+<p>ここが一番の勘所です。<strong>区間 <span class="math inline">S</span> はデータの統計から出しているのではなく、公理(物理法則)からの論理的保証です</strong>(<a href="#sec-timedilation-compare" class="quarto-xref"><span>候補式を「汎化の広さ」で読み比べる</span></a> の用語確認)。</p>
+<p>普通の外挿は「データの傾向をそのまま遠くへ伸ばす」ので危険ですが、ここでやっているのは違います。推論モジュールは、相対論の公理から導かれる「真の振る舞い」と候補式を<strong>区間全体で式同士として比較</strong>し、その最大ずれ(<span class="math inline">L_\infty</span> ノルム、つまり最悪値 <span class="math inline">\beta^a_{\infty,S}</span>)が閾値以下になる <span class="math inline">v</span> の範囲を定理証明器で<strong>証明</strong>します。</p>
+<p>たとえるなら、点をいくつか測って線を伸ばすのではなく、「設計図(公理)と部品(候補式)を突き合わせて、この区間ではズレが必ず 1 mm 以内だと数学的に証明する」イメージです。だから <span class="math inline">-0.00563\,v^2</span> は <a href="#eq-timedilation-taylor" class="quarto-xref">式&nbsp;<span>12.2</span></a> の先頭項そのものなので、<span class="math inline">v\le 10^8</span> まで真の式とのズレが小さいことを保証できる。データの無い遠方でも、データではなく論理が保証しているので「危険な外挿」とは別物なのです。</p>
+</section>
+<section id="q4.-ニュートン的な公理-r光速を-sqrtv2c2-にするは自己無矛盾だが時間遅延が生じないとありますが無矛盾なのにデータと合わないというのがピンときません無矛盾なら正しいんじゃないんですか" class="level3">
+<h3 class="anchored" data-anchor-id="q4.-ニュートン的な公理-r光速を-sqrtv2c2-にするは自己無矛盾だが時間遅延が生じないとありますが無矛盾なのにデータと合わないというのがピンときません無矛盾なら正しいんじゃないんですか">Q4. ニュートン的な公理 R’(光速を <span class="math inline">\sqrt{v^2+c^2}</span> にする)は『自己無矛盾だが時間遅延が生じない』とありますが、無矛盾なのにデータと合わない、というのがピンときません。無矛盾なら正しいんじゃないんですか？</h3>
+<p>「無矛盾(自己無矛盾)」と「現実に合う」は全く別の話です(<a href="#sec-timedilation-axioms" class="quarto-xref"><span>データで公理系そのものを弁別する</span></a>)。<strong>無矛盾とは「その前提の集まりの中に論理的な食い違いが無い」というだけ</strong>で、定理証明器はそれを確認します。しかし、論理的に破綻していない前提でも、現実の世界がそうなっているとは限りません。</p>
+<p>例えば「すべての白鳥は黒い」という公理から出発しても、内部に論理矛盾はないので無矛盾な体系は作れます。でも実際の白鳥を見れば白い——つまり現実と合わない。R’ も同じで、光速を <span class="math inline">\sqrt{v^2+c^2}</span> とする速度合成はちょうど時間の遅れを打ち消す向きに効くため、<strong>論理的には破綻していないのに時間遅延が全く生じない世界</strong>になります。</p>
+<p>そこでデータが効きます。R の下では「データによく合い広く汎化する候補」が存在したのに、R’ の下では <a href="#tbl-timedilation" class="quarto-xref">表&nbsp;<span>12.1</span></a> のどの候補も<strong>データ領域上でさえ</strong>絶対汎化推論誤差が 1 を超える。だから「無矛盾だが現実(データ)と合わない R’ は、この現象に不適切な公理系だ」と論理的に結論できる——これが「データが間接的に公理系(理論)を選ぶ」という本章の主張の意義です。</p>
+
+
+<!-- -->
+
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yOC4xL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHt0ZExvZ1ZtYXh9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-behroozi2014" class="csl-entry" role="listitem">
+Behroozi, Feredoon. 2014. <span>「A simple derivation of time dilation and length contraction in special relativity」</span>. <em>The Physics Teacher</em> 52: 410–12.
+</div>
+<div id="ref-chou2010" class="csl-entry" role="listitem">
+Chou, C. W., D. B. Hume, T. Rosenband, と D. J. Wineland. 2010. <span>「Optical clocks and relativity」</span>. <em>Science</em> 329: 1630–32.
+</div>
+<div id="ref-aidescartes_repo" class="csl-entry" role="listitem">
+Cornelio, Cristina ほか. 2023. <span>「<span>AI-Descartes</span> GitHub repository: Combining data and theory for derivable scientific discovery」</span>. <a href="https://github.com/IBM/AI-Descartes" class="uri">https://github.com/IBM/AI-Descartes</a>.
+</div>
+<div id="ref-cornelio2023" class="csl-entry" role="listitem">
+Cornelio, Cristina, Sanjeeb Dash, Vernon Austel, Tyler R. Josephson, Joao Goncalves, Kenneth L. Clarkson, Nimrod Megiddo, Bachir El Khadir, と Lior Horesh. 2023. <span>「Combining data and theory for derivable scientific discovery with <span>AI-Descartes</span>」</span>. <em>Nature Communications</em> 14 (1): 1777. <a href="https://doi.org/10.1038/s41467-023-37236-y">https://doi.org/10.1038/s41467-023-37236-y</a>.
+</div>
+<div id="ref-smith2011" class="csl-entry" role="listitem">
+Smith, Glenn S. 2011. <span>「A simple electromagnetic model for the light clock of special relativity」</span>. <em>European Journal of Physics</em> 32: 1585–95.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ── 右サイドバー（目次）トグル ──────────────────────────
+  const rightSidebar = document.getElementById('quarto-margin-sidebar');
+  if (rightSidebar) {
+    const btn = document.createElement('button');
+    btn.id = 'right-sidebar-toggle';
+    btn.setAttribute('aria-label', '目次を折りたたむ');
+    btn.innerHTML = '&#8250;'; // ›
+
+    document.body.appendChild(btn);
+
+    function positionRightBtn() {
+      const rect = rightSidebar.getBoundingClientRect();
+      const visible = rect.width > 10;
+      btn.innerHTML = visible ? '&#8250;' : '&#8249;';
+      btn.style.left = visible
+        ? (rect.left - 24) + 'px'
+        : (window.innerWidth - 14) + 'px';
+    }
+    positionRightBtn();
+
+    btn.addEventListener('click', function () {
+      const isVisible = rightSidebar.getBoundingClientRect().width > 10;
+      if (isVisible) {
+        rightSidebar.style.width = '0';
+        rightSidebar.style.minWidth = '0';
+        rightSidebar.style.overflow = 'hidden';
+        rightSidebar.style.padding = '0';
+        btn.innerHTML = '&#8249;';
+        btn.style.left = (window.innerWidth - 14) + 'px';
+      } else {
+        rightSidebar.style.width = '';
+        rightSidebar.style.minWidth = '';
+        rightSidebar.style.overflow = '';
+        rightSidebar.style.padding = '';
+        btn.innerHTML = '&#8250;';
+        requestAnimationFrame(() => positionRightBtn());
+      }
+    });
+
+    window.addEventListener('resize', positionRightBtn);
+  }
+});
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiB0ZExvZ1ZtYXggPSBJbnB1dHMucmFuZ2UoWzIsIDguNV0sIHtzdGVwOiAwLjEsIGxhYmVsOiB0ZXhgXFxsb2dfezEwfSh2X3tcXG1heH1cXCxbXFx0ZXh0e20vc31dKWAsIHZhbHVlOiAzfSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgndGRMb2dWbWF4JykifV19
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../textbook";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "コピーしました");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "コピーしました");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../textbook/09-kepler.html" class="pagination-link" aria-label="事例 I：ケプラーの第三法則">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">事例 I：ケプラーの第三法則</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../textbook/11-langmuir.html" class="pagination-link" aria-label="事例 III：ラングミュアの吸着式">
+        <span class="nav-page-text"><span class="chapter-title">事例 III：ラングミュアの吸着式</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">ソースコード</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "事例 II：相対論的時間遅延"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">engine:</span><span class="co"> markdown</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - r-wasm/live</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>{{&lt; include _10-timedilation.qmd &gt;}}</span></code></pre></div><button title="コピー" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Journal Club ／ 原論文 © 2023 The Author(s), CC BY 4.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/yama662607/ai-descartes-textbook/edit/main/textbook/10-timedilation.qmd" class="toc-action"><i class="bi bi-github"></i>編集</a></li><li><a href="https://github.com/yama662607/ai-descartes-textbook/issues/new" class="toc-action"><i class="bi empty"></i>問題を報告</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../index.html">
+<p>ホーム</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
