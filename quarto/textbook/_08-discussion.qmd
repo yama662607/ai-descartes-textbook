@@ -34,7 +34,7 @@ flowchart LR
     D[数値データ<br/>有限・局所・ノイズあり] --> SR[記号回帰 SR<br/>候補式を多数生成]
     BT[背景理論の公理<br/>第一原理] --> R[推論モジュール<br/>導出可能性を評価]
     SR -->|候補式 f1, f2, ...| R
-    R -->|データ誤差 ε が小<br/>かつ 推論誤差 β が小| BEST[意味のあるモデル<br/>data driven かつ first principles]
+    R -->|"データ誤差 ε が小<br/>かつ 推論誤差 β が小"| BEST[意味のあるモデル<br/>data driven かつ first principles]
     style BEST fill:#d6f5d6
 ```
 

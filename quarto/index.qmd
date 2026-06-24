@@ -14,6 +14,39 @@ date: last-modified
 
 を **一言一句漏らさず理解する** ことを目的とした、ジャーナルクラブ深掘り発表のための精読教科書です。
 
+## 章立て（目次） {#sec-contents}
+
+下のリンクから各章へ直接移動できます（左サイドバーからも全章にアクセスできます）。
+
+**第 I 部 — 導入と全体像**
+
+- [00 本書の歩き方と AI-Descartes 全体像](textbook/00-overview.qmd) — 問題設定・2 モジュール構成・発見サイクルを俯瞰
+- [01 タイトル・著者・要旨](textbook/01-abstract.qmd) — 要旨の忠実訳とキーワード解説
+- [02 導入：なぜ「導出可能な」発見か](textbook/02-introduction.qmd) — NN・標準回帰・記号回帰の比較と本論文の立ち位置
+
+**第 II 部 — AI-Descartes の枠組み（Results）**
+
+- [03 発見の形式的定式化 ⟨B, C, D, M⟩](textbook/03-problem.qmd) — 入力 4 つ組と背景理論の完全性・無矛盾性
+- [04 距離の一般化：データ誤差 ε と理論誤差 β](textbook/04-distance.qmd) — 2 つの距離と反例点（図 1）
+- [05 統計的 AI と記号的 AI の統合](textbook/05-integration.qmd) — SR モジュールと推論モジュールの役割分担（図 3）
+- [06 データと理論の相互作用：MINLP-SR と定理証明](textbook/06-interplay.qmd) — MINLP 記号回帰・KeYmaera X・発見サイクル（図 2）＋対話デモ
+- [07 実験的検証の全体像](textbook/07-validation.qmd) — 3 事例の狙いの予告
+
+**第 III 部 — 考察（Discussion）**
+
+- [08 考察](textbook/08-discussion.qmd) — 統合の意義と将来モジュール
+
+**第 IV 部 — 事例研究（Methods）**
+
+- [09 事例 I：ケプラーの第三法則](textbook/09-kepler.qmd) — 3 つの推論誤差・Table 1・Fig 4 ＋対話デモ
+- [10 事例 II：相対論的時間遅延](textbook/10-timedilation.qmd) — 公理系の弁別・Table 2 ＋対話デモ
+- [11 事例 III：ラングミュアの吸着式](textbook/11-langmuir.qmd) — 存在量化による証明・Table 3・Fig 5 ＋対話デモ
+- [12 システムの限界と将来の発展](textbook/12-limitations.qmd) — アブダクション・OED・AI-Hilbert / AI-Noether への系譜
+
+**第 V 部 — 付録**
+
+- [13 付録：参考文献・用語集・ライセンス](textbook/13-appendix.qmd) — 用語集・次に読む論文・CC BY 帰属
+
 ## 本書の方針
 
 各節は次の流れで構成しています。
