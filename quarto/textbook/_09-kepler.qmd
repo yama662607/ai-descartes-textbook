@@ -1,0 +1,333 @@
+本章では、AI-Descartes の能力を最初に検証した題材である **ケプラーの惑星運動の第三法則** を精読する。論文 Methods の "Kepler's third law of planetary motion" 節に対応し、(i) 法則本体の式 (1)、(ii) それを導く背景理論の公理 K1–K7（式 (2)）、(iii) 推論誤差を定量化する 3 つの指標——点ごとの推論誤差（式 (3)）・汎化推論誤差（式 (4)）・変数依存性——を扱う。読者は、ここで導入される「データへの距離 $\varepsilon$」と「背景理論への距離 $\beta$」という二重の評価軸が、本論文全体の中核であることを掴んでほしい。
+
+## ケプラーの第三法則と背景理論 {#sec-kepler-law}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "Kepler's law relates the distance $d$ between two bodies (e.g., the sun and a planet in the solar system) and their orbital periods. It can be expressed as $p=\sqrt{4\pi^2 d^3 / (G(m_1+m_2))}$, where $p$ is the period, $G$ is the gravitational constant, and $m_1$ and $m_2$ are the two masses." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+### 忠実な日本語訳
+
+ケプラーの法則は、2 つの天体（例えば太陽系の太陽とある惑星）の間の距離 $d$ と、それらの軌道周期とを関係づける。これは次のように表せる。
+
+$$
+p=\sqrt{\dfrac{4\pi^2 d^3}{G\,(m_1+m_2)}},
+$$ {#eq-kepler}
+
+ここで $p$ は周期、$G$ は万有引力定数（重力定数）、$m_1$ と $m_2$ は 2 つの質量である。これは、重心（公理 K1）、天体間の距離（公理 K2）、重力（公理 K3）、向心力（公理 K4）、力の釣り合い（公理 K5）、周期（公理 K6）を記述する、背景理論 $\mathcal{B}$ の以下の公理を用いて導出できる。
+
+$$
+\begin{aligned}
+\text{K1: 重心} \quad & m_1 d_1 = m_2 d_2 \\
+\text{K2: 天体間の距離} \quad & d = d_1 + d_2 \\
+\text{K3: 重力} \quad & F_g = \dfrac{G\,m_1 m_2}{d^2} \\
+\text{K4: 向心力} \quad & F_c = m_2 d_2 w^2 \\
+\text{K5: 力の釣り合い} \quad & F_g = F_c \\
+\text{K6: 周期の定義} \quad & p = \dfrac{2\pi}{w} \\
+\text{K7: 正値制約} \quad & m_1 > 0,\; m_2 > 0,\; p > 0,\; d_1 > 0,\; d_2 > 0.
+\end{aligned}
+$$ {#eq-kepler-axioms}
+
+私たちは 3 つの実世界データセットを考える。すなわち、太陽系の惑星（NASA Planetary Fact Sheet [@nasa_planets] より）、太陽系惑星に加えて Trappist-1 系と GJ 667 系の系外惑星（NASA exoplanet archive [@nasa_exoplanet] より）、そして連星 [@novakovic2007] である。これらのデータセットは、対の質量（最初の 2 つでは太陽と惑星、3 つ目では 2 つの太陽）、それらの間の距離、および最初の 2 つのデータセットでは惑星のその太陽まわりの軌道周期、3 つ目のデータセットでは共通重心まわりの軌道周期、の測定値を含む。私たちが用いるデータは Supplementary Information に与えられている。データセットは、$d_1, d_2, F_g$ など、公理系に現れる多くの変数の測定値を含まないことに注意せよ。目標は、データからケプラーの第三法則（式 (@eq-kepler)）を回復すること、すなわち、$p$ を上記のかたちの $d, m_1, m_2$ の関数として得ることである。
+
+SR モジュールは演算子の集合 $\{+,-,\times,\div,\sqrt{\ }\}$ を入力として受け取り、候補式の集合を出力する。SR で得られた候補式のいずれも導出可能ではないが、いくつかは導出可能な式の良い近似になっている。私たちは、導出可能な式に対する候補式の誤差 $\beta$ を計算する論理プログラムを書くことによって、これらの式の品質を評価する。私たちは、データ駆動の式の正しさを推論の観点から評価するために、以下で定義する 3 つの指標——点ごとの推論誤差、汎化推論誤差、変数依存性——を用いる。
+
+::: {.callout-tip}
+### 詳細授業：なぜ太陽系では「質量の項」が見えなくなるのか
+
+式 (@eq-kepler) を直観で確認しよう。公理から手で導くと次の流れになる。重心の式 K1 と距離 K2 から $d_2 = \dfrac{m_1}{m_1+m_2}\,d$。これを向心力 K4 に代入し、力の釣り合い K5（重力 K3 と等値）に放り込むと
+
+$$
+\frac{G\,m_1 m_2}{d^2} = m_2 \cdot \frac{m_1}{m_1+m_2}\,d \cdot w^2
+\;\Longrightarrow\;
+w^2 = \frac{G\,(m_1+m_2)}{d^3}.
+$$
+
+周期の定義 K6 より $w = 2\pi/p$ なので $w^2 = 4\pi^2/p^2$。両者を等しいと置けば $p^2 = \dfrac{4\pi^2 d^3}{G(m_1+m_2)}$、すなわち式 (@eq-kepler) を得る。ここで本質的なのは、向心力に現れる惑星質量 $m_2$ が両辺で約分されて消え、残るのは **2 体の質量の和** $m_1+m_2$ だけという点である。
+
+太陽系では太陽の質量 $m_1$ が惑星の質量 $m_2$ より圧倒的に大きい（$m_1 \approx 10^{5}\!-\!10^{9}\,m_2$）。したがって $m_1 + m_2 \approx m_1 \approx \text{const}$ となり、太陽質量を 1 に正規化すれば $p \approx \sqrt{4\pi^2 d^3 / G} = \text{const}\cdot\sqrt{d^3}$ という、質量を**まったく含まない**式でデータを高精度に説明できてしまう。これがまさに「データだけでは正しい関数形を一意に決められない」という本論文の出発点であり、後述の Table 1 で太陽系の最良候補が $\sqrt{0.1319\,d^3}$ という質量非依存の式になる理由である。本来の法則 (@eq-kepler) との差は、データに対する誤差 $\varepsilon$ ではほとんど見えず、背景理論に対する誤差 $\beta$ と変数依存性の解析ではじめて露わになる。
+
+なお、$d_1, d_2, F_g, F_c, w$ といった中間変数はデータに一切現れない。SR は観測変数 $(d, m_1, m_2, p)$ しか扱えないが、背景理論はこれら**観測されない変数**を介して法則を規定する。推論モジュールの役割は、この観測されない変数を含む公理系から、候補式が論理的に導けるか（あるいはどれだけ離れているか）を判定することにある。
+:::
+
+### コード解説：公理ファイルと KeYmaera X モデル
+
+公理 (@eq-kepler-axioms) は、リポジトリの `data/kepler/kepler_axioms.txt` にほぼそのまま機械可読形式で書かれている。注目すべきは、物理の公理に加えて**データ正規化のための換算定数**まで公理として与えている点である。
+
+```text
+m1 * d1 = m2 * d2          # K1 重心
+d = d1 + d2                # K2 距離
+Fg = (G * m1 * m2) / d^2   # K3 重力
+Fc =  m2 * d2 * w^2        # K4 向心力
+Fg =  Fc                   # K5 釣り合い
+P = (2 * pi )/w            # K6 周期
+# additional axioms for data normalization
+convm1 = (1.9885 * 10^30 ) # 太陽質量 [kg]
+convD  = (1.496 * 10^11)   # 1 AU [m]
+```
+
+これらの公理から「候補式が導出可能か」を問う論理式は、推論モジュールによって KeYmaera X の `.kyx` ファイルに変換される。`reasoning/output/keymaera/keymaera_files/kepler/Kepler.kyx` は、公理の連言が候補式（正規化前の $p^2/d^3 = 4\pi^2/(G(m_1+m_2))$）を含意するという命題を、定理証明器が証明すべき問題として書き下している。
+
+```text
+Problem
+(
+  ( m1>0 & m2>0 & ... & pi = 3.14 & G=6.67408 * 10^(-11)
+    & m1 * d1 = m2 * d2  & d = d1 + d2
+    & Fg = (G * m1 * m2) / d^2 & Fc = m2 * d2 * w^2
+    & Fg = Fc & P = (2 * pi)/w )
+  -> ( P^2 / d^3 = (4 * (pi^2)) /(G * (m1 + m2)) )
+)
+```
+
+公理が左辺（前件）、証明したい候補式が右辺（後件）に来る単純な含意である。これに対して `Kepler_const.kyx` は、SR が生成した**数値定数を論理変数 $c_1$ で置き換え、それを存在量化**する「弱い導出（weak derivation）」の形をとる（公理ファイル §1.3, §1.8 [調査ドキュメント] 参照）。
+
+```text
+\exists c1 \forall m1 \forall m2 \forall d ...
+  ( (... 公理 ... & m1N = m1/convm1 & dN = d/convD & PN = P/convP)
+    -> ( PN = ( (c1 * dN^3) / (m1N + m2N) )^(1/2) ) )
+```
+
+これは「$PN=\sqrt{c_1\,dN^3/(m_1N+m_2N)}$ という関数形を、適切な定数 $c_1$ さえ選べば公理から導けるか」を問うており、定数の具体値が異なるだけの式（$\sqrt{0.1319\,d^3/(m_1+m_2)}$ など）を一括して扱えるようにする工夫である。
+
+## 点ごとの推論誤差 {#sec-pointwise}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "The key idea is to compute a distance between a formula generated from the numerical data and some derivable formula that is implicitly defined by the axiom set. The distance is measured by the $l_2$ or $l_\infty$ norm applied to the differences between the values of the numerically-derived formula and a derivable formula at the points in the dataset." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+### 忠実な日本語訳
+
+鍵となる考え方は、数値データから生成された式と、公理集合によって暗黙的に定義されるある導出可能な式との間の距離を計算することである。距離は、データセット内の点における、数値的に導出された式の値と導出可能な式の値との差に適用される $l_2$ または $l_\infty$ ノルムによって測られる。この定義は他のノルムにも拡張できる。私たちは、$m$ 個のデータ点 $\mathbf{X}^i$（$i=1,\ldots,m$）に適用された数値的に導出された式 $f(\mathbf{x})$ の、公理から導出可能な $f_{\mathcal{B}}(\mathbf{x})$ に対する相対誤差を、次の式によって計算する。
+
+$$
+\beta^r_2 = \sqrt{\sum_{i=1}^{m}\left(\frac{f(\mathbf{X}^i)-f_{\mathcal{B}}(\mathbf{X}^i)}{f_{\mathcal{B}}(\mathbf{X}^i)}\right)^2}
+\quad\text{and}\quad
+\beta^r_\infty = \max_{1\le i\le m}\left\{\frac{\lvert f(\mathbf{X}^i)-f_{\mathcal{B}}(\mathbf{X}^i)\rvert}{\lvert f_{\mathcal{B}}(\mathbf{X}^i)\rvert}\right\}
+$$ {#eq-pointwise}
+
+ここで $f_{\mathcal{B}}(\mathbf{X}^i)$ は、関心のある変数 $y$ に対する導出可能な式をデータ点 $\mathbf{X}^i$ で評価したものを表す。これら 2 つの指標について、Table 1 の最初の式に対する KeYmaera 形式の定式化は Supplementary Information に見出せる。式 (@eq-pointwise) の第 1・第 2 式の絶対誤差版を、それぞれ $\beta^a_2, \beta^a_\infty$ と記す。数値誤差（データ誤差）の指標 $\varepsilon^r_2$ と $\varepsilon^r_\infty$ は、式 (@eq-pointwise) において $f_{\mathcal{B}}(\mathbf{X}^i)$ を $Y_i$ で置き換えることで定義される。$\beta^a_2$ と $\beta^a_\infty$ と同様に、絶対数値誤差の指標 $\varepsilon^a_2$ と $\varepsilon^a_\infty$ も定義する。
+
+Table 1 は、列 5 と列 6 にそれぞれ $\beta^r_2$ と $\beta^r_\infty$ の値を報告する。また、列 3 と列 4 には、列 2 に与えられた候補式をデータセット内の点で評価したときの、$l_2$ および $l_\infty$ ノルムで測った相対数値誤差 $\varepsilon^r_2$ と $\varepsilon^r_\infty$ を報告する。候補式を記号回帰で得る際には、（相対誤差 $\varepsilon^r_2$ ではなく）絶対 $l_2$ 誤差 $\varepsilon^a_2$ を最小化する。点ごとの推論誤差 $\beta_2$ と $\beta_\infty$ は、SR が（データに対して測った）低誤差の候補式を出力し、かつデータ自身が背景理論を小さな誤差まで満たしている場合には、あまり有益ではない。私たちが用いるデータではまさにこれが当てはまり、推論誤差と数値誤差は非常に似た値になる。
+
+::: {.callout-tip}
+### 詳細授業：$\varepsilon$ と $\beta$ の決定的な違い
+
+ここで本論文の心臓部である 2 つの距離をはっきり区別しておく。
+
+- **数値誤差 $\varepsilon$（データへの距離）**: 候補式 $f$ の予測値を、**実測値 $Y_i$** と比べる。$\varepsilon$ が小さい＝データによく当てはまる。SR が最小化するのはこちら。
+- **推論誤差 $\beta$（背景理論への距離）**: 候補式 $f$ を、**公理から導出可能な真の式 $f_{\mathcal{B}}$** と比べる。$\beta$ が小さい＝物理法則と整合する。$\beta = 0$ なら導出可能。
+
+両者の唯一の式上の違いは、分母・基準が「実測値 $Y_i$」か「導出可能式の値 $f_{\mathcal{B}}(\mathbf{X}^i)$」かだけである。実測値はノイズを含み、しかも有限個の点でしか得られない。一方 $f_{\mathcal{B}}$ は公理から原理的に**どの点でも**評価できる。この差が、次節の汎化誤差で本領を発揮する。
+
+注意すべき罠が原文末尾で述べられている。**良いデータに対しては $\varepsilon \approx \beta$ になってしまう**。なぜなら、データ自身が物理法則をほぼ満たしている（$Y_i \approx f_{\mathcal{B}}(\mathbf{X}^i)$）からだ。したがって、点ごとの $\beta$ だけを見ても、データへの当てはまりが良い式の「真の正しさ」は判定できない。これが、データ点そのものを離れて評価する**汎化推論誤差**（次節）と**変数依存性**が必要になる動機である。
+
+$f_{\mathcal{B}}$ は陽に式として書き下されていない点も強調したい。それは公理の連言として**暗黙的に**定義され、KeYmaera X が「相対誤差が高々 $\delta$ である」という命題を証明できるかどうかを通じて間接的に評価される。具体的な $\delta$ の値は、後述する二分探索で詰めていく。
+:::
+
+### コード解説：誤差を二分探索で測る
+
+$f_{\mathcal{B}}$ が陽に得られない以上、$\beta$ を直接「計算」することはできない。代わりに `reasoning/src/pipeline_keymaera_3problems.py` は、「相対誤差が $\delta$ 以下である」という命題を定理証明器に投げ、$\delta$ を **二分探索** で詰めて誤差の上界を求める。冒頭の `MEASURES` がこのモジュールが計算する指標の一覧である。
+
+```python
+MEASURES = ['interval', 'dependencies', 'pointwiseL2',
+            'pointwiseLinf_efficient', 'derivation', 'weak_derivation']
+# 'dependencies' depends on 'interval'
+# 'pointwiseLinf_efficient' depends on 'pointwiseL2'
+```
+
+`pointwiseL2`（式 (@eq-pointwise) 左）は各データ点ごとに相対誤差を二分探索で求め、それらを二乗和平方根でまとめる。`pointwiseLinf_efficient`（式 (@eq-pointwise) 右）は同じ点ごとの値の最大をとる。
+
+```python
+results['pointwiseL2'] = [sqrt(sum(i[0]*i[0] for i in relerr_pointwiseL2_list)), ...]
+results['pointwiseLinf_efficient'] = [max(i[0] for i in relerr_pointwiseL2_list), ...]
+```
+
+二分探索 `binary_search` の本体は、まず証明できる上界を $10$ 倍刻みで探し（`upperbound = 10*upperbound`）、その後で区間を半分に詰める素直な実装である。各反復で「誤差 $\le$ test_value」を `.kyx` に書き出して KeYmaera X を呼び、`proved` なら上界を、`not_proved` なら下界を更新する。
+
+```python
+while (upperbound - lowerbound) > precision:
+    test_value = (lowerbound + upperbound)/2
+    convert_problem_keymaera(..., 'pointwiseL2', ..., relerr=test_value)
+    result = call_keymaera(file_name)
+    if   result == 'proved':     upperbound = test_value
+    elif result == 'not_proved': lowerbound = test_value
+    else: break
+return [upperbound, "precision: "+str(upperbound - lowerbound)]
+```
+
+定理証明器が返すのは「証明できた／できなかった」という二値であり、誤差そのものではない。二分探索は、この二値判定を繰り返し呼ぶことで連続量である誤差を挟み撃ちにする橋渡しになっている。
+
+## 汎化推論誤差 {#sec-gen}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "Even when one can find a function that fits given data points well, it is challenging to obtain a function that generalizes well, that is, one which yields good results at points of the domain not equal to the data points." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+### 忠実な日本語訳
+
+与えられたデータ点によく当てはまる関数を見つけられたとしても、よく汎化する関数、すなわちデータ点とは等しくない領域の点でも良い結果を与える関数を得ることは難しい。候補式 $f(\mathbf{x})$ について、元のデータ点の集合とは等しくない領域 $S$ 上で計算される $\beta^r_{\infty,S}$ を、次のように定める。
+
+$$
+\beta^r_{\infty,S} = \max_{\mathbf{x}\in S}\left\{\frac{\lvert f(\mathbf{x})-f_{\mathcal{B}}(\mathbf{x})\rvert}{\lvert f_{\mathcal{B}}(\mathbf{x})\rvert}\right\},
+$$ {#eq-gen}
+
+ここで相対誤差を考えており、これまでと同様に関数 $f_{\mathcal{B}}(\mathbf{x})$ は既知ではなく、背景理論の公理によって暗黙的に定義される。この指標を**相対汎化推論誤差**と呼ぶ。上式で $f_{\mathcal{B}}(\mathbf{x})$ で割らなければ、対応する絶対版 $\beta^a_{\infty,S}$ が得られる。ケプラーのデータセットでは、$S$ をすべてのデータ点を含む最小の多次元区間（実数直線上の区間の直積）とする。Table 1 の列 7 に、上記のように定めた $S$ に対する相対汎化推論誤差 $\beta^r_{\infty,S}$ を、ケプラーの各データセットについて示す。もしこの誤差が $l_\infty$ に対する点ごとの相対推論誤差 $\beta^r_\infty$ とほぼ同じであれば（例えば太陽系データセットの場合）、数値データから抽出された式は、$S$ 内の点でも元のデータ点と同程度に正確である。
+
+::: {.callout-tip}
+### 詳細授業：点から「領域」へ——汎化が暴く偽の良さ
+
+点ごとの誤差 (@eq-pointwise) は、**有限個のデータ点 $\mathbf{X}^i$** でだけ $f$ と $f_{\mathcal{B}}$ を比べた。これに対し汎化誤差 (@eq-gen) は、**データ点を含む連続領域 $S$ 全体**で最大誤差をとる。$f_{\mathcal{B}}$ は公理から原理的にどの点でも評価できるため、これが可能になる——ここが「実測値 $Y_i$」では到達できない、推論モジュールならではの能力である。
+
+直観はこうだ。データ点という「離散的な足場」の上だけなら、たまたまよく合う偽の式はいくらでもある。しかし足場の隙間（$S$ 内の非データ点）を埋めて見ると、本物の法則からずれた式はそこで馬脚を現す。Table 1 を見ると、太陽系の $\sqrt{0.1319\,d^3}$ は $\beta^r_\infty = 0.0052$ と $\beta^r_{\infty,S} = 0.0052$ がぴったり一致しており、データ範囲内では真の法則と区別がつかないほど良い。一方で、系外惑星の候補 $\sqrt{m_1^2 m_2^3/d + 0.1319\,d^3/m_1}$ は $\beta^r_\infty = 0.1097$ に対して $\beta^r_{\infty,S} > 550$ と爆発する。これは「データ点ではそこそこ、しかしデータ点の間では破綻している」典型例で、汎化誤差なしには見抜けない。
+:::
+
+## 変数依存性 {#sec-dependence}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "We compute the generalization error over a domain $S'$ where the domain of this variable is extended by an order of magnitude... If we notice an increase in the generalization reasoning error while modifying intervals for one variable, we deem the candidate formula as missing a dependency on that variable." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+### 忠実な日本語訳
+
+候補式の特定の変数への関数的依存が正確かどうかを確かめるために、私たちは、その変数の定義域を、データセット内のその変数の値を含む最小区間を超えて一桁分だけ拡張した領域 $S'$ 上で汎化誤差を計算する。こうして、その式が成り立たない特別な条件が存在するかどうかを確認できる。私たちは、区間の端点を一桁分だけ、一度に 1 変数ずつ変更する。ある変数の区間を変更している間に汎化推論誤差の増加が見られたら、その候補式はその変数への依存を欠いていると判定する。依存の欠落は、例えばある変数の指数が誤っているか、あるいは本来考慮されるべき変数がまったく考慮されていない、といった理由で起こりうる。誤差がどのように変化するか（例えば線形か指数的か）を分析することで、依存の型についてさらなる洞察が得られる。
+
+Table 1 は、列 8〜10 に、ケプラーの第三法則の候補式に関する結果を与える。各式について、$m_1, m_2, d$ への依存性を 1 または 0（正しい依存か誤った依存か）で示す。例えば、太陽系に対する候補式
+
+$$
+p=\sqrt{0.1319\,d^3}
+$$
+
+はどちらの質量にも依存しておらず、依存性の解析は、この式が太陽系では現象をよく近似するが、より大きな質量に対してはそうでないことを示唆する。連星データセットに対する最良の式
+
+$$
+p=\sqrt{\dfrac{d^3}{0.9967\,m_1 + m_2}}
+$$
+
+は、欠落した依存性をもたない（列 8〜10 がすべて 1）、すなわちよく汎化する。どの変数に沿って領域を拡大しても、汎化推論誤差は増加しない。Figure 4（@fig-kepler-eb）は、Table 1 の最初の 3 つの関数（太陽系データセット）と真の関数 $f^*$ について、2 つの誤差 $\varepsilon^r_2$ と $\beta^r_2$ を可視化したものである。
+
+::: {.callout-tip}
+### 詳細授業：「一桁広げて壊れるか」で依存を検出する
+
+変数依存性のアイデアは拍子抜けするほど単純である。ある変数（例えば $m_1$）が候補式に**正しく**入っているなら、その変数のとる範囲を一桁広げても、真の法則との相対誤差はほぼ変わらないはずだ。逆に、その変数が**抜けている**か**指数が間違っている**と、範囲を広げた途端に誤差が跳ね上がる。実装上はこれを「拡大領域 $S'$ での汎化誤差が、元の領域 $S$ での値から `SENSITIVITY_ERROR` を超えて増えたか」で判定する。
+
+太陽系の $\sqrt{0.1319\,d^3}$ を例に取ろう。太陽系では $m_1+m_2\approx m_1\approx 1$（正規化後）なので質量項が「隠れて」いる。この式は質量を含まないから、$m_1$ の範囲をそのままにしておけば誤差は出ない。だが $m_1$ を一桁小さくした領域（惑星質量と同程度の連星に近い状況）では、真の法則 (@eq-kepler) の値が変わるのにこの式は変わらないため、汎化誤差が増大する。よって列 8（$m_1$ 依存）は **0** と判定される——太陽系というデータの「ぬるま湯」では検出できなかった依存の欠落が、領域拡大によって暴かれるのである。
+
+対照的に、連星の $\sqrt{d^3/(0.9967\,m_1+m_2)}$ は $m_1, m_2, d$ すべてに正しく依存する（全列が **1**）。連星では 2 つの質量が同程度で、太陽系のように一方が他方を圧倒しないため、SR がデータから質量の和 $m_1+m_2$ を正しく拾えた。係数 $0.9967$ は $m_1$ の係数で、理想の $1$ にきわめて近い。これが本論文の「少数のデータ点からでも、推論を使えば汎化する真の法則を選び出せる」という主張の最良の実例である。
+:::
+
+### Table 1：候補式の誤差表
+
+ケプラーの 3 データセットに対する候補式と、その数値誤差・点ごとの推論誤差・汎化推論誤差・変数依存性を以下に示す。
+
+![表1 | ケプラーデータセットに対する候補式の誤差値。数値誤差・点ごとの推論誤差・汎化誤差、および変数依存性の解析を示す。表中では簡潔のため $d, m_1, m_2, p$ と記すが、いずれもスケール済みの量を指す（出典: Cornelio et al. 2023, Table 1, CC BY 4.0 [@cornelio2023]）](../assets/images/table1.png){#tbl-kepler}
+
+要点となる行を抜粋して併記する（すべて相対誤差。数値は @tbl-kepler に一致）。
+
+| データ | 候補式 $p=$ | $\varepsilon^r_2$ | $\beta^r_2$ | $\beta^r_{\infty,S}$ | $m_1$ | $m_2$ | $d$ |
+|---|---|---|---|---|:-:|:-:|:-:|
+| 太陽系 | $\sqrt{0.1319\,d^3}$ | 0.0129 | 0.0146 | 0.0052 | 0 | 0 | 1 |
+| 太陽系 | $\sqrt{0.1316(d^3+d)}$ | 1.9348 | 1.9385 | 1.7559 | 0 | 0 | 0 |
+| 太陽系 | $(0.03765d^3+d^2)/(2+d)$ | 0.3102 | 0.3095 | 0.2758 | 0 | 0 | 0 |
+| 系外惑星 | $\sqrt{0.1319\,d^3/m_1}$ | 0.0845 | 0.0231 | 0.0052 | 0 | 0 | 1 |
+| 系外惑星 | $\sqrt{m_1^2 m_2^3/d + 0.1319\,d^3/m_1}$ | 0.1988 | 0.1320 | >550 | 0 | 0 | 0 |
+| 連星 | $\sqrt{d^3/(0.9967\,m_1+m_2)}$ | 0.0058 | 0.0014 | 0.0020 | 1 | 1 | 1 |
+
+連星の最終行だけが、変数依存性 $(m_1, m_2, d) = (1,1,1)$ をすべて満たし、ケプラーの第三法則 (@eq-kepler) を実質的に再発見した候補である。
+
+### Figure 4：(ε, β) 散布図
+
+![図4 | 太陽系の惑星の軌道周期を与える、ケプラーの第三法則の記号モデルの描画。私たちの SR システムが生成したモデルは点 $(\varepsilon, \beta)$ として表され、$\varepsilon$ はデータへの距離、$\beta$ は背景理論への距離を表す。両距離はスケール済みデータに対する適切なノルムで計算される（出典: Cornelio et al. 2023, Fig. 4, CC BY 4.0 [@cornelio2023]）](../assets/images/fig4.png){#fig-kepler-eb}
+
+@fig-kepler-eb は両対数軸で、横軸が数値誤差 $\varepsilon^r_2$、縦軸が推論誤差 $\beta^r_2$ である。太陽系の 3 候補式（$\sqrt{0.1319\,d^3}$、$(0.03765d^3+d^2)/(2+d)$、$\sqrt{0.1316(d^3+d)}$）と真の関数 $f^*$ がプロットされている。$f^*$ だけが $\beta \approx 0$（背景理論から導出可能）に位置し、$\sqrt{0.1319\,d^3}$ は $\varepsilon, \beta$ ともに小さいが $\beta$ が厳密にゼロではない（導出不能）ことが読み取れる。**$\varepsilon$ が小さくても $\beta$ がゼロでない**——この乖離こそ、データ適合だけでは真の法則に届かないことの視覚的証拠である。
+
+### 対話デモ：(ε, β) 散布図を再現する {#sec-kepler-demo}
+
+下のデモは @fig-kepler-eb を再現する。太陽系 8 惑星の距離 $d$（AU）と周期 $p$（1000 日単位）を直書きし、3 つの候補式について、**データへの距離 $\varepsilon$**（ノイズ入り観測値に対する相対 $l_2$ 誤差）と**背景理論への距離 $\beta$**（導出可能な真の法則 $\sqrt{k\,d^3}$ に対する相対 $l_2$ 誤差）を計算して両対数で散布する。スライダーで観測ノイズの大きさを変えると、$\varepsilon$ が動く一方で $\beta$（真の法則との差）はノイズに依らず一定であることを確認できる——これが $\varepsilon$ と $\beta$ を分けて測る意義である。
+
+```{ojs}
+//| echo: false
+viewof keplerNoise = Inputs.range([0, 0.1], {step: 0.005, label: tex`\text{観測ノイズ } \sigma`, value: 0.02})
+```
+
+```{pyodide}
+#| autorun: true
+#| input: ["keplerNoise"]
+import os, warnings, matplotlib
+from matplotlib import font_manager
+warnings.simplefilter("ignore")
+try:
+    from pyodide.http import pyfetch
+    if not os.path.exists("/tmp/NotoSansJP.ttf"):
+        resp = await pyfetch("../../../assets/fonts/NotoSansJP-Regular.ttf")
+        with open("/tmp/NotoSansJP.ttf", "wb") as f:
+            f.write(await resp.bytes())
+    font_manager.fontManager.addfont("/tmp/NotoSansJP.ttf")
+    matplotlib.rcParams["font.family"] = "Noto Sans JP"
+except ImportError:
+    pass
+matplotlib.rcParams["axes.unicode_minus"] = False
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 太陽系8惑星: 距離 d [AU], 周期 [年]
+d   = np.array([0.387, 0.723, 1.000, 1.524, 5.203, 9.537, 19.191, 30.07])
+pyr = np.array([0.2408, 0.6152, 1.000, 1.881, 11.862, 29.457, 84.02, 164.8])
+p   = pyr * 365.25 / 1000.0          # 周期を 1000 日単位にスケール
+k   = float(np.mean(p**2 / d**3))    # 真の法則の係数（太陽系では質量項が定数化）≈0.1319
+
+# 背景理論から導出可能な真の法則（質量項は太陽系で定数 → sqrt(k d^3)）
+fB = np.sqrt(k * d**3)
+
+# 観測値にノイズを付与（ε はこの観測値に対して測る）
+sigma = float(keplerNoise)
+rng = np.random.default_rng(0)
+Y = p * (1.0 + sigma * rng.standard_normal(p.shape))
+
+# 候補式（Table 1 太陽系の3式）
+candidates = {
+    r"$\sqrt{0.1319\,d^3}$":            np.sqrt(0.1319 * d**3),
+    r"$(0.03765d^3+d^2)/(2+d)$":        (0.03765 * d**3 + d**2) / (2 + d),
+    r"$\sqrt{0.1316(d^3+d)}$":          np.sqrt(0.1316 * (d**3 + d)),
+}
+
+def rel_l2(f, ref):
+    return float(np.sqrt(np.mean(((f - ref) / ref) ** 2)))
+
+fig, ax = plt.subplots(figsize=(6.2, 5.0))
+colors = ["#1f77b4", "#ff7f0e", "#2ca02c"]
+for (label, f), c in zip(candidates.items(), colors):
+    eps  = rel_l2(f, Y)    # データへの距離 ε（ノイズ入り観測値が基準）
+    beta = rel_l2(f, fB)   # 背景理論への距離 β（導出可能な真の法則が基準）
+    ax.scatter(eps, beta, s=70, color=c, zorder=3)
+    ax.annotate(label, (eps, beta), textcoords="offset points",
+                xytext=(8, -4), fontsize=11)
+
+# 真の関数 f*: 定義上 β=0（導出可能）。ε はノイズ由来のみ
+eps_star = rel_l2(fB, Y)
+ax.scatter(eps_star, 1e-4, marker="D", s=80, color="#d62728", zorder=3)
+ax.annotate(r"真の関数 $f^*$ ($\beta=0$)", (eps_star, 1e-4),
+            textcoords="offset points", xytext=(8, 6), fontsize=11, color="#d62728")
+
+ax.set_xscale("log"); ax.set_yscale("log")
+ax.set_xlabel(r"数値誤差 $\varepsilon^r_2$ （データへの距離）")
+ax.set_ylabel(r"推論誤差 $\beta^r_2$ （背景理論への距離）")
+ax.set_title(f"ケプラー候補式の (ε, β) 散布（ノイズ σ={sigma:.3f}）")
+ax.grid(True, which="both", ls=":", alpha=0.5)
+ax.set_xlim(1e-4, 1e1); ax.set_ylim(1e-5, 1e1)
+plt.tight_layout()
+plt.gcf()
+```
+
+ノイズ $\sigma$ を上げると各点の横位置（$\varepsilon$）は右に動き、真の関数 $f^*$ ですら $\varepsilon>0$ になる。一方、縦位置（$\beta$）は背景理論の真の法則との差であり、観測ノイズに左右されない。$\sqrt{0.1319\,d^3}$ が低 $\varepsilon$・低 $\beta$ の左下に、明らかに誤った 2 式が右上に位置する構図は @fig-kepler-eb と一致する。$f^*$ だけが $\beta$ 軸の底（導出可能）に張り付く点に注目してほしい。

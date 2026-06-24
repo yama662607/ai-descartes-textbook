@@ -1,0 +1,284 @@
+## データと理論の相互作用：MINLP-SR と定理証明 {#sec-interplay}
+
+本章は論文 **Results** の小節 "Interplay between data and theory in AI-Descartes" を精読する。ここで著者は、システムを構成する二つの中核技術——**記号回帰（SR）を混合整数非線形計画（MINLP）として解く新ソルバ**と、**推論モジュールとして用いる定理証明器 KeYmaera X／記号計算系 Mathematica**——を導入し、さらにシステム全体を「デカルトに着想を得た**発見サイクル（discovery cycle）**」として俯瞰する（@fig-cycle）。この小節は、論文全体の方法論を一望できる「鳥瞰図」にあたる。
+
+### 記号回帰を MINLP として解く {#sec-minlp-sr}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "SR is typically solved with genetic programming (GP), however methods based on mixed-integer nonlinear programming (MINLP) have recently been proposed. In this work, we develop a new MINLP-based SR solver. The input consists of a subset of the operators $\{+,-,\times,\div,\sqrt{\ },\log,\exp\}$, an upper bound on expression complexity, and an upper bound on the number of constants used that do not equal 1. Given a dataset, the system formulates multiple MINLP instances to find an expression that minimizes the least-square error." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+#### 忠実な日本語訳
+
+記号回帰（SR）は通常、遺伝的計画法（GP）[@koza1992gp; @koza1994gp; @schmidt2009; @augusto2000] によって解かれるが、近年、混合整数非線形計画（MINLP）に基づく手法が提案されている [@austel2017; @cozad2014; @cozad2018]。本研究では、新たな MINLP ベースの SR ソルバを開発した（詳細は Supplementary Information に記述）。入力は、演算子の集合 $\{+,-,\times,\div,\sqrt{\ },\log,\exp\}$ の部分集合、式の複雑度の上限、および 1 に等しくない定数の使用個数の上限から成る。データセットが与えられると、システムは複数の MINLP インスタンスを定式化し、最小二乗誤差を最小化する式を探索する。各インスタンスは時間制限のもとで近似的に解かれる。線形制約と非線形制約のいずれも課すことができる。特に、変数の物理次元が利用可能な場合には、次元整合性（dimensional consistency）が課される。
+
+::: {.callout-tip}
+### 詳細授業：なぜ GP ではなく MINLP なのか
+
+SR の課題は「**式の形そのもの**を、固定せずにデータから決める」ことにある。これは二つの探索が絡み合った問題である。
+
+1. **離散的探索**：式の骨格（どの演算子をどう組み合わせるか、たとえば $p = c_1\sqrt{d^3/(c_2 m_1 + m_2)}$ という構造か、$p = c_1 d^3 + c_2$ という構造か）。
+2. **連続的探索**：骨格を固定したときの**係数（定数）**の最適値。
+
+GP は、式木の集団を交叉・突然変異で進化させ、適合度（データへの当てはまり）の高い個体を残す**メタヒューリスティクス**である。実装が容易で大規模空間も扱えるが、(a) 大域最適性の保証がなく、(b) 同じ実行でも乱数次第で結果が変わり、(c) 「複雑度の上限」「次元整合性」といった**ハードな制約**を厳密に守らせるのが難しい。
+
+これに対し本研究は、SR を**混合整数非線形計画（MINLP）**として定式化する。MINLP とは、
+
+- **連続変数**（係数 $c_i$）、
+- **二値変数**（ある単項式・演算子を「使う／使わない」を表す $0/1$）、
+- **整数変数**（変数の指数など）
+
+を同時に含み、**非線形**の目的関数・制約を持つ最適化問題である。これを大域最適化ソルバ **BARON** に解かせることで、与えた骨格の中で「データに最もよく当てはまる係数」を**証明付きで大域最適に**求められる。離散的選択（二値・整数変数）と連続的フィッティング（係数）が**一本の最適化問題**に同居している点が要点である。
+
+ここで重要な区別がある。この章で扱う MINLP-SR は **AI-Descartes 第一世代**の SR ソルバであり、「データへの当てはめ」だけを担う。「公理から導けるか」という導出可能性は、**別工程**の推論モジュールが後段で判定する（@sec-reasoner）。データ適合と導出可能性が**直列・分離**しているのが本システムの設計であり、後継 AI-Hilbert がこの二段を単一の最適化に統合する動機となる [@corywright2024]。
+
+**入力の三要素**を具体的にイメージしておこう。たとえばケプラー問題では、
+
+- 演算子集合：$\{+,-,\times,\div,\sqrt{\ }\}$（指数・対数は使わない）、
+- 複雑度上限：式木の深さや項数の上限（同梱設定では木の深さ既定 3）、
+- 1 でない定数の個数上限：たとえば 2 個まで（$0.1319$ のような係数を 2 つまで許す）。
+
+これらは「モデラーの選好 $M$」と「仮説クラス $C$」を具体的な数値パラメータに落とし込んだものである。
+
+:::
+
+### 推論ツール：KeYmaera X と Mathematica {#sec-reasoner}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "We use KeYmaera X as a reasoning tool; it is an ATP for hybrid systems and combines different types of reasoning: deductive, real-algebraic, and computer-algebraic reasoning. We also use Mathematica for certain types of analysis of symbolic expressions. While a formula found by any grammar-based system (such as an SR system) is syntactically correct, it may contradict the axioms of the theory or not be derivable from them." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+#### 忠実な日本語訳
+
+我々は推論ツールとして **KeYmaera X** [@fulton2015] を用いる。これはハイブリッドシステムのための自動定理証明器（ATP）であり、演繹的推論・実代数的推論・計算機代数的推論という異なる種類の推論を組み合わせている。また、記号式に対する特定の種類の解析には **Mathematica** [@mathematica] も用いる。文法ベースのシステム（SR システムなど）によって見つけられた式は、構文的には正しいものの、理論の公理と矛盾したり、それらから導出できなかったりすることがある。場合によっては、理論が十分な公理を持たないために、式が導出可能でないこともある。その式は、拡張された公理集合のもとで、あるいは別の公理集合のもとで（たとえば「ニュートン的」な集合ではなく相対論的な公理集合を用いて）証明可能であるかもしれない。
+
+::: {.callout-tip}
+### 詳細授業：なぜ「ハイブリッドシステム用の」定理証明器なのか
+
+KeYmaera X は本来、**サイバーフィジカルシステム**（航空機の衝突回避、自動運転、列車制御など、連続的な物理ダイナミクスと離散的な制御が混在するシステム）の安全性を**形式的に検証**するために開発された定理証明器である。その論理基盤は **微分動的論理（differential dynamic logic, dL）** であり、微分方程式を含む命題を扱える。本論文の著者らは、この「物理を扱える定理証明器」を、**物理法則の導出可能性チェック**に転用した。これが手法上の大きな独創点である。
+
+なぜ通常の ATP では不十分なのか。原文の Introduction でも述べられたとおり、物理法則の導出には**算術や微積分の演算子**が絡む。$\sqrt{\ }$、除算、累乗を含む等式・不等式の含意「公理 $\Rightarrow$ 式」を証明するには、純粋な一階論理の証明器では力不足で、**実数体上の代数的判定**（実代数幾何）が必要になる。KeYmaera X はこの実代数的・計算機代数的推論を内部で扱える（実際の実数演算は外部の Mathematica または z3 に委譲する）。
+
+役割分担を整理すると次のようになる。
+
+| ツール | 役割 | 本章での位置づけ |
+|---|---|---|
+| **BARON** | MINLP の大域最適化 | SR モジュール（データ適合） |
+| **KeYmaera X** | 「公理 $\Rightarrow$ 候補式」の導出可能性証明 | 推論モジュール（導出可能性） |
+| **Mathematica** | 記号式の性質（単調性・極限・正値性など）の検証、KeYmaera の実数演算 | 推論モジュールの補助 |
+
+**「構文的に正しい」と「導出可能」は別物**である、という最後の一文が本論文全体のテーゼを凝縮している。SR が吐き出す式はすべて文法的には正しい数式だが、それが背景理論の公理から論理的に導けるとは限らない。データによく当てはまる式が、理論的には誤っている（あるいは理論が不完全で証明できない）——この乖離をどう扱うかが AI-Descartes の主題である。
+
+また、「導出できない」原因が二通りあることに注意したい。(1) 式が公理と**矛盾**している場合と、(2) 公理が**不足**していて証明できないだけの場合である。後者は、公理を補えば（あるいは相対論的公理に切り替えれば）証明できる可能性がある。時間遅延の問題では、まさに「ニュートン的公理 vs 相対論的公理」のどちらが現象を説明するかを、推論誤差を通じて判別する（後続章で詳述）。
+
+:::
+
+### 発見サイクル：データから仮説、理論で検証 {#sec-cycle}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "Our discovery cycle is inspired by Descartes who advanced the scientific method and emphasized the role that logical deduction, and not empirical evidence alone, plays in forming and validating scientific discoveries. Our present approach differs from implementations of the scientific method that obtain hypotheses from theory and then check them against data; instead we obtain hypotheses from data and assess them against theory." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+#### 忠実な日本語訳
+
+システムを発見サイクルとして見たときの全体像を @fig-cycle に示す。我々の発見サイクルは、科学的方法を発展させ、科学的発見の形成と検証において経験的証拠だけでなく**論理的演繹**が果たす役割を強調したデカルトに着想を得ている。我々の現在のアプローチは、理論から仮説を得てそれをデータと照合する、という科学的方法の実装とは異なる。代わりに我々は、**データから仮説を得て、それを理論に照らして評価する**。システムのより詳細な模式図は Fig. 3 に示されており、そこでは色付きの構成要素が本研究で提示するシステムに対応し、灰色の構成要素は本実装にまだ統合されていない科学的発見のための標準的技法を指す。
+
+![図2 | 本システムが実装する科学的方法の一解釈（発見サイクル）。色は @fig-system（システム概要図）の対応する構成要素と一致する。Study（問い）→ Hypothesis（仮説生成＝記号回帰）→ Test（数値誤差・不確かさの定量化）→ Assess（背景理論との照合）→ Report（最良候補式の報告）→（必要なら）Question（データ追加や公理追加の検討）と巡る。（出典: Cornelio et al. 2023, Fig. 2, CC BY 4.0 [@cornelio2023]）](../assets/images/fig2.png){#fig-cycle}
+
+::: {.callout-tip}
+### 詳細授業：発見サイクルの「向き」が肝
+
+@fig-cycle を時計回りに読むと、AI-Descartes の発見サイクルは次の段階から成る。
+
+```{mermaid}
+flowchart LR
+  S["Study / 問い<br/>背景知識・しきい値の設定"] --> H["Hypothesis / 仮説<br/>候補式の生成<br/>（記号回帰）"]
+  H --> T["Test / 検証<br/>数値誤差と<br/>不確かさの定量化"]
+  T --> A["Assess / 評価<br/>背景理論との照合<br/>（導出可能性・推論誤差）"]
+  A --> R["Report / 報告<br/>最良候補式"]
+  A -. 導出不可なら .-> Q["Question / 問い直し<br/>データ追加？公理追加？<br/>代替仮説？"]
+  Q -.-> S
+```
+
+この図の最大のポイントは、デカルトの言葉を借りて著者が強調する**サイクルの向き**である。
+
+- **伝統的な仮説演繹法（hypothetico-deductive）**：理論 → 仮説 → データで検証。すなわち、まず理論から予測（仮説）を立て、それを実験データで反証・支持する。これはポパー的・教科書的な科学的方法である。
+- **AI-Descartes の向き**：**データ → 仮説 → 理論で評価**。まず SR がデータから候補式（仮説）を**生成**し、それを背景理論（公理）に照らして**評価**する。
+
+なぜこの向きなのか。著者が「デカルトに着想を得た」と言うのは、デカルトが**論理的演繹**を科学的発見の検証において重視した点を指す。AI-Descartes では、データへの当てはまりだけでは「科学的に意味のある法則」を選びきれない（似た誤差の候補が多数存在する）。そこで、**演繹（理論からの導出可能性）を最終審判**に据える。データは仮説を**生み出す**役割を、理論は仮説を**正当化する**役割を担う、という分業である。
+
+具体例で見よう。ケプラー問題では SR が次のような候補を出す（後続章の表で詳説）。
+
+- $p = \sqrt{0.1319\, d^3}$ — 太陽系データには**よく当てはまる**（数値誤差小）。だが質量に依存しないため、理論からは**導出できない**。
+- $p = \sqrt{d^3/(0.9967\, m_1 + m_2)}$ — こちらは万有引力・向心力の公理から**導出可能**で、質量の大きく異なる連星系でも generalize する。
+
+データだけ見れば前者も「良い式」に見える。しかし発見サイクルの「Assess（理論との照合）」段階が、後者を**導出可能な真の法則**として選び出す。これが「データに合う $\neq$ 理論から導ける」という本論文の核心メッセージであり、@fig-cycle はそのワークフローの設計思想を一枚に凝縮している。
+
+なお @fig-cycle の灰色側（本実装に未統合）には、Question 段階での「データ収集の最適化（実験計画）」や「アブダクション（欠落公理の補完）」が含まれる。前者は後の AI-Descartes 拡張 [@clarkson2022]、後者は後継 AI-Noether [@srivastava2025] へと発展する。
+
+:::
+
+### コード解説：SR モジュール（EMF）と推論パイプライン {#sec-code}
+
+論文が「Supplementary Information に記述」とする MINLP-SR ソルバの実体は、公式実装 `repos/AI-Descartes/symbolic-regression/emf/`（Java, 約 2 万行）の **EMF** である。本節では、上で述べた「式骨格の列挙」と「最小二乗目的の MINLP 化」が、実コードにどう現れるかを確認する。
+
+#### 式木の列挙：`Main.genNodes`
+
+候補式の**骨格**は、`Main.java` の `genNodes()` が再帰的に生成する。各演算子を一段ずつ積み上げ（`addLevel`）、単項演算子は `addOp1`、二項演算子は `addOp2` で適用する。木の深さは設定 YAML の上限（既定 3）まで。
+
+```java
+// Main.java: 葉から出発し、max_tree_depth まで一段ずつ演算子を積む
+final UList<NormNode> ns00 =
+    concatULists(addLevel(mkUList1(inpx.mlleaves), 1, inpx.max_tree_depth));
+// 算術正規化（arithNorm）で同値な式木を畳む
+ns00.map(n -> n.mergeDivP().arithNorm());
+// 冗長な式（A+B と B+A 等）を除去
+final UList<NormNode> ns1 =
+    ns0.maybeFilter(inpx.discard_redundant_exprs, n -> !n.isRedundant());
+```
+
+ここで効いているのが **`arithNorm()`（算術正規化）と `isRedundant()`（冗長判定）**である。$A+B$ と $B+A$、$A\times B$ と $B\times A$ のように、数学的に等価だが書き方の違う式木を**一つの同値類に畳む**。これは仮説クラス $C$ の「冗長な式を避けるための不変性制約」をコード化したもので、探索すべき骨格の数を大きく減らす。各骨格は、定数を `P` というプレースホルダにした「スケルトン」（例：`4:(P/(P+P))`）として表現される。
+
+#### 最小二乗目的の MINLP 化：`PrintProb.printObj`
+
+各骨格は BARON への入力ファイル `.bar` に変換され、目的関数は**データ点上の二乗誤差和の最小化**となる。`PrintProb.java` の `printObj()` が、データ点ごとに $(y_i - f(\mathbf{X}_i))^2$ を出力して足し上げる。
+
+```java
+// PrintProb.java printObj(): 各データ点で (y - f(x))^2 を加算
+for (int i : rng) {
+    DataLine inLine = input.get(i);
+    double outvar  = inLine.outval;   // y_i（観測値）
+    BExpr  nval    = expcs.get(i).expr; // f(X_i)（骨格を i 番目の入力で評価）
+    // (y - f(x)) * (y - f(x)) + ...
+    out.printf(" (%s - %s) *%n (%s - %s) +%n", outvar, nval, outvar, nval);
+}
+// 先頭行に "OBJ: minimize" が付く
+```
+
+すなわち BARON が解く目的は
+
+$$
+\min_{f \in C}\ \sum_{i=1}^{m} \bigl(Y_i - f(\mathbf{X}_i)\bigr)^2
+\qquad \text{(絶対 } \ell_2 \text{ 二乗誤差 } \varepsilon^{a}_2 \text{ の最小化)}
+$$ {#eq-sr-objective}
+
+である（相対誤差版 `relative_squared_error` も切替可能）。論文本文が「候補式は絶対 $\ell_2$ 誤差 $\varepsilon^{a}_2$ を最小化して得る」と述べる箇所（後続章）と、この実装は一致する。骨格に含まれる係数 $c_i$ が連続変数、どの単項式・指数を使うかが二値・整数変数となり、@eq-sr-objective が **MINLP** として BARON に渡される。`JobPool` が複数骨格のジョブを並列管理し（既定で最大 45 並列）、良い解が出れば複雑なジョブを打ち切る。
+
+#### 推論パイプライン：`pipeline_keymaera_3problems.py`
+
+導出可能性の判定（@sec-reasoner）は Python 側 `repos/AI-Descartes/reasoning/src/pipeline_keymaera_3problems.py`（約 815 行）が担う。概要は次のとおり。
+
+- `Formula` クラスが候補式を「KeYmaera 形式／Python 形式」のペアで保持し、**数値定数を自動抽出して $c_1, c_2, \dots$ に置換**する（後述の weak derivation 用）。
+- `convert_problem_keymaera()` が「公理 $\Rightarrow$ 候補式」という含意を `.kyx` ファイルとして書き出す。たとえばケプラーでは、重心・距離・万有引力・向心力・釣り合い・周期の各公理の論理積を前提に、$P^2/d^3 = 4\pi^2/(G(m_1+m_2))$ を結論とする命題を生成する。
+- `call_keymaera()` が `java -jar keymaerax.jar -tool mathematica -prove file.kyx` を起動し、`PROVED` / `not_proved` / `timeout` を得る。
+
+その上で `run_pipeline()` が論文の核となる**推論誤差メトリクス**群（`derivation`、`weak_derivation`、`interval`、`dependencies`、`pointwiseL2`、`pointwiseLinf` など）を計算する。とりわけ `weak_derivation` は、定数を $\exists c_1 \dots \exists c_n\, \forall(\text{vars})$ と量化し「**適切な定数を選べば構造として導出できるか**」を問う——「定数値は未知でも構造が導出可能か」という核心アイデアのコード化である。これらメトリクスの定義（点ごとの推論誤差・汎化推論誤差・変数依存性）は後続章で詳しく扱う。
+
+### 対話デモ：複雑度 vs データ適合誤差のトレードオフ {#sec-interplay-demo}
+
+@eq-sr-objective が示すように、SR は「データ適合誤差を最小化する式」を探すが、誤差をゼロに近づけようとすると式はいくらでも複雑になりうる（極端には、全データ点を通る高次多項式）。一方、単純すぎる式はデータに当てはまらない。Schmidt と Lipson [@schmidt2009] が指摘したように、科学的に意味のある式は**精度と複雑度のバランス**点——すなわち**パレートフロント**上——に存在する。
+
+下のデモは、ノイズ付きデータに対して複雑度の異なる複数の関数形（定数・1次・2次・…・高次多項式）を当てはめ、各候補を「複雑度（横軸）」と「二乗誤差（縦軸）」の平面にプロットする。スライダーで**データ点数**を変えると、点が少ないほど高次の式が「誤差ゼロ」で当てはまり（過適合）、点が多いほど真の次数で誤差が下げ止まる様子が観察できる。AI-Descartes の発見サイクルでは、この**パレート上の候補集合**を SR が生成し、その先で「理論から導出可能か」を推論モジュールが判定する——本デモはその第一段（@fig-cycle の Hypothesis→Test）の直観を与える。
+
+```{ojs}
+//| echo: false
+viewof interplay_n_points = Inputs.range([5, 60], {step: 1, label: tex`\text{データ点数 } m`, value: 12})
+```
+
+```{ojs}
+//| echo: false
+viewof interplay_noise = Inputs.range([0.0, 0.5], {step: 0.01, label: tex`\text{ノイズ } \sigma`, value: 0.15})
+```
+
+```{pyodide}
+#| autorun: true
+#| input: ["interplay_n_points", "interplay_noise"]
+import os, warnings, matplotlib
+from matplotlib import font_manager
+warnings.simplefilter("ignore")
+try:
+    from pyodide.http import pyfetch
+    if not os.path.exists("/tmp/NotoSansJP.ttf"):
+        resp = await pyfetch("../../../assets/fonts/NotoSansJP-Regular.ttf")
+        with open("/tmp/NotoSansJP.ttf", "wb") as f:
+            f.write(await resp.bytes())
+    font_manager.fontManager.addfont("/tmp/NotoSansJP.ttf")
+    matplotlib.rcParams["font.family"] = "Noto Sans JP"
+except ImportError:
+    pass
+matplotlib.rcParams["axes.unicode_minus"] = False
+import numpy as np
+import matplotlib.pyplot as plt
+
+m = int(interplay_n_points)
+sigma = float(interplay_noise)
+
+# 真の関数: y = 0.7*x^2 - 0.3*x + 0.5 （2次が「真の複雑度」）
+rng = np.random.default_rng(0)
+x = np.linspace(-1.5, 1.5, m)
+y_true = 0.7 * x**2 - 0.3 * x + 0.5
+y = y_true + rng.normal(0.0, sigma, size=m)
+
+# 複雑度 = 多項式の次数（0=定数 〜 8=8次）。各次数で最小二乗フィットし二乗誤差を測る
+degrees = list(range(0, 9))
+complexity = []
+mse = []
+for d in degrees:
+    coef = np.polyfit(x, y, d)
+    yhat = np.polyval(coef, x)
+    sse = float(np.sum((y - yhat) ** 2))   # eq-sr-objective と同じ二乗誤差和
+    complexity.append(d)
+    mse.append(sse)
+
+complexity = np.array(complexity)
+mse = np.array(mse)
+
+# パレートフロント（左下方向: 複雑度も誤差も小さいほど良い）を抽出
+order = np.argsort(complexity)
+pareto = []
+best = np.inf
+for i in order:
+    if mse[i] < best - 1e-12:
+        pareto.append(i)
+        best = mse[i]
+pareto = np.array(pareto)
+
+fig, ax = plt.subplots(figsize=(6.6, 4.4))
+ax.scatter(complexity, mse, s=90, color="#4C78A8", zorder=3, label="候補式（各次数）")
+ax.plot(complexity[pareto], mse[pareto], "-o", color="#E45756",
+        lw=2, ms=8, zorder=4, label="パレートフロント")
+# 真の複雑度（2次）を強調
+ax.axvline(2, color="#54A24B", ls="--", lw=1.5, alpha=0.8)
+ax.text(2.1, ax.get_ylim()[1] * 0.92, "真の複雑度 = 2", color="#54A24B", fontsize=10)
+
+ax.set_xlabel("複雑度（多項式の次数）")
+ax.set_ylabel(r"データ適合誤差  $\sum (y_i - f(x_i))^2$")
+ax.set_title(f"複雑度 vs データ適合誤差（m={m} 点, σ={sigma:.2f}）")
+ax.set_yscale("symlog", linthresh=1e-3)
+ax.grid(True, alpha=0.3)
+ax.legend(loc="upper right", framealpha=0.9)
+fig.tight_layout()
+plt.gcf()
+```
+
+::: {.callout-tip}
+### このデモの読み方
+
+- **横軸＝複雑度**（ここでは多項式の次数を代理指標とした）、**縦軸＝データ適合誤差**（@eq-sr-objective の二乗誤差和）。これは @fig-kepler-eb（後続章）でケプラー候補式を $(\varepsilon, \beta)$ 平面にプロットするのと同じ発想で、横軸を「複雑度」に置き換えたものである。
+- 次数を上げると誤差は単調に下がる（より柔軟だから当然）。だが**真の複雑度（2 次）を超えても誤差はほとんど下がらない**——「肘」が見える。SR が選ぶべきは、この肘付近の**パレート最適**な候補である。
+- **データ点数 $m$ を小さくする**と、高次多項式が誤差をほぼゼロまで落とせてしまう（点の数だけ自由度があれば完全に通せる＝過適合）。AI-Descartes が「**少数データから法則を発見できる**」と主張する裏には、データ適合だけでは過適合を見抜けないという問題があり、だからこそ**理論による導出可能性チェック（推論モジュール）**が必要になる——本デモは「データだけでは候補を選びきれない」という動機を体感させる。
+- **ノイズ $\sigma$ を上げる**と、肘より低次でも誤差が下げ止まり、真の次数の識別が難しくなる。現実のノイズ下では精度・複雑度のトレードオフがいっそう曖昧になる。
+
+この「データ適合だけでは決まらない」問題に、AI-Descartes は**背景理論からの導出可能性**という第二の軸を加えて答える。次章以降で、その $\beta(f)$（理論との距離）を定式化していく。
+
+:::
+

@@ -1,0 +1,53 @@
+---
+title: "AI-Descartes 精読教科書"
+subtitle: "データと理論を組み合わせた導出可能な科学的発見"
+author: "Journal Club 深掘り資料"
+date: last-modified
+---
+
+# はじめに {#sec-preface}
+
+本書は、論文
+
+> **Cornelio, C., Dash, S., Austel, V., Josephson, T. R., Goncalves, J., Clarkson, K. L., Megiddo, N., El Khadir, B. & Horesh, L. (2023). Combining data and theory for derivable scientific discovery with AI-Descartes. _Nature Communications_, 14, 1777.**
+> DOI: [10.1038/s41467-023-37236-y](https://doi.org/10.1038/s41467-023-37236-y)
+
+を **一言一句漏らさず理解する** ことを目的とした、ジャーナルクラブ深掘り発表のための精読教科書です。
+
+## 本書の方針
+
+各節は次の流れで構成しています。
+
+1. **原文（要点）と忠実な日本語訳** — 論文本文を節ごとに忠実に日本語化します。原文の核心部分は折り畳みの `callout` で併記し、全文は[オープンアクセス原文](https://www.nature.com/articles/s41467-023-37236-y)に当たれます。
+2. **詳細授業** — 論文が前提として省略している「行間」を、背景知識・直観・具体例で丁寧に補います。
+3. **コード解説** — 公式実装 [IBM/AI-Descartes](https://github.com/IBM/AI-Descartes) のソースコードを読み、論文の手法が実際にどう実装されているかを確かめます。
+4. **対話デモ** — 一部の節では、ブラウザ上で動く Python（Quarto Live / Pyodide）で概念を手を動かして確かめられます。
+
+## 読み方
+
+- 第 I 部（@sec-overview）でまず全体像をつかんでから読み進めることを勧めます。
+- 数式・図表・参考文献は相互参照（クリックで該当箇所へ移動）できます。
+- 各章の右上のコードは折り畳まれています。クリックで展開してください。
+
+## 系譜の中での位置づけ
+
+AI-Descartes は「データ＋背景理論」から法則を導く研究系譜の出発点であり、後継として **AI-Hilbert**（2024, Positivstellensatz による最適化への統合）、**AI-Noether**（2025/26, 欠落公理のアブダクション）へと発展します。本書は AI-Descartes を主軸に、終盤（@sec-limitations）でこの系譜への接続を扱います。
+
+## ライセンスと帰属 {#sec-license}
+
+原論文は **Creative Commons Attribution 4.0 International（CC BY 4.0）** ライセンスのもとで公開されています。本書は同ライセンスに従い、出典を明記した上で原文の翻訳・図表の引用・翻案を行っています。
+
+- 原著作者: © 2023 The Author(s)（上記著者一覧）
+- ライセンス全文: <https://creativecommons.org/licenses/by/4.0/>
+- 図表は原論文 Figs. 1–5 / Tables 1–3 を引用（出典は各図表のキャプションに明記）。
+- 引用したソースコードは [IBM/AI-Descartes](https://github.com/IBM/AI-Descartes)（MIT License）に基づきます。
+
+本書（翻訳・解説部分）は学習・発表目的で作成された二次的著作物です。
+
+## ローカルでの編集・プレビュー
+
+```bash
+just setup     # 初回のみ（uv sync + npm install）
+just docs      # http://localhost:4312 でプレビュー
+just check     # 公開前の品質チェック
+```

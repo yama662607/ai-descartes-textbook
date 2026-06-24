@@ -1,0 +1,6 @@
+---
+title: "システムの限界と将来の発展"
+engine: markdown
+---
+
+{{< include _12-limitations.qmd >}}

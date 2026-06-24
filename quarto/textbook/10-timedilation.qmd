@@ -1,0 +1,8 @@
+---
+title: "事例 II：相対論的時間遅延"
+engine: markdown
+filters:
+  - r-wasm/live
+---
+
+{{< include _10-timedilation.qmd >}}

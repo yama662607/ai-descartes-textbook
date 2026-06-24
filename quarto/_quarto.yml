@@ -1,0 +1,102 @@
+project:
+  type: book
+  output-dir: _book
+  resources:
+    - "assets/pdf/**/*.pdf"
+    - "assets/images/**/*.png"
+    - "assets/images/**/*.jpg"
+    - "assets/fonts/**/*"
+  preview:
+    watch-inputs: true
+
+book:
+  title: "AI-Descartes 精読教科書"
+  subtitle: "データと理論を組み合わせた導出可能な科学的発見"
+  author: "Journal Club（原論文: Cornelio et al., Nature Communications 2023, CC BY 4.0）"
+  date: last-modified
+
+  repo-url: https://github.com/yama662607/ai-descartes-textbook
+  repo-branch: main
+  repo-actions: [edit, issue]
+
+  search: true
+
+  navbar:
+    left:
+      - text: "ホーム"
+        href: index.qmd
+  sidebar:
+    style: "docked"
+    collapse-level: 2
+  chapters:
+    - index.qmd
+    - part: "第 I 部 — 導入と全体像"
+      chapters:
+        - textbook/00-overview.qmd
+        - textbook/01-abstract.qmd
+        - textbook/02-introduction.qmd
+    - part: "第 II 部 — AI-Descartes の枠組み（Results）"
+      chapters:
+        - textbook/03-problem.qmd
+        - textbook/04-distance.qmd
+        - textbook/05-integration.qmd
+        - textbook/06-interplay.qmd
+        - textbook/07-validation.qmd
+    - part: "第 III 部 — 考察（Discussion）"
+      chapters:
+        - textbook/08-discussion.qmd
+    - part: "第 IV 部 — 事例研究（Methods）"
+      chapters:
+        - textbook/09-kepler.qmd
+        - textbook/10-timedilation.qmd
+        - textbook/11-langmuir.qmd
+        - textbook/12-limitations.qmd
+    - part: "第 V 部 — 付録"
+      chapters:
+        - textbook/13-appendix.qmd
+  page-navigation: true
+  page-footer:
+    left: "© 2026 Journal Club ／ 原論文 © 2023 The Author(s), CC BY 4.0"
+    right:
+      - text: "ホーム"
+        href: index.qmd
+
+bibliography: references.bib
+
+number-sections: false
+crossref:
+  chapters: true
+  sec-prefix: "節"
+  fig-prefix: "図"
+  tbl-prefix: "表"
+  eq-prefix: "式"
+
+lang: ja
+
+format:
+  html:
+    theme: cosmo
+    css: templates/styles.css
+    include-in-header: templates/plotly-loader.html
+    include-after-body: templates/sidebar-toggle.html
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    code-fold: true
+    code-tools: true
+    code-copy: true
+    link-external-newwindow: true
+    smooth-scroll: true
+    anchor-sections: true
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    grid:
+      body-width: 1100px
+      margin-width: 250px
+      sidebar-width: 250px
+      gutter-width: 1.5rem
+    html-math-method: katex
+    lightbox: auto
+
+execute:
+  freeze: auto

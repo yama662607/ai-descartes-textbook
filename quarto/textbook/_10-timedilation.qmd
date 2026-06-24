@@ -1,0 +1,176 @@
+## 事例 II：相対論的時間遅延 {#sec-timedilation}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "Einstein's theory of relativity postulates that the speed of light is constant, and implies that two observers in relative motion to each other will experience time differently and observe different clock frequencies. The frequency $f$ for a clock moving at speed $v$ is related to the frequency $f_0$ of a stationary clock by the formula [eq. (5)] ... where $c$ is the speed of light. This formula was recently confirmed experimentally by Chou et al. using high precision atomic clocks." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+### 忠実な日本語訳：時間遅延の法則と定式化 {#sec-timedilation-trans}
+
+アインシュタインの相対性理論は、光速が一定であると要請し、互いに相対運動する 2 人の観測者は時間を異なって経験し、異なるクロック周波数を観測することを含意する。速さ $v$ で運動するクロックの周波数 $f$ は、静止したクロックの周波数 $f_0$ と、次の式によって関係づけられる。
+
+$$
+\frac{f - f_0}{f_0} = \sqrt{1 - \frac{v^2}{c^2}} - 1 ,
+$$ {#eq-timedilation}
+
+ここで $c$ は光速である。この式は最近、Chou ら [@chou2010] によって高精度原子時計を用いて実験的に確認された。我々は、Chou ら [@chou2010] が報告した実験データ——$v$ の測定値と、それに対応する $(f - f_0)/f_0$ の値からなる——で本システムを検証する。このデータは補足情報に再掲してある。時間遅延の式を導出するための公理は、Behroozi [@behroozi2014] と Smith [@smith2011] の仕事から取った。これらも補足情報に挙げてあり、実験データには現れない変数を含む。
+
+@tbl-timedilation に、入力演算子の集合として $\{+, -, \times, \div, \sqrt{\ }\}$ を用いて、本システムの記号回帰（SR）モジュールが得たいくつかの関数を、それらの数値誤差および汎化推論誤差とともに示す。
+
+![表2 | 時間遅延データから得られた候補式と関連する誤差値（出典: Cornelio et al. 2023, Table 2, CC BY 4.0 [@cornelio2023]）](../assets/images/table2.png){#fig-timedilation-orig}
+第 6 列は、第 1 列の関数の絶対汎化推論誤差が高々 1 であることを推論モジュールが検証できる $v$ の区間として、集合 $S$ を与える。最終列は、相対汎化推論誤差が高々 2% であることを検証できる $v$ の区間を与える。最後の関数は、この指標の下では相対誤差が小さいにもかかわらず、もし真の関数が連続であると仮定するならば、合理的な候補から除外できる（$v = 1$ で特異性をもつ）。したがって、元の関数を得ることはできないものの、別の関数——非常に広い速度範囲にわたって優れた予測を与えるという意味で、よく汎化する関数——を我々は得る。
+
+この事例では、本システムは代替的な公理系を排除する助けにもなる。光速が一定値 $c$ であるという公理を、光が他の力学的物体と同じように振る舞うという「ニュートン的（Newtonian）」仮定で置き換えることを考えよう。すなわち、物体の運動方向に垂直な方向へ、速度 $v$ の物体から放たれた光は、速度 $\sqrt{v^2 + c^2}$ をもつとする。補足情報の公理 R2 における $c$ を $\sqrt{v^2 + c^2}$ で置き換えて R2' を得ると、（定理証明器によって確認される通り）自己無矛盾な公理系が得られるが、それは時間遅延が生じない系である。我々の推論モジュールは、@tbl-timedilation のどの関数もこの更新された公理系とは整合しないと結論する。すなわち、絶対汎化推論誤差はデータ領域上でさえ 1 を超え、点ごとの推論誤差もそうである。その結果、データは、研究対象の現象に関連する公理系を弁別するために間接的に用いられる。SR は、正確な式のみを予想（conjecture）として提示するのである。
+
+### 詳細授業：真の式は復元できなくても「最良の汎化」は選べる {#sec-timedilation-lesson}
+
+::: {.callout-tip}
+## この節の主張を一言で
+
+ケプラーの事例（@sec-distance, 09 章）では真の式そのものを再発見できたが、時間遅延の事例は**あえて「失敗例」を見せる**章である。SR は @eq-timedilation を一度も出力しなかった。それでもこの章には 2 つの重要なメッセージがある——(1) **真の式を復元できなくても、推論モジュールは「最もよく汎化する候補」を選び出せる**、(2) **データそのものが公理系の良し悪しを判定する材料になる**。
+
+:::
+
+#### なぜ真の式 @eq-timedilation は出てこないのか {#sec-timedilation-why}
+
+Chou ら [@chou2010] のデータは、地上で実現できる速度——光速 $c \approx 3.0 \times 10^8\,\text{m/s}$ に対してせいぜい数 m/s から数十 m/s——の範囲しかカバーしない。この範囲では $v/c$ は $10^{-7}$ 程度の極端に小さい量であり、@eq-timedilation を Taylor 展開すると
+
+$$
+\frac{f - f_0}{f_0} = \sqrt{1 - \frac{v^2}{c^2}} - 1 \approx -\frac{1}{2}\frac{v^2}{c^2} - \frac{1}{8}\frac{v^4}{c^4} - \cdots
+$$ {#eq-timedilation-taylor}
+
+となる。データ領域では第 1 項 $-\tfrac{1}{2}v^2/c^2 \approx -0.00556\,v^2$ が支配的で、高次項は測定誤差に完全に埋もれる。したがって、**データだけを見れば「$f$ は $v^2$ に比例して下がる」という二次関数が最も自然な当てはめ**になる。実際 @tbl-timedilation の第 1 候補 $-0.00563\,v^2$ は、まさにこの先頭項を拾ったものである（係数 $0.00563$ は $1/(2c^2)$ に近い）。平方根の中身 $1 - v^2/c^2$ を「平方根として」復元するには、$v$ が $c$ に近づく領域のデータが必要だが、そんなデータは地上には存在しない。これが「データから真の式を復元できない」ことの直観である。
+
+::: {.callout-note}
+## 用語の確認：汎化推論誤差と区間 $S$
+
+- **点ごとの推論誤差**（pointwise reasoning error）：各データ点 1 つ 1 つにおける、候補式と公理から導かれる真の振る舞いとのずれ。
+- **汎化推論誤差**（generalization reasoning error）：データ領域**外**まで含めた区間全体での最大ずれ。$\beta^a_{\infty,S}$ は区間 $S$ 上の絶対汎化推論誤差（$L_\infty$ ノルム、すなわち最悪値）、$\beta^r_{\infty,S}$ は同じく相対版を表す。
+- **区間 $S$**：推論モジュール（自動定理証明器 KeYmaera X と Mathematica）が「この区間に限れば誤差が閾値以下だと**証明できる**」と保証した $v$ の範囲。$S$ が広いほど、その候補式は遠くまで信頼できる＝よく汎化する。
+
+:::
+
+#### 候補式を「汎化の広さ」で読み比べる {#sec-timedilation-compare}
+
+@tbl-timedilation の各候補は、データ上の数値誤差だけ見ればどれも似たり寄ったりである（絶対誤差 $\varepsilon^a_2$ は 0.30〜0.38 の範囲）。差がつくのは右側 2 列の**区間 $S$** である。論文値を読み解くと次のようになる。
+
+| 候補式 $f =$ | 絶対誤差 $\varepsilon^a_2$ | 絶対 $\beta^a_{\infty,S}\le 1$ の区間 $S$ | 相対 $\beta^r_{\infty,S}\le.02$ の区間 $S$ |
+| --- | --- | --- | --- |
+| $-0.00563\,v^2$ | 0.3822 | $37 \le v \le 115$ | $37 \le v \le 10^8$ |
+| $\dfrac{v}{1+0.00689\,v} - v$ | 0.3152 | $37 \le v \le 49$ | $37 \le v \le 38$ |
+| $-0.00537\,\dfrac{v^2\sqrt{v+v^2}}{(v-1)}$ | 0.3027 | $37 \le v \le 98$ | $37 \le v \le 109$ |
+| $-0.00545\,\dfrac{v^4}{\sqrt{v^2+v^{-2}}\,(v-1)}$ | 0.3238 | $37 \le v \le 126$ | $37 \le v \le 10^7$ |
+
+: 時間遅延データから得られた候補式と誤差・区間 $S$（値は @tbl-timedilation 画像より。$v$ の単位は m/s）。 {#tbl-timedilation}
+
+ここで決定的なのは**最終列の右端**である。第 1 候補 $-0.00563\,v^2$ は相対誤差 2% 以内を $v \le 10^8\,\text{m/s}$ まで保証できる——光速の 1/3 に達するほど遠くまで信頼できる。これは @eq-timedilation-taylor の先頭項そのものだから当然で、**真の式に最も近い候補がそのまま「最良の汎化」として浮かび上がる**。一方、第 2 候補 $\frac{v}{1+0.00689v}-v$ は $v \le 38$ までしか保証できず、データ領域をわずかに出ただけで破綻する。**数値誤差ではほぼ同点だった候補たちが、汎化の広さでは桁違いに差がつく**——これが推論モジュールの付加価値である。
+
+#### 連続性の仮定で特異な候補を棄却する {#sec-timedilation-continuity}
+
+@tbl-timedilation 画像の最終行の候補 $-0.00545\,\dfrac{v^4}{\sqrt{v^2+v^{-2}}\,(v-1)}$ は、相対誤差 2% を $v \le 10^7$ まで保証でき、見かけ上はよく汎化する。しかしこの式は $v = 1$ で分母が 0 になり、**特異性（発散）をもつ**。物理的なクロック周波数が特定の速度でいきなり無限大に飛ぶことはあり得ない。そこで「真の関数は連続であるべき」という**モデラーの選好**を 1 つ加えるだけで、この候補は合理的な候補から外れる。
+
+::: {.callout-important}
+## 教訓：仮説クラスは「数値当てはめ」だけでは絞れない
+
+データへの当てはまり（数値誤差）と、遠方での信頼性（汎化推論誤差）と、形そのものへの先験的制約（連続性などのモデラーの選好）は、**互いに独立な判定軸**である。3 つを併用して初めて、無数の候補から物理的に妥当な 1 つへ絞り込める。AI-Descartes の核心は「データ＋論理＋選好」のこの三位一体にある。
+
+:::
+
+#### データで公理系そのものを弁別する {#sec-timedilation-axioms}
+
+この事例の最も面白い論点は最後にある。SR が出した候補はどれも「真の式」ではなかった。では推論モジュールは無力かというと逆で、**どの公理系の下でデータを説明すべきか**を判定する。
+
+論文は思考実験として、特殊相対論の核心公理「光速は不変の定数 $c$ である」を、ニュートン力学風の仮定で差し替える。すなわち「光も他の物体と同じく、運動する光源（速度 $v$）から運動方向に垂直に放たれると、速度 $\sqrt{v^2 + c^2}$ をもつ」とする。形式的には、補足情報の公理 R2 中の $c$ を $\sqrt{v^2+c^2}$ に置換して R2' を作る。
+
+```{mermaid}
+flowchart TD
+    A["SR 候補式<br/>（Table 2 の関数）"] --> B{推論モジュール<br/>KeYmaera X で照合}
+    R2["公理系 R<br/>（相対論的: 光速 = c 一定）"] --> B
+    R2p["公理系 R'<br/>（ニュートン的 R2': 光速 = √(v²+c²)）"] --> C{推論モジュール<br/>で照合}
+    A --> C
+    B -->|"よく整合する候補あり<br/>（β が小さい区間 S を保証）"| D["R が現象を説明する"]
+    C -->|"全候補で β > 1<br/>（データ領域上でさえ不整合）"| E["R' は棄却<br/>（時間遅延が生じない）"]
+```
+
+定理証明器で確認する限り、R2' に差し替えた公理系**それ自体は自己無矛盾**である（論理的な破綻はない）。しかしこの系は**時間遅延を全く生じない**——$\sqrt{v^2+c^2}$ という速度合成は、ちょうど時間の遅れを打ち消す向きに効くからである。結果として、推論モジュールは「@tbl-timedilation のどの候補式も R2' 系とは整合しない」と結論する。具体的には、絶対汎化推論誤差がデータ領域上でさえ 1 を超え、点ごとの推論誤差も同様に大きい。
+
+これが意味することは深い。**データは公理系を間接的に弁別する道具になる**。相対論的公理系 R の下では「データによく合い、かつ広く汎化する」候補が存在したのに、ニュートン的公理系 R' の下では「データ領域上ですべての候補が不整合」になる。したがって「R' は現象に不適切な公理系だ」と論理的に結論できる。SR は正確な式だけを予想として提示し、その予想が**どちらの理論の下で導出可能か**を推論モジュールが照合する——この往復によって、データだけでは決められなかった「理論の選択」が可能になる。
+
+### コード解説：推論モジュールはどこで区間 $S$ を出すか {#sec-timedilation-code}
+
+公理と候補式の照合、および区間 $S$ の算出は、Python の推論モジュール（`reasoning/src/`）が KeYmaera X と Mathematica を呼び出して行う。時間遅延の公理 R/R' は `data/` 配下に格納され、候補式（SR 出力）に対して点ごと・汎化の推論誤差を評価し、誤差が閾値以下となる $v$ の区間を二分探索的に詰めることで @tbl-timedilation の第 6・7 列を生成する。ニュートン的公理系 R' の評価は、同じ候補式集合に対して公理ファイルだけを R2 から R2' へ差し替えて再実行する形になっており、**コードの変更点は公理定義の 1 箇所のみで、候補式・データ・推論パイプラインは共通**である点が、「データで公理系を弁別する」という主張を実装上も裏づけている（リポジトリ構成の詳細は調査ドキュメント参照 [@aidescartes_repo]）。
+
+### 対話デモ：データ領域と汎化領域の見え方 {#sec-timedilation-demo}
+
+下のデモは、横軸を速度 $v$、縦軸を $(f-f_0)/f_0$ として、真の式 @eq-timedilation（$\sqrt{1-v^2/c^2}-1$）と @tbl-timedilation の代表候補 $-0.00563\,v^2$ を重ね描きする。スライダーで横軸の最大速度（対数スケールの指数）を動かすと、**データ領域（〜10² m/s 程度）では両者が完全に重なって区別できないのに、$v$ が $c$ に近づくと真の式だけが平方根的に折れ曲がり、二次近似が破綻していく**様子が見える。これが「狭いデータ領域では真の式と近似式を弁別できない／広い領域で初めて差がつく」という本章の主張の可視化である。
+
+```{ojs}
+//| echo: false
+viewof tdLogVmax = Inputs.range([2, 8.5], {step: 0.1, label: tex`\log_{10}(v_{\max}\,[\text{m/s}])`, value: 3})
+```
+
+```{pyodide}
+#| autorun: true
+#| input: ["tdLogVmax"]
+import os, warnings, matplotlib
+from matplotlib import font_manager
+warnings.simplefilter("ignore")
+try:
+    from pyodide.http import pyfetch
+    if not os.path.exists("/tmp/NotoSansJP.ttf"):
+        resp = await pyfetch("../../../assets/fonts/NotoSansJP-Regular.ttf")
+        with open("/tmp/NotoSansJP.ttf", "wb") as f:
+            f.write(await resp.bytes())
+    font_manager.fontManager.addfont("/tmp/NotoSansJP.ttf")
+    matplotlib.rcParams["font.family"] = "Noto Sans JP"
+except ImportError:
+    pass
+matplotlib.rcParams["axes.unicode_minus"] = False
+import numpy as np
+import matplotlib.pyplot as plt
+
+c = 2.998e8  # 光速 [m/s]
+vmax = 10.0 ** tdLogVmax
+# データ領域はおよそ 37 m/s 以上（Chou et al. の区間下限）
+v = np.linspace(1.0, vmax, 2000)
+
+# 真の式 (eq. 5)
+ratio = 1.0 - (v / c) ** 2
+true = np.where(ratio >= 0, np.sqrt(np.clip(ratio, 0, None)) - 1.0, np.nan)
+# Table 2 の最良汎化候補（二次近似）
+quad = -0.00563 * v ** 2
+
+fig, ax = plt.subplots(figsize=(7, 4.4))
+ax.plot(v, true, color="#1f77b4", lw=2.2, label=r"真の式 $\sqrt{1-v^2/c^2}-1$")
+ax.plot(v, quad, color="#d62728", lw=1.8, ls="--", label=r"候補 $-0.00563\,v^2$")
+
+# データ領域の目安をハイライト
+ax.axvspan(37, min(115, vmax), color="#999999", alpha=0.15, label="データ近傍 (37–115 m/s)")
+
+ax.set_xlabel("速度 v [m/s]")
+ax.set_ylabel(r"$(f-f_0)/f_0$")
+ax.set_title("時間遅延：真の式 vs SR 候補（汎化の見え方）")
+ax.legend(loc="lower left", fontsize=9)
+ax.grid(alpha=0.3)
+
+# 差が見えるかどうかを注記
+rel_gap = np.nanmax(np.abs(true - quad)) if np.any(np.isfinite(true)) else 0.0
+ax.text(0.98, 0.05,
+        f"最大|真−候補| = {rel_gap:.2e}\nv_max = {vmax:.1e} m/s",
+        transform=ax.transAxes, ha="right", va="bottom", fontsize=8,
+        bbox=dict(boxstyle="round", fc="white", ec="#888", alpha=0.8))
+
+plt.tight_layout()
+plt.gcf()
+```
+
+::: {.callout-tip}
+## デモの読み方
+
+- スライダーを左端（$v_{\max}\sim 10^2$）に置くと、青（真の式）と赤破線（二次候補）は**重なって 1 本にしか見えない**。右下の「最大$|$真$-$候補$|$」もほぼ 0。これが Chou ら [@chou2010] のデータ領域の状況で、SR が二次式を出すのは当然だと分かる。
+- スライダーを右（$v_{\max}\to 10^8 \approx c/3$）へ動かすと、真の式だけが下に折れ曲がり、二次近似との差が開く。**広い速度範囲で初めて両者を弁別できる**——だが地上のデータはそこまで届かない。
+- 区間 $S$（37〜115 m/s）のハイライトが、推論モジュールが「絶対誤差 1 以下」を保証した範囲。候補が真の式とほぼ一致しているこの帯の中では、データだけからの弁別は原理的に不可能である。
+
+:::

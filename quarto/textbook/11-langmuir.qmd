@@ -1,0 +1,8 @@
+---
+title: "事例 III：ラングミュアの吸着式"
+engine: markdown
+filters:
+  - r-wasm/live
+---
+
+{{< include _11-langmuir.qmd >}}

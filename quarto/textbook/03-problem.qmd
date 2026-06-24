@@ -1,0 +1,6 @@
+---
+title: "発見の形式的定式化 ⟨B, C, D, M⟩"
+engine: markdown
+---
+
+{{< include _03-problem.qmd >}}

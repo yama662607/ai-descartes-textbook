@@ -1,0 +1,6 @@
+---
+title: "実験的検証の全体像"
+engine: markdown
+---
+
+{{< include _07-validation.qmd >}}

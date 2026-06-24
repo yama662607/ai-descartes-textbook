@@ -1,0 +1,135 @@
+## 付録：データ/コード公開・用語集・参考文献・ライセンス {#sec-appendix}
+
+本付録は、原論文巻末の **Data availability**（データ公開）と **Code availability**（コード公開）の忠実訳を冒頭に置き、続けて本書独自の補助資料――(1) 用語集、(2) 深掘り発表のあとに読むべき次の論文、(3) ライセンスと帰属、(4) 参考文献一覧――をまとめる。本書全体を通じて参照される語の訳語統一と、ジャーナルクラブ後の発展的読書のための地図を提供することが目的である。
+
+## データ公開（Data availability） {#sec-data-availability}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "The data used in this study are available in the AI-Descartes GitHub repository: https://github.com/IBM/AI-Descartes." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+### 忠実な日本語訳 {#sec-data-availability-translation}
+
+本研究で用いたデータは、AI-Descartes の GitHub リポジトリ（<https://github.com/IBM/AI-Descartes>）において入手可能である [@aidescartes_repo]。
+
+## コード公開（Code availability） {#sec-code-availability}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "The code used for this work can be found, freely available, at the AI-Descartes GitHub repository: https://github.com/IBM/AI-Descartes." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+### 忠実な日本語訳 {#sec-code-availability-translation}
+
+本研究で用いたコードは、AI-Descartes の GitHub リポジトリ（<https://github.com/IBM/AI-Descartes>）において、自由に利用可能な形で見出すことができる [@aidescartes_repo]。
+
+::: {.callout-tip}
+## 詳細授業：公開リポジトリの中身と再現の足場
+
+原論文のデータ・コード公開の記述はわずか各 1 文だが、実際のリポジトリ **IBM/AI-Descartes**（MIT ライセンス）は本書の各章で解説してきた手法をそのまま再現できる構成になっている。深掘り発表で「手元で動かして確かめた」と言えるよう、ディレクトリ構成の対応関係を押さえておきたい。
+
+- **`data/`** — 各テストケースの入力。ケプラーの第三法則・相対論の時間の遅れ・ラングミュア吸着等温式に加え、合成ベンチマーク（FSRD: Feynman Symbolic Regression Database 由来）が含まれる。入力は数値データ（`.dat`）と公理ファイル（`axioms.txt`）、候補式（candidates）、変数指定からなる。
+- **`symbolic-regression/emf/`** — 記号回帰モジュール（Java 実装）。混合整数非線形計画（MINLP）として候補式を生成し、商用ソルバ BARON を呼ぶ。EMF は Eclipse Modeling Framework を指す。
+- **`reasoning/src/`** — 推論モジュール（Python 実装）。自動定理証明器 **KeYmaera X**（バージョン 5.1.2）に加え、補助的に Wolfram（Mathematica）と z3 を用い、候補式が背景理論（公理）から導出可能か（導出可能性）を判定し、点ごとの推論誤差・汎化推論誤差・変数依存性などの指標を計算する。
+- **`figures/`** — 論文の図を再生成するスクリプト。
+
+入力 = データ（`.dat`）+ 公理（`axioms.txt`）+ 候補式 + 変数指定、出力 = 導出可能な式・各種誤差指標・反例（counterexample）、という流れは @sec-integration や @sec-validation で見た発見サイクルの実装そのものである。再現を試みる際は、商用ソルバ BARON と Mathematica のライセンスが別途必要になる点に注意する（KeYmaera X と z3 はオープンソース）。
+:::
+
+## 用語集 {#sec-glossary}
+
+本書で訳語を統一した主要用語の一覧を示す。「英語 / 日本語 / 一言説明」の三列構成で、各語が論文中で果たす役割まで補った。
+
+| 英語 | 日本語 | 一言説明 |
+| --- | --- | --- |
+| symbolic regression (SR) | 記号回帰 | データから式の**構造そのもの**（演算子・項の組合せ）を探索する回帰。係数だけでなく関数形を当てる。 |
+| background theory / background knowledge | 背景理論 / 背景知識 | 既知の物理法則・公理など、データに先立って与えられる事前知識。 |
+| axiom(s) | 公理 | 背景理論を構成する個々の形式的命題。導出の出発点。 |
+| derivable, derivability | 導出可能, 導出可能性 | 候補式が公理から論理的に**導けるか**という性質。本手法の中核基準。 |
+| reasoning module | 推論モジュール | 候補式の導出可能性を定理証明器で評価する構成要素。SR モジュールと対をなす。 |
+| reasoning error | 推論誤差 | 候補式が背景理論からどれだけ「導出からずれているか」を測る指標群の総称。 |
+| pointwise reasoning error | 点ごとの推論誤差 | 個々のデータ点における理論との不整合（L2・L∞）を測る推論誤差。 |
+| generalization reasoning error | 汎化推論誤差 | データ範囲外まで含めた理論との不整合を測る推論誤差。外挿の妥当性に対応。 |
+| variable dependence | 変数依存性 | 候補式が「本来依存すべき変数」に正しく依存しているかという制約・誤差。 |
+| numerical (data) error | 数値誤差（データ誤差） | 候補式の予測値と観測データの差。従来の SR が最小化する量。 |
+| automated theorem prover (ATP) | 自動定理証明器 | 導出可能性を機械的に判定するソフトウェア。本手法では KeYmaera X。 |
+| mixed-integer nonlinear programming (MINLP) | 混合整数非線形計画 | 整数変数と非線形項を含む最適化。SR を決定論的に解く定式化。 |
+| hypothesis class | 仮説クラス | 探索対象となる候補式の集合。演算子・複雑度などで制約される。 |
+| modeler preferences | モデラーの選好 | 単純さ・解釈性など、モデル選択に持ち込む人間側の指向。 |
+| counterexample | 反例 | 候補式が公理と矛盾することを示す具体的事例。証明の失敗証拠。 |
+| complexity | 複雑度 | 式の大きさ（演算子数・項数など）。精度とのトレードオフ対象。 |
+| ground truth | 真の関数（グラウンドトゥルース） | 評価のために既知とされる正解の法則。 |
+| complete, consistent | 完全, 無矛盾 | 背景理論が「必要な命題を全て含む（完全）」「矛盾を含まない（無矛盾）」という性質。 |
+| existential quantification | 存在量化 | 「ある値が存在して〜」という論理量化。導出可能性の定式化で用いる。 |
+| dimensional consistency | 次元整合性 | 式の各項の物理次元が一致していること。背景知識の最も基本的な形。 |
+| discovery cycle | 発見サイクル | SR →推論→精緻化を繰り返す、本手法全体のワークフロー。 |
+| candidate formula | 候補式 | SR が生成し推論モジュールが評価する個々の式。 |
+| loading (adsorption) | 吸着量 | ラングミュア問題で、表面に吸着した量を表す従属変数。 |
+| time dilation | 時間の遅れ（時間遅延） | 特殊相対論で運動する時計が遅れる現象。テストケースの 1 つ。 |
+| centrifugal force | 向心力 | ケプラー問題の導出に関わる力。 |
+| gravitational force | 重力（万有引力） | ケプラー問題の導出に関わる力。 |
+| adsorption | 吸着 | 気体分子が固体表面に付着する過程。ラングミュア問題の主題。 |
+| desorption | 脱離 | 吸着した分子が表面から離れる逆過程。 |
+
+## 次に読む論文 {#sec-further-reading}
+
+深掘り発表で AI-Descartes 本体を解説したあと、議論を広げ・深めるために読むべき重要論文を分類して挙げる。各項目に短評を付した。網羅的な文献地図は本書のリポジトリ内 `docs/ai_discovery_missed_papers.md` および `docs/ai_descartes_followup_research.md` を参照。
+
+### 直系の後継――同一チーム（IBM）による発展 {#sec-further-lineage}
+
+- **AI-Hilbert** (Cory-Wright, Cornelio, Dash, El Khadir, Horesh, 2024, *Nature Communications*) [@corywright2024] — **次に読むべき筆頭**。Putinar の Positivstellensatz（実代数幾何）を用い、データと背景知識を**単一の多項式最適化問題**に統一する。AI-Descartes の弱点だった「背景理論は完全・無矛盾でなければならない」「SR と証明が別工程」を解消し、**不完全・矛盾を含む理論からでも**法則を発見して形式的導出証明（certificate）を出す。ケプラー（公理が欠けた状態からの再導出）・重力波の放射パワー・ベル不等式まで実証。
+- **AI-Noether** (Srivastava, Dash, Cory-Wright, Trager, Horesh, 2025) [@srivastava2025] — 系譜の最新。**アブダクション（仮説推論）**により、AI が導いた法則を既存の正典的（canonical）知識と整合させ、理論のギャップを埋める。AI-Descartes が「将来課題」に挙げた *abductive reasoning による理論の不完全性の補完* を実現した位置づけ（@sec-discussion 参照）。
+
+> 系譜の要約: **Descartes（証明で選ぶ）→ Hilbert（最適化で統一・不完全理論可）→ Noether（アブダクションで正典と接続）**。通底する原理は「機械が出した法則の*検証可能性*」である。
+
+### データのみの SR――本手法が「出発点」として対置する基準 {#sec-further-sr}
+
+- **Distilling Free-Form Natural Laws from Experimental Data（Eureqa）** (Schmidt & Lipson, 2009, *Science*) [@schmidt2009] — 遺伝的プログラミング SR の金字塔。生データからラグランジアン・保存則を自動発見した。AI-Descartes が「データのみの SR は理論に違反する式を返しうる」と明示的に対置する**原点**。まずこの到達点と限界を押さえると本手法の動機が腑に落ちる。
+- **Genetic Programming as a Means for Programming Computers by Natural Selection** (Koza, 1994, *Statistics and Computing*) [@koza1994gp] — 式木進化という古典 SR の算法的基盤。MINLP/文法による決定論化（@sec-problem）が「何を置き換えたのか」を理解する前提。
+
+### 理論ガイド型 SR――最も近い対抗群 {#sec-further-guided}
+
+- **AI Feynman: A Physics-Inspired Method for Symbolic Regression** (Udrescu & Tegmark, 2020, *Science Advances*) [@udrescu2020] — 次元解析・対称性・分離性で探索を再帰的に簡約する最有力の対抗手法。標準ベンチマーク Feynman Symbolic Regression Database の出所でもあり、AI-Descartes が用いる合成データ（FSRD）の母体。「物理事前知識で SR を導く」発想を本手法と比較する軸になる。
+- **Symbolic Regression Driven by Training Data and Prior Knowledge** (Kubalík, Derner, Babuška, 2020, GECCO) — データ誤差と形式的事前知識制約（定常状態・局所挙動）を同時に駆動する多目的 SR。AI-Descartes の推論モジュールが*厳密化*する「ソフト制約」戦略の素朴な雛形として読むとよい。
+
+### 数理基盤・内部部品 {#sec-further-foundations}
+
+- **Semidefinite Programming Relaxations for Semialgebraic Problems（Parrilo の SOS）** (Parrilo, 2003, *Mathematical Programming*) [@parrilo2000] — Positivstellensatz 証明書を半正定値計画に結ぶ平方和（SOS）の枠組み。AI-Hilbert の中心機構を理解する鍵で、「なぜ fit ではなく certify できるか」を支える。
+- **KeYmaera X: An Axiomatic Tactical Theorem Prover for Hybrid Systems** (Fulton, Mitsch, Quesel, Völp, Platzer, 2015, CADE-25) [@fulton2015] — AI-Descartes の推論モジュールが実際に使う定理証明器。導出可能性誤差を具体的にどう計算するか（@sec-validation）を実装レベルで追うための一次資料。
+
+### 対抗パラダイムと「検証可能な発見」の潮流 {#sec-further-paradigms}
+
+- **Discovering Governing Equations from Data by Sparse Identification（SINDy）** (Brunton, Proctor, Kutz, 2016, *PNAS*) — 候補関数ライブラリ上のスパース回帰で簡潔な ODE を得る、最有力の対抗学派。「parsimony（簡潔さ）を事前知識として」課す発想との対比に必須。
+- **Discovering Faster Matrix Multiplication Algorithms with Reinforcement Learning（AlphaTensor）** (Fawzi et al., DeepMind, 2022, *Nature*) [@fawzi2019] — RL で*証明可能に正しい*高速行列乗算を発見。生成＋検証という別系統の「検証可能な発見」を代表し、AI-Descartes の証明重視と並べて議論できる。
+- **A Bayesian Machine Scientist** (Guimerà, Sales-Pardo et al., 2020, *Science Advances*) — 式構造の事前分布上の事後分布から原理的にモデル選択するベイズ的代替。最適化＋推論という本手法の姿勢に対する確率論的対抗。
+
+### サーベイ・展望 {#sec-further-surveys}
+
+- **Automated Scientific Discovery: From Equation Discovery to Autonomous Discovery Systems** (Kramer, Cerrato, Brugger, Dzeroski, King, 2026, *Machine Learning*) — 方程式発見の創始者（Dzeroski）と Robot Scientist の King による最新統一サーベイ。SR から閉ループ自律系まで「自律レベル」分類で俯瞰し、本 JC の締めくくりに最適。
+- **Automating the Practice of Science: Opportunities, Challenges, and Implications** (Musslick et al., 2025, *PNAS*) — AI-Descartes と AI-Hilbert の双方を高インパクトに引用する PNAS 展望。データ＋理論導出系を自律科学の全景に位置づける枠組みスライドの素材になる。
+
+## ライセンスと帰属 {#sec-license}
+
+::: {.callout-important}
+## 出典・ライセンスの明示
+
+本書は、以下のオープンアクセス論文を精読・解説した二次的教材である。原著の権利者・ライセンスを尊重し、出典を明記する。
+
+- **原論文**: Cristina Cornelio, Sanjeeb Dash, Vernika Austel, Tyler R. Josephson, Joao Goncalves, Kenneth L. Clarkson, Nimrod Megiddo, Bachir El Khadir & Lior Horesh, **"Combining data and theory for derivable scientific discovery with AI-Descartes"**, *Nature Communications* **14**, 1777 (2023) [@cornelio2023]。
+- **DOI**: [10.1038/s41467-023-37236-y](https://doi.org/10.1038/s41467-023-37236-y)
+- **ライセンス**: 原論文は **Creative Commons Attribution 4.0 International（CC BY 4.0）** の下で公開されている（<https://creativecommons.org/licenses/by/4.0/>）。CC BY 4.0 は、出典を明示する限り、複製・改変・再配布・商用利用を許諾する。
+- **図表の帰属**: 本書中の図（@fig-distance, @fig-cycle, @fig-system, @fig-kepler-eb, @fig-langmuir）および表（@tbl-kepler, @tbl-timedilation, @tbl-langmuir）は、原論文 Cornelio et al. 2023 からの引用であり、CC BY 4.0 に基づき出典を付して再掲している [@cornelio2023]。各キャプションに対応する原論文の Figure / Table 番号を併記した。
+- **コードの帰属**: 本書のコード解説および対話デモは、公式実装 **IBM/AI-Descartes**（<https://github.com/IBM/AI-Descartes>、**MIT ライセンス**）に基づく [@aidescartes_repo]。後継実装 IBM/AI-Hilbert も MIT ライセンスで公開されている。
+- **本書の二次的著作物としての扱い**: 本書の日本語訳・解説・図表の再掲は CC BY 4.0 の帰属条件を満たす形で行っている。本書独自の解説文・図解（Mermaid 図・対話デモ等）の著作権は本書の執筆者に帰属する。
+
+:::
+
+## 参考文献 {#sec-references}
+
+::: {#refs}
+:::

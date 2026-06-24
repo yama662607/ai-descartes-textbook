@@ -1,0 +1,127 @@
+## タイトル・著者・要旨 {#sec-abstract}
+
+本章では、論文の表紙にあたる情報——タイトル、著者一覧、所属、そして要旨（Abstract）——を精読する。要旨は論文全体の主張を凝縮した「設計図」であり、ここに登場するキーワード（記号回帰・導出可能性・論理公理・少数データ）はそのまま本書の各章で展開される。まずは一語一語を正確に押さえておきたい。
+
+### タイトルと著者 {#sec-title-authors}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> **Combining data and theory for derivable scientific discovery with AI-Descartes**
+>
+> Cristina Cornelio, Sanjeeb Dash, Vernon Austel, Tyler R. Josephson, Joao Goncalves, Kenneth L. Clarkson, Nimrod Megiddo, Bachir El Khadir & Lior Horesh — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+**タイトル（日本語訳）**
+
+> AI-Descartes による、導出可能な科学的発見に向けたデータと理論の統合
+
+**著者と所属**
+
+論文には 9 名の著者が名を連ねる。所属は上付き番号で示されており、以下の通りである。
+
+| 著者 | 所属番号 |
+|------|----------|
+| Cristina Cornelio（責任著者） | 1, 2 |
+| Sanjeeb Dash | 1 |
+| Vernon Austel | 1 |
+| Tyler R. Josephson | 3, 4 |
+| Joao Goncalves | 1 |
+| Kenneth L. Clarkson | 1 |
+| Nimrod Megiddo | 1 |
+| Bachir El Khadir | 1 |
+| Lior Horesh | 1, 5 |
+
+所属一覧：
+
+1. IBM Research—Mathematics and Theoretical Computer Science, New York, NY, USA（IBM リサーチ — 数理・理論計算機科学部門、ニューヨーク）
+2. Samsung AI—Machine Learning and Data Intelligence, Cambridge, UK（サムスン AI — 機械学習・データインテリジェンス部門、ケンブリッジ）
+3. Department of Chemical, Biochemical, and Environmental Engineering, University of Maryland, Baltimore County, MD, USA（メリーランド大学ボルチモアカウンティ校 化学・生化学・環境工学科）
+4. Department of Chemistry and Chemical Theory Center, University of Minnesota, Minneapolis, MN, USA（ミネソタ大学 化学科・化学理論センター、ミネアポリス）
+5. Columbia University, Computer Science, New York, NY, USA（コロンビア大学 計算機科学、ニューヨーク）
+
+責任著者（連絡先）は Cristina Cornelio（e-mail: c.cornelio@samsung.com）である。受理・出版情報は次の通り：受付 2021 年 10 月 28 日、受理 2023 年 3 月 8 日、オンライン公開 2023 年 4 月 12 日、掲載誌 *Nature Communications* 14:1777。
+
+::: {.callout-tip}
+### 詳細授業：タイトルと著者構成の読み解き
+
+**タイトルが宣言していること。** タイトルには本論文の三つの柱がすべて埋め込まれている。第一に「data and theory（データと理論）」——機械学習が依拠する実験データと、ドメイン知識（背景理論）の両方を使う、という二刀流の宣言である。第二に「derivable scientific discovery（導出可能な科学的発見）」——単にデータに合う式を見つけるのではなく、**背景理論（公理）から論理的に導出できる**式を見つけることを目標に据えている。この「導出可能性（derivability）」こそ本論文の独自性であり、本書全体の鍵概念となる。第三に「AI-Descartes」——システムの名称であり、データ（経験）と理論（理性）を統合する姿勢を、合理論の祖デカルトになぞらえた命名である。
+
+**著者構成が物語ること。** 著者の大半（番号 1）は IBM リサーチの数理・理論計算機科学部門に所属する。記号回帰（SR）を混合整数非線形計画（MINLP）として解く本論文の数理最適化的アプローチは、この最適化・理論計算機科学の伝統を色濃く反映している。一方、Tyler R. Josephson は化学工学・化学理論（番号 3・4）の研究者であり、ラングミュアの吸着理論という化学の実応用例（@sec-langmuir 以降で詳述）が題材に含まれるのは、この学際的な布陣によるところが大きい。責任著者 Cornelio が論文出版時点で Samsung AI（番号 2）にも所属している点から、執筆期間中の異動がうかがえる。
+
+**「AI-Descartes」という命名の含意。** デカルトは「われ思う、ゆえにわれあり」で知られる合理論の哲学者だが、彼の方法は経験的観察を理性的演繹で裏づけることにあった。本システムも、データという経験と、公理という理性的前提を組み合わせて法則を「演繹的に」基礎づけようとする。この命名は後継研究 AI-Hilbert [@corywright2024]、AI-Noether [@srivastava2025] へと続く系譜の起点でもある。
+
+:::
+
+### 要旨（Abstract）{#sec-abstract-body}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "We develop a method to enable principled derivations of models of natural phenomena from axiomatic knowledge and experimental data by combining logical reasoning with symbolic regression. […] We show we can discover governing laws from few data points when logical reasoning is used to distinguish between candidate formulae having similar error on the data." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+要旨の全文を、一文ずつ忠実に日本語化する（要約ではなく訳出）。
+
+**第 1 文.**
+原文：*Scientists aim to discover meaningful formulae that accurately describe experimental data.*
+訳：科学者は、実験データを正確に記述する、意味のある数式を発見することを目標とする。
+
+**第 2 文.**
+原文：*Mathematical models of natural phenomena can be manually created from domain knowledge and fitted to data, or, in contrast, created automatically from large datasets with machine-learning algorithms.*
+訳：自然現象の数理モデルは、ドメイン知識から人手で作成してデータに当てはめる（フィッティングする）こともできるし、あるいはそれとは対照的に、大規模なデータセットから機械学習アルゴリズムによって自動的に作成することもできる。
+
+**第 3 文.**
+原文：*The problem of incorporating prior knowledge expressed as constraints on the functional form of a learned model has been studied before, while finding models that are consistent with prior knowledge expressed via general logical axioms is an open problem.*
+訳：学習されるモデルの関数形に対する制約として表現された事前知識を取り込むという問題は、これまでにも研究されてきた。これに対して、一般的な論理公理を介して表現された事前知識と無矛盾（consistent）なモデルを見いだすことは、未解決の問題（open problem）である。
+
+**第 4 文.**
+原文：*We develop a method to enable principled derivations of models of natural phenomena from axiomatic knowledge and experimental data by combining logical reasoning with symbolic regression.*
+訳：我々は、論理的推論と記号回帰を組み合わせることによって、公理的知識と実験データから自然現象のモデルを原理に基づいて導出（principled derivations）することを可能にする手法を開発する。
+
+**第 5 文.**
+原文：*We demonstrate these concepts for Kepler’s third law of planetary motion, Einstein’s relativistic time-dilation law, and Langmuir’s theory of adsorption.*
+訳：我々はこれらの概念を、ケプラーの惑星運動の第三法則、アインシュタインの相対論的な時間の遅れの法則、そしてラングミュアの吸着理論について実証する。
+
+**第 6 文.**
+原文：*We show we can discover governing laws from few data points when logical reasoning is used to distinguish between candidate formulae having similar error on the data.*
+訳：データに対して同程度の誤差をもつ候補式を区別するために論理的推論を用いるとき、我々は少数のデータ点（few data points）からでも支配法則（governing laws）を発見できることを示す。
+
+::: {.callout-tip}
+### 詳細授業：要旨のキーワードを噛み砕く
+
+要旨は短いが、本論文の方法論的立場と貢献が密に圧縮されている。以下、要旨に現れる四つの核心語を、後続章の準備として丁寧に解きほぐす。
+
+**(1) 記号回帰（symbolic regression, SR）とは何か。** 第 2 文の「機械学習アルゴリズムによって自動的に作成」が指す中心技術が記号回帰である。通常の回帰（線形回帰や多項式回帰）では、$y = a x + b$ のように**関数形をあらかじめ固定**し、係数 $a, b$ だけをデータから求める。これに対し記号回帰は、$+, -, \times, \div$ といった演算子を組み合わせて**関数形そのものをデータから探索する**。たとえばケプラーの法則 $p^2 \propto d^3$ のように、変数間の関係式の「形」自体を発見できる点が特徴である。ニューラルネットワークが返す「ブラックボックス」モデルと違い、得られるのは人間が解釈可能な数式であり、必要とするデータ量も少なくて済む。
+
+**(2) 導出可能性（derivable / principled derivations）——本論文の独自性。** タイトルと第 4 文の核心がここにある。多くの記号回帰はデータへの当てはまりの良さだけで式を選ぶ。しかし本論文は、見つけた式が**背景理論（公理）から論理的に導出できるか**を問う。たとえば「ニュートンの運動方程式と万有引力の法則」という公理群から、ケプラーの第三法則が論理的に演繹できることを、自動定理証明器（ATP）を用いて確認する。データに合うだけでなく理論と整合する式を選ぶ——これが「principled（原理に基づく）」の意味である。
+
+**(3) 論理公理（logical axioms）と無矛盾性（consistent）。** 第 3 文は、本論文が解こうとする「未解決問題」を明確に切り分けている。
+- *これまで研究されてきた問題*：関数形への制約（例：「単調増加であれ」「次元が合うこと」）として事前知識を与える。これは式の**形状**への制約である。
+- *本論文が取り組む未解決問題*：一般的な論理公理（一階述語論理で書かれた理論）と**無矛盾**なモデルを見つける。これは式が背景理論から**論理的に導けるか**という、はるかに強い要求である。
+
+両者の違いを、簡単な対比図で示す。
+
+```{mermaid}
+flowchart TB
+    subgraph A["既存研究：関数形への制約"]
+      a1["事前知識を<br/>形状制約に変換<br/>（例: 単調性・次元）"] --> a2["制約を満たす式を探索"]
+    end
+    subgraph B["本論文：論理公理との無矛盾性"]
+      b1["背景理論を<br/>論理公理として記述"] --> b2["公理から導出可能な式を探索"]
+      b2 --> b3["自動定理証明器で<br/>導出可能性を検証"]
+    end
+```
+
+**(4) 少数データ（few data points）からの発見。** 第 6 文は本手法の最も実用的な利点を述べる。データだけに頼る記号回帰では、データ点が少ないと、似た誤差をもつ候補式が多数生まれ、どれが真の法則かを区別できない。本論文は、この**曖昧さを論理的推論で解消する**。すなわち、データへの当てはまりが拮抗する候補のなかから、「背景理論から導出可能なもの」を選び出す。これにより、歴史的にケプラーやアインシュタインが少数の観測から法則を発見したのと同じように、少数データから支配法則を取り出せる、という主張である。
+
+**三つの実証例の役割。** 第 5 文が挙げる三題は、難易度と性質が異なる代表例として選ばれている。
+- **ケプラーの第三法則**（@sec-kepler-law）：物理学の古典。背景理論から完全に導出可能なケースの代表。
+- **アインシュタインの時間の遅れ**（@sec-timedilation）：相対論。テイラー展開など近似を介した導出が問われるケース。
+- **ラングミュアの吸着理論**（@sec-langmuir）：化学・実応用。実データのノイズと向き合う、実世界的なケース。
+
+これら三例を貫く問いは一つ——「データと理論を組み合わせれば、少ないデータからでも正しい法則にたどり着けるか」である。本書はこの問いの答えを、以降の章で実装レベルまで掘り下げていく。
+
+:::

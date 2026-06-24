@@ -1,0 +1,6 @@
+---
+title: "統計的 AI と記号的 AI の統合"
+engine: markdown
+---
+
+{{< include _05-integration.qmd >}}

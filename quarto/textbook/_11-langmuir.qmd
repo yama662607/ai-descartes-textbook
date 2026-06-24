@@ -1,0 +1,383 @@
+## 事例 III：ラングミュアの吸着式 {#sec-langmuir}
+
+本章は論文 **Methods** の小節 "Langmuir's adsorption equation" を精読する。三つの実証題材のうち、ケプラー（@sec-kepler-law）と時間の遅れ（@sec-timedilation）は**物理**の問題であり、背景理論の公理は普遍定数（万有引力定数 $G$、光速 $c$）だけを含んでいた。これに対し本章のラングミュア吸着式は**化学**の問題であり、背景理論が**物質依存の係数**（吸着速度定数 $k_\text{ads}$、脱離速度定数 $k_\text{des}$、全サイト数 $S_0$ など）を含む点が決定的に異なる。
+
+この違いが、本章の主役である**存在量化（existential quantification）による証明の仕組み**（@eq-prove-exists）を生む。記号回帰（SR）はデータから**数値定数**しか出せない（たとえば $f=p/(0.709p+0.157)$）。一方、背景理論から導かれる式（@eq-langmuir-derived）は $k_\text{ads}$, $k_\text{des}$, $S_0$ といった**記号定数**を含む。この両者をどう突き合わせて「導出可能」と判定するかが、本章の核心である。さらに本章では、公理からの導出可能性（@eq-prove）に加えて、**Mathematica で検証する物理的制約の集合 $\mathcal{K}$**（単調性・極限挙動など）を導入し、候補式の絞り込みに用いる。
+
+### ラングミュア吸着式と二サイトモデル {#sec-langmuir-eq}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "The Langmuir adsorption equation (Nobel Prize in Chemistry, 1932) describes a chemical process in which gas molecules contact a surface, and relates the loading $q$ on the surface to the pressure $p$ of the gas: $q = \frac{q_\text{max} K_a p}{1 + K_a p}$. The constants $q_\text{max}$ and $K_a$ characterize the maximum loading and the adsorption strength, respectively. A similar model for a material with two types of adsorption sites yields [the two-site expression]." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+#### 忠実な日本語訳
+
+ラングミュア吸着式（1932 年ノーベル化学賞）[@langmuir1918] は、気体分子が表面に接触する化学過程を記述し、表面への**吸着量** $q$ を気体の**圧力** $p$ に関係づける：
+
+$$
+q = \frac{q_\text{max}\,K_a\,p}{1 + K_a\,p} .
+$$ {#eq-langmuir}
+
+定数 $q_\text{max}$ と $K_a$ は、それぞれ**最大吸着量**と**吸着の強さ**を特徴づける。二種類の吸着サイトをもつ材料に対する類似のモデルは、次式を与える：
+
+$$
+q = \frac{q_{\text{max},1}\,K_{a,1}\,p}{1 + K_{a,1}\,p} + \frac{q_{\text{max},2}\,K_{a,2}\,p}{1 + K_{a,2}\,p} ,
+$$ {#eq-langmuir-2site}
+
+これは各サイトの最大吸着量と吸着の強さをパラメータとしてもつ。@eq-langmuir と @eq-langmuir-2site のパラメータは、線形回帰または非線形回帰を用いて実験データに当てはめられ、材料・気体・温度に依存する。
+
+我々は、メタンのマイカ（雲母）への温度 90 K における吸着について、ラングミュアの 1918 年の論文 [@langmuir1918] のデータを用い、また温度 277 K におけるイソブタンのシリカライトへの吸着について、Sun ら [@sun1998]（Table 1）の研究のデータを用いた。いずれの場合も、特定の $p$ の値に対する $q$ の観測値が与えられており、目標は $q$ を $p$ の関数として表現することである。我々は SR モジュールに演算子 $\{+, -, \times, \div\}$ を与え、2 個および 4 個の定数をもつ最良適合関数を得た。コードは 45 コアで 20 分間実行し、各データセットについてこれらの関数のうち 7 個を表示する。
+
+::: {.callout-tip}
+### 詳細授業：ラングミュア吸着とは何か、なぜ「飽和」するのか
+
+吸着とは、気体（や液体）の分子が固体表面に**くっつく**現象である。圧力 $p$ を上げるほど多くの分子が表面に付くが、表面のサイト（分子がはまる「席」）の数は有限なので、$q$ は際限なく増えず、ある最大値 $q_\text{max}$ で**飽和**する。@eq-langmuir はこの飽和挙動を最小限のパラメータで表す。直観をつかむために二つの極限を見ておこう。
+
+- **低圧極限** $p \to 0$：$K_a p \ll 1$ なので分母 $\approx 1$、$q \approx q_\text{max} K_a\, p$。**圧力に比例**して直線的に増える（ヘンリーの法則）。
+- **高圧極限** $p \to \infty$：$K_a p \gg 1$ なので $q \to q_\text{max}$。**最大吸着量に漸近**する。
+
+この「原点を通り、初期勾配が正で有限、$p\to\infty$ で正の有限値に飽和し、全域で単調増加」という**定性的な形**こそが、後で導入する制約集合 $\mathcal{K}$（@sec-langmuir-K）の中身そのものになる。ラングミュア等温線の形を一度頭に焼き付けておくと、本章の議論が一気に見通せる。
+
+なお @eq-langmuir-2site は、性質の異なる二種類のサイト（たとえば結合の強い席と弱い席）が共存する材料を表す。各項が独立にラングミュア型で飽和し、それらの和になる。後述するように、Sun ら のデータでは SR が見つけた式 $g_5, g_7$ がこの二サイト型と等価な形をもっていた。
+:::
+
+### 背景理論：5 個の公理 {#sec-langmuir-axioms}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "To encode the background theory, following Langmuir's original theory, we elicited the following set $\mathcal{A}$ of axioms: (L1) Site balance, (L2) Adsorption rate model, (L3) Desorption rate model, (L4) Equilibrium assumption, (L5) Mass balance on $q$. ... Langmuir solved these equations to obtain [the derived expression], which corresponds to Eq. (6), where $q_\text{max} = S_0$ and $K_a = k_\text{ads}/k_\text{des}$." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+#### 忠実な日本語訳
+
+背景理論を符号化するために、ラングミュアの original な理論 [@langmuir1918] に従い、次の公理の集合 $\mathcal{A}$ を引き出した：
+
+$$
+\begin{aligned}
+&\text{L1: サイト収支（Site balance)} && S_0 = S + S_a \\
+&\text{L2: 吸着速度モデル（Adsorption rate model)} && r_\text{ads} = k_\text{ads}\,p\,S \\
+&\text{L3: 脱離速度モデル（Desorption rate model)} && r_\text{des} = k_\text{des}\,S_a \\
+&\text{L4: 平衡の仮定（Equilibrium assumption)} && r_\text{ads} = r_\text{des} \\
+&\text{L5: $q$ の質量収支（Mass balance on $q$)} && q = S_a .
+\end{aligned}
+$$ {#eq-langmuir-axioms}
+
+ここで $S_0$ はサイトの総数であり、そのうち $S$ が**未占有（unoccupied）**、$S_a$ が**占有（occupied）**である（L1）。吸着速度 $r_\text{ads}$ は、圧力 $p$ と未占有サイトの数に比例する（L2）。脱離速度 $r_\text{des}$ は、占有サイトの数に比例する（L3）。平衡においては $r_\text{ads} = r_\text{des}$ であり（L4）、吸着される総量 $q$ は占有サイトの数に等しい（L5）。これはモデルが各サイトは高々 1 分子を吸着すると仮定しているためである。ラングミュアはこれらの方程式を解いて、次を得た：
+
+$$
+q = \frac{S_0\,(k_\text{ads}/k_\text{des})\,p}{1 + (k_\text{ads}/k_\text{des})\,p} ,
+$$ {#eq-langmuir-derived}
+
+これは @eq-langmuir に対応し、ここで $q_\text{max} = S_0$ かつ $K_a = k_\text{ads}/k_\text{des}$ である。多サイトのラングミュア式に対する公理的定式化は Supplementary Information に記述されている。さらに、定数と変数は正（たとえば $S_0 > 0$, $S > 0$, $S_a > 0$）または非負（たとえば $q \geq 0$）であるよう制約される。
+
+::: {.callout-tip}
+### 詳細授業：5 個の公理から @eq-langmuir-derived を手で導く
+
+公理は「速度論的平衡」の素朴な記述にすぎない。実際に解いてみると、@eq-langmuir-derived がほぼ自動的に出てくる。これを追体験しておくと、後で定理証明器が何を「導出」しているのかが具体的に分かる。
+
+1. **L4** より $r_\text{ads} = r_\text{des}$。これに **L2, L3** を代入して
+   $$k_\text{ads}\,p\,S = k_\text{des}\,S_a .$$
+2. **L1** より $S = S_0 - S_a$。代入して
+   $$k_\text{ads}\,p\,(S_0 - S_a) = k_\text{des}\,S_a .$$
+3. $S_a$ について解く。左辺を展開し $S_a$ を集めると
+   $$k_\text{ads}\,p\,S_0 = S_a\,(k_\text{des} + k_\text{ads}\,p)
+   \;\Longrightarrow\;
+   S_a = \frac{k_\text{ads}\,p\,S_0}{k_\text{des} + k_\text{ads}\,p} .$$
+4. **L5** より $q = S_a$。分子・分母を $k_\text{des}$ で割れば
+   $$q = \frac{S_0\,(k_\text{ads}/k_\text{des})\,p}{1 + (k_\text{ads}/k_\text{des})\,p} ,$$
+   すなわち @eq-langmuir-derived。$q_\text{max} = S_0$（全サイトが埋まれば最大）、$K_a = k_\text{ads}/k_\text{des}$（吸着と脱離の競合比＝吸着の強さ）という対応も自然に読み取れる。
+
+ここで決定的な観察がある。導出結果 @eq-langmuir-derived には、$S_0$, $k_\text{ads}$, $k_\text{des}$ という**物質依存の記号定数**が残っている。物理（ケプラー・時間遅延）の公理には $G$ や $c$ という普遍定数しか現れなかったのとは対照的で、この「記号定数が残る」性質こそが、次節の存在量化を必要とする原因である。
+:::
+
+### 公理からの導出と存在量化 {#sec-langmuir-prove}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "SR can only generate numerical expressions ... with certain values for constants; for example, the expression $f = p/(0.709p + 0.157)$. ... we cannot use Formula (10) directly to prove formulae generated from SR. Instead, we replace each numerical constant of the formula by a logic variable $c_i$ ... We then quantify the new variables existentially ... The final formulation to prove is: $\exists c_1 \cdots \exists c_n\,(\mathcal{C} \wedge \mathcal{A}) \rightarrow (f' \wedge \mathcal{C}')$." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+#### 忠実な日本語訳
+
+証明すべき論理的定式化は、次のとおりである：
+
+$$
+(\mathcal{C} \wedge \mathcal{A}) \rightarrow f ,
+$$ {#eq-prove}
+
+ここで $\mathcal{C}$ は非負性制約の連言（conjunction）、$\mathcal{A}$ は公理の連言であり、$\mathcal{C}$ と $\mathcal{A}$ の和集合（union）が背景理論 $\mathcal{B}$ を構成する。そして $f$ は我々が証明したい式である。
+
+SR は、入力データに現れる（従属および独立）変数を含み、定数が特定の値をとる**数値的な式しか生成できない**。たとえば式 $f = p/(0.709p + 0.157)$ である。背景理論の変数と定数から構築される式、たとえば @eq-langmuir-derived は、定数（その記号形で）を**明示的に**含む。たとえば $k_\text{ads}$ と $k_\text{des}$ は @eq-langmuir-derived に明示的に現れるが、SR はこれらの定数の比の**数値インスタンスしか生成しない**。したがって、SR から生成された式を証明するために @eq-prove を直接用いることはできない。代わりに、式の各数値定数を論理変数 $c_i$ で置き換える。たとえば、式
+
+$$
+f = p/(0.709p + 0.157)
+$$
+
+は
+
+$$
+f' = p/(c_1 p + c_2)
+$$
+
+で置き換えられ、二つの新しい変数 $c_1$ と $c_2$ が導入される。次に、新しい変数を**存在的に量化（quantify existentially）**し、新しい非負性制約の集合 $\mathcal{C}'$ を定義する。上の例では $\mathcal{C}' = c_1 > 0 \wedge c_2 > 0$ となる。証明すべき最終的な定式化は：
+
+$$
+\exists c_1 \cdots \exists c_n\,(\mathcal{C} \wedge \mathcal{A}) \rightarrow (f' \wedge \mathcal{C}') .
+$$ {#eq-prove-exists}
+
+たとえば、$f' = p/(c_1 p + c_2)$ は、$f'$ が背景理論 $\mathcal{A}$ と制約 $\mathcal{C}$ を満たすような $c_1$ と $c_2$ の値が**存在する**ことを推論器が証明できれば、真であると証明される。ここで $c_1$ と $c_2$ は、定数 $k_\text{ads}$, $k_\text{des}$, $S_0$ および／または実数の関数になりうるが、変数 $q$ と $p$ の関数にはなりえない。
+
+::: {.callout-tip}
+### 詳細授業：なぜ「存在量化」が必要なのか — 数値定数と記号定数の橋渡し
+
+ここが本章で最もつまずきやすい所であり、本書が最も丁寧に補いたい論点である。問題を整理しよう。
+
+**ギャップの正体。** 推論器に「$f$ は公理から導けるか」と尋ねる素朴な式は @eq-prove である。しかし SR が出すのは $f=p/(0.709p+0.157)$ のような**具体的な数値**を含む式、公理から導かれる「正解」は $q = \dfrac{S_0(k_\text{ads}/k_\text{des})p}{1+(k_\text{ads}/k_\text{des})p}$ という**記号定数**を含む式である。両者を見比べると、
+
+$$
+\underbrace{0.709}_{\text{SR の数値}} \;\overset{?}{=}\; \underbrace{\frac{k_\text{ads}/k_\text{des}}{S_0\,(k_\text{ads}/k_\text{des})}}_{\text{記号で書いた係数}},
+\qquad
+\underbrace{0.157}_{\text{SR の数値}} \;\overset{?}{=}\; \underbrace{\frac{1}{S_0\,(k_\text{ads}/k_\text{des})}}_{\text{記号で書いた係数}}
+$$
+
+のように「数値 ＝ 記号定数の組合せ」を成り立たせる $k_\text{ads}, k_\text{des}, S_0$ が**ありさえすればよい**。SR は物質固有の係数の**生の値**を知らない（知る必要もない）。だから「ぴったり一致する係数があるか？」ではなく、「**そういう係数が存在するか？**」を問うのが正しい。これが存在量化のモチベーションである。
+
+**やり方は 2 ステップ。**
+
+1. **抽象化（数値→論理変数）**：$f=p/(0.709p+0.157)$ の数値をすべて自由変数に置き換え、$f'=p/(c_1 p + c_2)$ とする。これで $f'$ は「分母が $p$ の 1 次式である有理式」という**構造**だけを表す。
+2. **存在量化**：$\exists c_1 \exists c_2$ を前に付け、「公理 $\mathcal{A}$ と制約 $\mathcal{C}$ のもとで、$f'$ と新制約 $\mathcal{C}'(=c_1>0\wedge c_2>0)$ をともに成り立たせる $c_1,c_2$ が存在する」を証明対象 @eq-prove-exists とする。
+
+**直観的な言い換え。** 「この**形**（有理式の骨格）は、適切な物質定数を選べばラングミュア理論と整合するか？」を問うている。$f'=p/(c_1p+c_2)$ なら、$c_1=1/q_\text{max}$, $c_2=1/(q_\text{max}K_a)$ と置けば @eq-langmuir に一致するので、整合する係数は存在する → **導出可能**。一方、たとえば二次の項を含む $f$ は、どんな $c_i$ を選んでも単一サイトのラングミュア型にはならないため、整合する係数が存在せず → **導出不能**。
+
+**制約 $c_i$ は何の関数になれるか。** 重要な但し書きとして、$c_1, c_2$ は $k_\text{ads}, k_\text{des}, S_0$ や実数の関数にはなれるが、**変数 $q, p$ の関数にはなれない**。もし $c_i$ が $p$ に依存してよいなら、どんな式でも「定数」を $p$ 依存にして無理やり一致させられてしまい、証明が無意味になる。$c_i$ は飽くまで**物質・系で決まる定数**でなければならない、という条件である。
+:::
+
+### 物理的制約の集合 $\mathcal{K}$ と Mathematica による検証 {#sec-langmuir-K}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "We also consider background knowledge in the form of a list of desired properties of the relation between $p$ and $q$, which helps trim the set of candidate formulae. Thus, we define a collection $\mathcal{K}$ of constraints on $f$, where $q = f(p)$, enforcing monotonicity or certain types of limiting behavior. We use Mathematica to verify that a candidate function satisfies the constraints in $\mathcal{K}$." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+#### 忠実な日本語訳
+
+我々はまた、$p$ と $q$ の関係について望ましい性質のリストという形での背景知識も考慮する。これは候補式の集合を刈り込む（trim）のに役立つ。したがって、$q = f(p)$ である $f$ に対する制約の集合 $\mathcal{K}$ を定義し、**単調性**または**特定の種類の極限挙動**を強制する（Supplementary Information を参照）。候補関数が $\mathcal{K}$ の制約を満たすかどうかを検証するために、我々は Mathematica [@mathematica] を用いる。
+
+::: {.callout-tip}
+### 詳細授業：$\mathcal{K}$ は @sec-langmuir-eq で観察したラングミュア等温線の「形」そのもの
+
+集合 $\mathcal{K}$ の中身は、後掲のコード解説（@sec-langmuir-code）にある `langmuir_constraints_wolfram.txt` から逆算できる。5 個の制約は、まさに @sec-langmuir-eq の詳細授業で観察したラングミュア等温線の定性的特徴を、機械検証可能な数式に翻訳したものである。
+
+| # | 物理的意味 | 数式（$q=f(p)$） |
+|---|------------|------------------|
+| K1 | 原点を通る（圧力ゼロで吸着ゼロ） | $f(0) = 0$ |
+| K2 | 原点での初期勾配が正かつ有限 | $0 < f'(0) < \infty$ |
+| K3 | 高圧で正の有限値に飽和 | $0 < \lim_{p\to\infty} f(p) < \infty$ |
+| K4 | 圧力が正なら吸着量は正 | $\forall p>0:\ f(p) > 0$ |
+| K5 | 全域で単調非減少 | $\forall p>0:\ f'(p) \geq 0$ |
+
+これらは @eq-prove / @eq-prove-exists の「導出可能性」とは**別の絞り込み軸**である点に注意したい。導出可能性は「公理から論理的に導けるか（Yes/No、定理証明器の仕事）」を問い、$\mathcal{K}$ は「定性的に物理として妥当な振る舞いか（5 段階の何個を満たすか、記号計算系の仕事）」を問う。後掲の @tbl-langmuir で、ある式は導出不能だが $\mathcal{K}$ を多く満たし、別の式は導出可能だが $\mathcal{K}$ の充足数が少ない、という**非自明なトレードオフ**が観察される。これが「導出可能性だけ／データ適合だけ」では候補を選び切れないことの具体的な証拠になる。
+:::
+
+### 二データセットの結果（Table 3, Fig. 5） {#sec-langmuir-results}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "Among the top two-constant expressions, $f_1$ fits the data better than $f_2$, which is derivable from the background theory, whereas $f_1$ is not. When we search for four-constant expressions, we get much smaller errors than Eq. (6) or even Eq. (7), but we do not obtain the two-site formula (Eq. (7)) as a candidate expression. For the dataset from Sun et al., $g_2$ has a form equivalent to Langmuir's one-site formula, and $g_5$ and $g_7$ have forms equivalent to Langmuir's two-site formula." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+#### 忠実な日本語訳
+
+@tbl-langmuir において、第 1 列はデータの出典を、第 2 列は我々の SR 実験で用いた「ハイパーパラメータ」を与える。我々は、導出される式に 2 個または 4 個の定数を許す。さらに、$\mathcal{K}$ の最初の制約 $C_1$ は単にデータ点 $p = q = 0$ を加えることでモデル化できるので、「追加点（extra point）」での実験も行う。第 3 列は導出された式を、第 4 列と第 5 列はそれぞれ相対数値誤差 $\varepsilon^r_2$ と $\varepsilon^r_1$ を与える。もしその式が背景理論から導出可能であれば、第 6 列にそれを示す。これらの結果は @fig-langmuir に可視化されている。第 7 列は、各式が満たす $\mathcal{K}$ の制約の個数を示し、Mathematica によって検証されている。
+
+トップの 2 定数の式の中で、$f_1$ は $f_2$ よりもデータによく当てはまるが、背景理論から導出可能なのは $f_2$ であって $f_1$ は導出可能ではない。4 定数の式を探索すると、@eq-langmuir や @eq-langmuir-2site よりもはるかに小さい誤差が得られるが、二サイト式（@eq-langmuir-2site）は候補式としては得られない。Sun ら [@sun1998] のデータセットについては、$g_2$ がラングミュアの単一サイト式と等価な形をもち、$g_5$ と $g_7$ がラングミュアの二サイト式と等価な形をもつ。$q_{\text{max},i}$ と $K_{a,i}$（$i = 1, 2$）の適切な値を伴う。
+
+![表3 | ラングミュア問題の二データセットに対する結果。列は（1）データ出典、（2）定数個数等の条件、（3）導出された式、（4）相対数値誤差 $\varepsilon^r_2$、（5）相対数値誤差 $\varepsilon^r_1$、（6）背景理論からの導出可能性、（7）満たした $\mathcal{K}$ の制約数。$f_2$, $g_2$ が単一サイト式、$g_5$, $g_7$ が二サイト式と等価。$^*$ 印の式は 4 定数指定や追加点ありでも生成される（出典: Cornelio et al. 2023, Table 3, CC BY 4.0 [@cornelio2023]）](../assets/images/table3.png){#tbl-langmuir}
+
+要点を Markdown 表でも併記する（一部抜粋、$\varepsilon^r_2$ / $\varepsilon^r_1$ は相対数値誤差、最右列は $\mathcal{K}$ の充足数）。
+
+| 出典 | 条件 | 式 | $\varepsilon^r_2$ | $\varepsilon^r_1$ | 導出可能 | $\mathcal{K}$ |
+|---|---|---|---|---|---|---|
+| Langmuir | 2 const. | $f_1=\dfrac{p^2+2p-1}{0.00888p^2+0.118p}$ | 0.0631 | 0.0486 | Timeout | 2/5 |
+| Langmuir | 2 const. | $f_2=\dfrac{p}{0.00927p+0.0759}$ | 0.1799 | 0.1258 | **Yes** | **5/5** |
+| Langmuir | 4 const. | $f_3=\dfrac{p^2-10.5p-15}{0.00892p^2-1.23}$ | 0.0443 | 0.0295 | Timeout | 2/5 |
+| Langmuir | 4 const. | $f_4=\dfrac{8.86p+13.9}{0.0787p+1}$ | 0.0658 | 0.0465 | No | 4/5 |
+| Sun et al. | 2 const. | $g_1=\dfrac{p+3}{0.584p+4.01}$ | 0.1625 | 0.1007 | No | 4/5 |
+| Sun et al. | 2 const. | $g_2=\dfrac{p}{0.709p+0.157}$ | 0.9680 | 0.5120 | **Yes** | **5/5** |
+
+![図5 | 二つの吸着データセットに対する記号回帰解。(a) 90 K でのメタンのマイカへの吸着、(b) 277 K でのイソブタンのシリカライトへの吸着。$f_2$ と $g_2$ は単一サイトのラングミュア式に、$g_5$ と $g_7$ は二サイトのラングミュア式に等価（出典: Cornelio et al. 2023, Fig. 5, CC BY 4.0 [@cornelio2023]）](../assets/images/fig5.png){#fig-langmuir}
+
+::: {.callout-tip}
+### 詳細授業：$f_1$ 対 $f_2$ — 「当てはまりの良さ」と「導出可能性」が逆を向く
+
+@tbl-langmuir の最初の 2 行が、本論文全体のメッセージを最も鮮明に示す。
+
+- $f_1=\dfrac{p^2+2p-1}{0.00888p^2+0.118p}$：相対誤差 $\varepsilon^r_1=0.0486$ と**データへの当てはまりが良い**。しかし分子・分母とも $p$ の 2 次式で、これは単一サイトのラングミュア型 $p/(c_1p+c_2)$ にはどんな $c_i$ を選んでも一致しない。実際、原点で $f_1(0)=-1/0$ が発散し $\mathcal{K}$ は 2/5 しか満たさず、**導出可能性は Timeout**（証明器が時間内に判定できず）。
+- $f_2=\dfrac{p}{0.00927p+0.0759}$：相対誤差 $\varepsilon^r_1=0.1258$ と**当てはまりは $f_1$ に劣る**。しかし構造はまさに $p/(c_1p+c_2)$。$\exists c_1\exists c_2$ で @eq-prove-exists が成立し、$\mathcal{K}$ も 5/5 を満たして**導出可能（Yes）**。
+
+つまり「データに最もよく当てはまる式」を選ぶと $f_1$ になるが、それは**物理的に導けない**式である。背景理論との照合（導出可能性と $\mathcal{K}$）を併用して初めて、当てはまりは劣っても**法則として正しい** $f_2$ を選び出せる。これが「データと理論を組み合わせる」という論文タイトルの主張の、最も具体的な実例である。
+
+**4 定数の罠。** 4 定数を許すと $f_3, f_5$ のように誤差は劇的に下がる（$\varepsilon^r_1 \approx 0.03$）。しかし誤差が小さい式ほど高次の有理式になり、$\mathcal{K}$ の充足数は低く、導出も Timeout/No になりがちである。「自由度を増やせば当てはまりは良くなるが、物理的妥当性は犠牲になる」という過適合の典型が、ここでも導出可能性という新しい軸で可視化される。なお、4 定数まで許しても**二サイト式 @eq-langmuir-2site そのもの**は候補に出てこなかった点も率直に報告されている。
+
+**Sun ら のデータでの成功例。** Sun ら のデータでは、$g_2=p/(0.709p+0.157)$ が単一サイト式と等価（Yes, 5/5）であるだけでなく、4 定数＋追加点で得た $g_5, g_7$ が**二サイト式 @eq-langmuir-2site と等価な形**をもっていた。すなわち、適切な実験設定では SR が二サイトのラングミュア理論を再発見しうることが示されている。
+:::
+
+### コード解説：制約 $\mathcal{K}$ の Mathematica 検証 {#sec-langmuir-code}
+
+論文の「$\mathcal{K}$ を Mathematica で検証する」工程は、公式実装の `reasoning/src/pipeline_mathematica.py` と、データ側の `data/langmuir/` の 3 ファイルに直接対応する [@aidescartes_repo]。本節では、論文の手法が実装でどう表れるかをソースを引用して示す。
+
+**(1) 公理 $\mathcal{A}$ と制約 $\mathcal{K}$ のデータ表現。** `data/langmuir/langmuir_axioms.txt` は @eq-langmuir-axioms をそのまま機械可読にしたものである（抜粋）：
+
+```
+S0 = S + Sa
+r_ads = k_ads * P * S
+r_des = k_des * Sa
+r_ads = r_des
+Q = Sa
+```
+
+そして導出すべき正解 `langmuir_formula.txt` は @eq-langmuir-derived と一致する：
+
+```
+Q = ((S0 * (k_ads / k_des)) * P) / (1 + ((k_ads / k_des) * P))
+```
+
+制約集合 $\mathcal{K}$ は `langmuir_constraints_wolfram.txt` に Wolfram 言語の述語として 5 行で書かれている。これが @sec-langmuir-K の表の K1–K5 に対応する：
+
+```
+f(x)==0	x->0
+And[Limit[D[f(x),x],x->0]<Infinity,Limit[D[f(x),x],x->0]>0]
+And[Limit[f(x),x->Infinity]<Infinity,Limit[f(x),x->Infinity]>0]
+Resolve[ForAll[x,Implies[x>0,f(x)>0]]]
+Resolve[ForAll[x,Implies[x>0,D[f(x),x]>=0]],Reals]
+```
+
+順に「原点で 0」「原点の微分が正・有限」「無限大での極限が正・有限」「$x>0$ で正」「$x>0$ で単調増加」であり、@sec-langmuir-K の K1–K5 と完全に一致する。
+
+**(2) 候補式への制約の代入。** `pipeline_mathematica.py` の `combine_expressions` が、候補式の文字列 $f(x)$ を各制約のテンプレートに埋め込み、置換ルール `/.{x->0}` 等を付けて一本の Wolfram 式を組み立てる：
+
+```python
+def combine_expressions(token, expression, axiom):
+    axiom_vector = axiom.split('\t')
+    combined_expression = axiom_vector[0].replace(token, expression)
+    if len(axiom_vector) > 1:
+        combined_expression += '/.{'
+        for condition in axiom_vector[1:]:
+            combined_expression += condition + ","
+        combined_expression = combined_expression[:-1] + '}'
+    return combined_expression
+```
+
+**(3) wolframscript の起動と negation-as-failure。** 各候補式 × 各制約について `call_wolfram` が `wolframscript -code ...` を subprocess 起動し（`mathematica` [@mathematica]）、出力を判定する。`preprecess_pipeline` の判定部が核心である：
+
+```python
+wolfram_output = call_wolfram(condition, debug=debug)
+if 'True' in wolfram_output:
+    results[expression][axiom] = 'YES'
+elif 'False' in wolfram_output:
+    results[expression][axiom] = 'NO'
+elif '$Failed' in wolfram_output:
+    results[expression][axiom] = 'ERROR'
+else:
+    results[expression][axiom] = 'NO'  # negation as failure
+```
+
+最後の `else` 節がポイントで、Mathematica が `True` とも `False` とも判定し切れずに（時間切れや判定不能で）曖昧な出力を返した場合、実装は安全側に倒して `NO`（制約を満たさないとみなす）と判定する。これが **negation-as-failure**（失敗による否定：証明できないものは偽とみなす）である。@tbl-langmuir 第 7 列の「$\mathcal{K}$ の充足数」は、この 5 制約のうち `YES` になった個数として算出されている。
+
+::: {.callout-warning}
+### 実装上の注意：negation-as-failure の不完全性
+
+negation-as-failure は計算を有限時間で打ち切るための実用的な妥協であって、論理的に厳密な否定ではない。Mathematica が判定不能で曖昧を返した制約は、本当は満たされているかもしれないのに `NO` と数えられる。同様に導出可能性（@eq-prove-exists）の判定でも、定理証明器が時間内に証明を見つけられなければ @tbl-langmuir は `Timeout` と記録される（$f_1, f_3, f_6, f_7$ が該当）。「`Timeout` ＝ 導出不能」ではなく「**判定がつかなかった**」である点に注意が要る。これは「データ適合（BARON）」と「導出可能性（KeYmaera X / Mathematica）」を**直列・分離**で解く第一世代システムの構造的弱点であり、後継 AI-Hilbert が両者を単一の最適化に統合する動機の一つとなった [@corywright2024]。
+:::
+
+### 対話デモ：ラングミュア等温線 {#sec-langmuir-demo}
+
+下のスライダーで最大吸着量 $q_\text{max}$ と吸着の強さ $K_a$ を変え、@eq-langmuir の単一サイト等温線がどう変わるかを観察しよう。さらに第二サイトのスイッチを入れると、@eq-langmuir-2site の二サイト等温線（赤の破線）が重ね描きされる。低圧で直線（$q\approx q_\text{max}K_a p$）、高圧で飽和（$q\to q_\text{max}$、二サイトでは $q_{\text{max},1}+q_{\text{max},2}$）という @sec-langmuir-eq の定性挙動を、目で確かめてほしい。
+
+```{ojs}
+//| echo: false
+viewof lm_qmax = Inputs.range([0.5, 5], {step: 0.1, label: tex`q_{\max}\ (\text{site 1})`, value: 3})
+```
+
+```{ojs}
+//| echo: false
+viewof lm_Ka = Inputs.range([0.05, 5], {step: 0.05, label: tex`K_a\ (\text{site 1})`, value: 1})
+```
+
+```{ojs}
+//| echo: false
+viewof lm_twosite = Inputs.toggle({label: tex`\text{二サイト項を重ねる}`, value: false})
+```
+
+```{ojs}
+//| echo: false
+viewof lm_qmax2 = Inputs.range([0.5, 5], {step: 0.1, label: tex`q_{\max,2}\ (\text{site 2})`, value: 2})
+```
+
+```{ojs}
+//| echo: false
+viewof lm_Ka2 = Inputs.range([0.005, 1], {step: 0.005, label: tex`K_{a,2}\ (\text{site 2})`, value: 0.05})
+```
+
+```{pyodide}
+#| autorun: true
+#| input: ["lm_qmax", "lm_Ka", "lm_twosite", "lm_qmax2", "lm_Ka2"]
+import os, warnings, matplotlib
+from matplotlib import font_manager
+warnings.simplefilter("ignore")
+try:
+    from pyodide.http import pyfetch
+    if not os.path.exists("/tmp/NotoSansJP.ttf"):
+        resp = await pyfetch("../../../assets/fonts/NotoSansJP-Regular.ttf")
+        with open("/tmp/NotoSansJP.ttf", "wb") as f:
+            f.write(await resp.bytes())
+    font_manager.fontManager.addfont("/tmp/NotoSansJP.ttf")
+    matplotlib.rcParams["font.family"] = "Noto Sans JP"
+except ImportError:
+    pass
+matplotlib.rcParams["axes.unicode_minus"] = False
+import numpy as np
+import matplotlib.pyplot as plt
+
+p = np.linspace(0, 100, 400)
+
+def langmuir(p, qmax, Ka):
+    return qmax * Ka * p / (1 + Ka * p)
+
+q1 = langmuir(p, lm_qmax, lm_Ka)
+
+fig, ax = plt.subplots(figsize=(7, 4.2))
+ax.plot(p, q1, color="#1f77b4", lw=2.2,
+        label=f"単一サイト  q_max={lm_qmax:.1f}, Ka={lm_Ka:.2f}")
+ax.axhline(lm_qmax, color="#1f77b4", ls=":", lw=1, alpha=0.7)
+
+if lm_twosite:
+    q2 = langmuir(p, lm_qmax, lm_Ka) + langmuir(p, lm_qmax2, lm_Ka2)
+    ax.plot(p, q2, color="#d62728", lw=2.2, ls="--",
+            label=f"二サイト  +(q_max2={lm_qmax2:.1f}, Ka2={lm_Ka2:.3f})")
+    ax.axhline(lm_qmax + lm_qmax2, color="#d62728", ls=":", lw=1, alpha=0.7)
+
+ax.set_xlabel("圧力 p")
+ax.set_ylabel("吸着量 q")
+ax.set_title("ラングミュア吸着等温線（式6 / 式7）")
+ax.set_ylim(bottom=0)
+ax.legend(loc="lower right", fontsize=9)
+ax.grid(alpha=0.3)
+fig.tight_layout()
+plt.gcf()
+```
+
+::: {.callout-note}
+スライダーを動かすと、$q_\text{max}$ が**飽和の高さ**（点線の漸近線）を、$K_a$ が**立ち上がりの急峻さ**（初期勾配 $q_\text{max}K_a$、すなわち何 hPa 程度で飽和に近づくか）を制御することが見て取れる。二サイトを重ねると、強いサイト（大きい $K_a$）が低圧で先に埋まり、弱いサイト（小さい $K_a$）が高圧でゆっくり埋まる「二段の飽和」が現れる。@tbl-langmuir で $g_5, g_7$ がこの二サイト型と等価とされたのは、まさにこの形のデータがイソブタン／シリカライト系で観測されたためである。
+:::

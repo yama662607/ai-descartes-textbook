@@ -1,0 +1,6 @@
+---
+title: "導入：なぜ「導出可能な」発見か"
+engine: markdown
+---
+
+{{< include _02-introduction.qmd >}}

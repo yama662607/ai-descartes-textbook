@@ -1,0 +1,6 @@
+---
+title: "付録：参考文献・用語集・ライセンス"
+engine: markdown
+---
+
+{{< include _13-appendix.qmd >}}

@@ -1,0 +1,6 @@
+---
+title: "距離の一般化：データ誤差 ε と理論誤差 β"
+engine: markdown
+---
+
+{{< include _04-distance.qmd >}}

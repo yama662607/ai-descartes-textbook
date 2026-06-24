@@ -1,0 +1,128 @@
+## 統計的 AI と記号的 AI の統合 {#sec-integration}
+
+::: {.callout-note collapse="true"}
+## 原文（抜粋, English）
+
+> "Our system consists mainly of an SR module and a reasoning module. The SR module returns multiple candidate symbolic models (or formulae) expressing $y$ as a function of $x_1, \ldots, x_n$ and that fit the data. For each of these models, the system outputs the distance $\varepsilon(f)$ between $f$ and $D$ and the distance $\beta(f)$ between $f$ and $B$." — Cornelio et al. 2023 [@cornelio2023]
+
+> "Moreover, the reasoning module can prove that a model is not derivable by returning counterexample points that satisfy $B$ but do not fit the model." — Cornelio et al. 2023 [@cornelio2023]
+
+:::
+
+### 忠実な日本語訳 {#sec-integration-translation}
+
+本システムは、主として **SR モジュール**（記号回帰モジュール）と**推論モジュール**の二つから構成される。SR モジュールは、$y$ を $x_1, \ldots, x_n$ の関数として表現し、かつデータに適合する**複数の候補となる記号モデル（または式）を返す**。これらのモデルのそれぞれについて、本システムは $f$ と $D$ の間の距離 $\varepsilon(f)$、および $f$ と $B$ の間の距離 $\beta(f)$ を出力する。以後、$\varepsilon(f)$ と $\beta(f)$ を**誤差**とも呼ぶことにする。これらの関数はまた、関数形に関する指定された制約（$C$ に含まれるもの）と、モデラーが指定した精度および複雑度の水準（$M$ に含まれるもの）を満たすかどうかについても検査される。
+
+これらのモデルが（背景理論 $B$ とともに）推論モジュールに渡されると、それらは**導出可能性**について検査される。あるモデルが $B$ から導出可能であると判明した場合、それは予測のために選ばれたモデルとして返される。そうでなく、推論モジュールが**いずれの候補モデルも導出可能でない**と結論づけた場合には、追加のデータを収集するか、あるいは制約を追加することが必要となる。この場合、推論モジュールは、距離 $\beta$ に基づいて、入力された候補仮説の集合に対する**品質評価**を返し、モデラーが指定した $\beta$ の範囲を満たさないモデルを除去する。
+
+距離（または誤差）$\beta$ は、数値データから導かれた関数（または式）$f$ と、背景理論 $B$ に含まれる公理の集合によって**暗黙のうちに定義され**、かつ関心のある変数 $y$ によって論理的に表現される**導出可能な関数 $f_B$** との間で計算される。関数 $f_B$ と他の任意の式 $f$ との間の距離は、背景理論と式 $f$ のみに依存し、$f_B$ の特定の関数形には依存しない。さらに推論モジュールは、$B$ を満たすがモデルには適合しない**反例の点**を返すことによって、あるモデルが導出可能でないことを証明できる。
+
+### 詳細授業：二つのモジュールの役割分担 {#sec-integration-lesson}
+
+::: {.callout-tip}
+## なぜ二つに分けるのか — 「統計的 AI」と「記号的 AI」の分業
+
+本論文の表題にある「統計的 AI（statistical AI）」と「記号的 AI（symbolic AI）」の統合とは、ここで言う **SR モジュール（統計的・データ駆動）** と **推論モジュール（記号的・論理駆動）** の連携のことを指す。歴史的に AI は、データから関数を当てはめる**統計的アプローチ**（ニューラルネット・回帰）と、記号と論理規則で推論する**記号的アプローチ**（定理証明・知識表現）の二派に分かれてきた。前者は「データに合うか」を測れるが「なぜ正しいか」を語れない。後者は「論理的に正しいか」を語れるが「現実のデータに合うか」を直接は測れない。本システムは、この二つを**直列につないで互いの弱点を補う**点に新規性がある。
+
+直感的な対応づけは次の通りである。
+
+- **SR モジュール = 仮説を作る側（生成）**：データ $D$ を見て、当てはまりそうな式の候補を**たくさん**作る。各候補にデータからの距離 $\varepsilon(f)$ と理論からの距離 $\beta(f)$ を付ける。
+- **推論モジュール = 仮説を吟味する側（検証）**：背景理論 $B$ と照らし、各候補が公理から**導出可能か**を判定する。導けなければ、$\beta$ による品質評価で順位づけし、さらに**反例**で「なぜ導けないか」を具体的に示す。
+
+:::
+
+#### SR モジュールの役割：候補式を複数生成し $\varepsilon, \beta$ を付す {#sec-integration-sr}
+
+SR モジュールの出力は「最良の 1 式」ではなく、**複数の候補式の集合**であることに注意したい。これは設計上きわめて重要である。SR が単独で「データに最も合う 1 式」を選んでしまうと、後段の推論で「実は理論から導けない」と分かったときに打つ手がなくなる。候補を複数残しておくことで、推論モジュールが「データ適合は二番手だが理論的には導出可能」な式を選び直せる余地が生まれる。
+
+各候補 $f$ に対して、SR モジュールは二つの距離を計算する。
+
+- $\varepsilon(f)$：$f$ と**データ $D$** の距離（＝従来の当てはまり誤差。@sec-distance で導入した数値誤差に対応）。
+- $\beta(f)$：$f$ と**背景理論 $B$** の距離（＝後段で推論モジュールが計算する推論誤差。$f$ が $B$ から導出可能なとき $\beta(f)=0$）。
+
+さらに各候補は、$C$ に書かれた**関数形の制約**（不変性・単調性など）と、$M$ に書かれた**精度・複雑度の水準**を満たすかどうかでもふるいにかけられる。つまり SR モジュールは「データに合い、かつモデラーの好む形をした」候補を絞り込んで推論モジュールへ渡す。
+
+```{mermaid}
+flowchart LR
+  D[(データ D)] --> SR[SR モジュール<br/>候補式を複数生成]
+  C[制約 C] -.形のふるい.-> SR
+  M[選好 M] -.精度・複雑度のふるい.-> SR
+  SR -->|候補 f1, f2, …<br/>各々に ε(f), β(f)| R[推論モジュール]
+  B[背景理論 B] --> R
+  R -->|導出可能| OUT[選定モデル<br/>予測に使用]
+  R -->|どれも導出不可| Q[β による品質評価<br/>+ 反例]
+  Q -.データ追加 / 制約追加.-> SR
+```
+
+#### 推論モジュールの役割：導出可能性の判定と、不可なら品質評価＋反例 {#sec-integration-reasoning}
+
+推論モジュールには三つの仕事がある。ここが本システムの「記号的 AI」の心臓部である。
+
+1. **導出可能性の判定**：候補 $f$ と背景理論 $B$ を受け取り、$B \to f$ が論理的に導けるかを定理証明器で確かめる。導ければ $f$ を**選定モデル**として返す。これがゴールであり、「データに合うだけ」ではなく「理論からも導ける」式が得られたことを意味する。
+2. **品質評価（導出不可のとき）**：どの候補も導出できない場合、$\beta$ に基づいて候補集合を採点し、モデラーが指定した $\beta$ の範囲を超えるものを除去する。**完全な証明が得られなくても、「どれが最も導出可能な式に近いか」を $\beta$ で定量化できる**点が本論文の核心的な貢献である（@sec-distance の一般化された距離の概念がここで活きる）。
+3. **反例の提示**：推論モジュールは、$B$ を満たすが候補 $f$ には合わない**点**を返すことで、$f$ が導出不可であることを構成的に証明できる。これは「なぜ導けないか」を抽象的な不可判定ではなく**具体的な反証データ**として示すもので、モデラーが式を修正する手がかりになる。
+
+::: {.callout-important}
+## $f_B$ は「形」ではなく「関数」である — 距離 $\beta$ が関数形に依存しない理由
+
+$\beta$ は、データ由来の式 $f$ と「導出可能な関数 $f_B$」との距離だが、ここで $f_B$ は**特定の数式の見た目（関数形）として与えられているのではなく**、公理集合 $B$ によって暗黙のうちに定義される関数である。@sec-problem で述べたように、$B$ が完全かつ無矛盾であれば、関心変数 $y$ を表す導出可能な関数 $f_B$ は**一意**に定まる（ただし定義域上で等価な複数の関数形を持ちうる）。
+
+したがって $f$ と $f_B$ の距離は「$B$ と $f$ だけ」で決まり、$f_B$ をどんな数式で書き下すか（$x$ と書くか $x^2$ と書くか、等）には**依存しない**。これが、原論文が「distance ... depends only on the background theory and the formula $f$ and not on any particular functional form of $f_B$」と述べている意味である。実装上は、$f_B$ を陽に持たずに、公理 $B$ から「$f$ がどれだけ離れているか」を定理証明器で測る（@sec-integration-code 参照）。
+
+:::
+
+### システム概要図 {#sec-integration-figure}
+
+@fig-system に、本システムの詳細な模式図を示す。発見サイクル（@fig-cycle）を構成要素のレベルまで展開したもので、**色付きの構成要素が本論文で提示するシステム**に対応し、**灰色の構成要素**は科学的発見のための標準的な技術（人手によるもの・人工的なもの）のうち、**現行の実装にはまだ統合されていない**ものを表す。色は @fig-cycle の発見サイクルの対応する構成要素と一致する。
+
+本システムは、記号回帰によってデータから仮説（候補式）を生成し、それらを**予想（conjecture）として自動演繹推論システムに与える**。推論システムは、背景理論に基づいてそれらを証明または反証するか、あるいは推論に基づく品質評価を提供する。
+
+![図3 | システム概要。色付きの構成要素が本論文のシステム、灰色の構成要素は未統合の標準的発見技術（人手・人工いずれも）を表す。色は発見サイクル（Fig. 2）の対応要素と一致する（出典: Cornelio et al. 2023, Fig. 3, CC BY 4.0 [@cornelio2023]）。](../assets/images/fig3.png){#fig-system}
+
+::: {.callout-tip}
+## 図の読み方 — 色付き＝実装済み、灰色＝将来の拡張
+
+@fig-system を流れに沿って読むと、本システムの「いま動く部分」と「構想だけの部分」が一目で分かる。
+
+- **色付き（実装済み）**：データ（Numerical）→ **Symbolic Regression**（候補式の生成）→ **Reasoning System**（導出可能性の判定・反証・品質評価）の本流。背景知識のうち **Background Theory（論理公理）** と、候補をふるう **Complexity / Modeler Preferences**、そして最終の判定（`New formula discovered!` か、`Are there good enough candidates?` を経た再試行ループ）。
+- **灰色（未統合）**：**Hypothesis Class**（文法による仮説クラスの自動構築）、**Uncertainty Quantification**（不確実性の定量化）、**Abductive Reasoning**（欠落公理を補うアブダクション）、**Experimental Design**（最適な追加データの設計）。これらは @sec-problem の入力 $\langle B, C, D, M \rangle$ や Discussion で「将来の拡張」として言及される要素に対応する。
+
+灰色を「やり残し」ではなく**ロードマップ**として読むのが正しい。実際、アブダクションは後継研究 AI-Noether [@srivastava2025] が、データと理論の密結合は AI-Hilbert [@corywright2024] が引き継いで実装した（@sec-lineage 参照）。
+
+:::
+
+### コード解説：推論モジュールはどう実装されているか {#sec-integration-code}
+
+本節で述べた「導出可能性の判定」「$\beta$ による品質評価」「反例の提示」は、公式実装 `repos/AI-Descartes/reasoning/src/pipeline_keymaera_3problems.py` に対応物がある。推論モジュールが計算する「測度（measure）」の一覧が、ファイル先頭で次のように定義されている。
+
+```python
+# pipeline_keymaera_3problems.py:26
+MEASURES = ['interval', 'dependencies', 'pointwiseL2',
+            'pointwiseLinf_efficient', 'derivation', 'weak_derivation']
+```
+
+このうち `derivation` / `weak_derivation` が本節の「**導出可能性の判定**」に、`pointwiseL2` / `pointwiseLinf_efficient` / `interval` が「**$\beta$ による品質評価**（推論誤差の計算）」に対応する。それぞれの定義は @sec-pointwise 以降で詳述するが、ここでは役割分担との対応だけ押さえておく。
+
+判定そのものは、候補式と公理から「公理 $\to$ 式」という含意を `.kyx`（KeYmaera X のモデルファイル）として書き出し（`convert_problem_keymaera`）、定理証明器を subprocess 起動して証明させる（`call_keymaera`）構造になっている。
+
+```python
+# pipeline_keymaera_3problems.py:240 付近（要旨）
+def call_keymaera(file_name, tool='mathematica'):
+    # java -jar keymaerax.jar -tool mathematica -prove file.kyx を実行し
+    # PROVED / not proved / timeout を返す
+```
+
+`derivation` が「数値定数のまま導けるか」を問うのに対し、`weak_derivation` は数値定数を論理変数 $c_1, \ldots, c_n$ に置き換え、$\exists c_1 \cdots \exists c_n$ で量化したうえで「適切な定数を選べば構造として導出可能か」を問う。これは「定数は未知でも**式の骨格**が理論から導けるか」という、本論文の核心アイデアのコード化である。
+
+そして本節末尾で訳出した「反例の提示」は、`counterexample_generator()` 関数（同ファイル 640 行付近）に対応する。$B$ を満たす点を探索して候補式に与え、式が成り立たない点（反例）を返す実装になっている。
+
+```python
+# pipeline_keymaera_3problems.py:640 付近（要旨）
+def counterexample_generator(constants, variables, interestvariable,
+                             axioms, file_name_input, data,
+                             precision, lowerbound, upperbound):
+    # KeYmaera の反例探索タクティク（cex）を用い、
+    # B は満たすが式には合わない点を二分探索的に返す
+```
+
+このように、本節の概念（SR が候補と $\varepsilon, \beta$ を生成 → 推論が導出可能性を判定し、不可なら $\beta$ で品質評価し反例を返す）は、SR モジュール（Java/EMF, `symbolic-regression/emf/`）と推論モジュール（Python/KeYmaera, `reasoning/src/`）という**二つの独立した実装**として、文字列で受け渡される疎結合のパイプラインに具体化されている。

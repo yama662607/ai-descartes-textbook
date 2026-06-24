@@ -1,0 +1,6 @@
+---
+title: "考察"
+engine: markdown
+---
+
+{{< include _08-discussion.qmd >}}

@@ -1,0 +1,8 @@
+---
+title: "事例 I：ケプラーの第三法則"
+engine: markdown
+filters:
+  - r-wasm/live
+---
+
+{{< include _09-kepler.qmd >}}

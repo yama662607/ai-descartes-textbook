@@ -1,0 +1,6 @@
+---
+title: "タイトル・著者・要旨"
+engine: markdown
+---
+
+{{< include _01-abstract.qmd >}}
