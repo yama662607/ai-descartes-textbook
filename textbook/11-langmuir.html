@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>事例 III：ラングミュアの吸着式 – AI-Descartes 精読教科書</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../textbook/12-limitations.html" rel="next">
+<link href="../textbook/10-timedilation.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-3e8480e34e3b36c3885f95ed1670e7a8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "一致なし",
+    "search-matching-documents-text": "一致した文書",
+    "search-copy-link-title": "検索へのリンクをコピー",
+    "search-hide-matches-text": "追加の検索結果を非表示",
+    "search-more-match-text": "追加の検索結果",
+    "search-more-matches-text": "追加の検索結果",
+    "search-clear-button-title": "消去",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "検索",
+    "search-label": "サーチ"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!--
+  Quarto Live (filter mode) does not auto-load plotly.js even when a
+  {pyodide} cell uses plotly. Load it from CDN once per page so that
+  mime-type renders (`Plotly.newPlot(...)`) work.
+-->
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../templates/styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">AI-Descartes 精読教科書</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="サーチ"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">ホーム</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/yama662607/ai-descartes-textbook" title="ソースコード" class="quarto-navigation-tool px-1" aria-label="ソースコード"><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../textbook/09-kepler.html">第 IV 部 — 事例研究（Methods）</a></li><li class="breadcrumb-item"><a href="../textbook/11-langmuir.html"><span class="chapter-title">事例 III：ラングミュアの吸着式</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">AI-Descartes 精読教科書</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 I 部 — 導入と全体像</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/00-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">本書の歩き方と AI-Descartes 全体像</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/01-abstract.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">タイトル・著者・要旨</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/02-introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">導入：なぜ「導出可能な」発見か</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 II 部 — AI-Descartes の枠組み（Results）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/03-problem.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">発見の形式的定式化 ⟨B, C, D, M⟩</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/04-distance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">距離の一般化：データ誤差 ε と理論誤差 β</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/05-integration.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">統計的 AI と記号的 AI の統合</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/06-interplay.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">データと理論の相互作用：MINLP-SR と定理証明</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/07-validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">実験的検証の全体像</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 III 部 — 考察（Discussion）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/08-discussion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">考察</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 IV 部 — 事例研究（Methods）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/09-kepler.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 I：ケプラーの第三法則</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/10-timedilation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 II：相対論的時間遅延</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/11-langmuir.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">事例 III：ラングミュアの吸着式</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/12-limitations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">システムの限界と将来の発展</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 V 部 — 付録</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/13-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">付録：参考文献・用語集・ライセンス</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">このページの目次</h2>
+   
+  <ul class="collapse">
+  <li><a href="#sec-langmuir" id="toc-sec-langmuir" class="nav-link active" data-scroll-target="#sec-langmuir">事例 III：ラングミュアの吸着式</a></li>
+  <li><a href="#sec-langmuir-faq" id="toc-sec-langmuir-faq" class="nav-link" data-scroll-target="#sec-langmuir-faq">よくある質問（FAQ）</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/yama662607/ai-descartes-textbook/edit/main/textbook/11-langmuir.qmd" class="toc-action"><i class="bi bi-github"></i>編集</a></li><li><a href="https://github.com/yama662607/ai-descartes-textbook/issues/new" class="toc-action"><i class="bi empty"></i>問題を報告</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../textbook/09-kepler.html">第 IV 部 — 事例研究（Methods）</a></li><li class="breadcrumb-item"><a href="../textbook/11-langmuir.html"><span class="chapter-title">事例 III：ラングミュアの吸着式</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">事例 III：ラングミュアの吸着式</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> コード</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">すべてのコードを表示</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">すべてのコードを非表示</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">ソースコードを表示</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-langmuir" class="level2">
+<h2 class="anchored" data-anchor-id="sec-langmuir">事例 III：ラングミュアの吸着式</h2>
+<p>本章は論文 <strong>Methods</strong> の小節 “Langmuir’s adsorption equation” を精読する。三つの実証題材のうち、ケプラー（<a href="09-kepler.html#sec-kepler-law" class="quarto-xref"><span>ケプラーの第三法則と背景理論</span></a>）と時間の遅れ（<a href="10-timedilation.html#sec-timedilation" class="quarto-xref"><span>事例 II：相対論的時間遅延</span></a>）は<strong>物理</strong>の問題であり、背景理論の公理は普遍定数（万有引力定数 <span class="math inline">G</span>、光速 <span class="math inline">c</span>）だけを含んでいた。これに対し本章のラングミュア吸着式は<strong>化学</strong>の問題であり、背景理論が<strong>物質依存の係数</strong>（吸着速度定数 <span class="math inline">k_\text{ads}</span>、脱離速度定数 <span class="math inline">k_\text{des}</span>、全サイト数 <span class="math inline">S_0</span> など）を含む点が決定的に異なる。</p>
+<p>この違いが、本章の主役である<strong>存在量化（existential quantification）による証明の仕組み</strong>（<a href="#eq-prove-exists" class="quarto-xref">式&nbsp;<span>13.6</span></a>）を生む。記号回帰（SR）はデータから<strong>数値定数</strong>しか出せない（たとえば <span class="math inline">f=p/(0.709p+0.157)</span>）。一方、背景理論から導かれる式（<a href="#eq-langmuir-derived" class="quarto-xref">式&nbsp;<span>13.4</span></a>）は <span class="math inline">k_\text{ads}</span>, <span class="math inline">k_\text{des}</span>, <span class="math inline">S_0</span> といった<strong>記号定数</strong>を含む。この両者をどう突き合わせて「導出可能」と判定するかが、本章の核心である。さらに本章では、公理からの導出可能性（<a href="#eq-prove" class="quarto-xref">式&nbsp;<span>13.5</span></a>）に加えて、<strong>Mathematica で検証する物理的制約の集合 <span class="math inline">\mathcal{K}</span></strong>（単調性・極限挙動など）を導入し、候補式の絞り込みに用いる。</p>
+<section id="sec-langmuir-eq" class="level3">
+<h3 class="anchored" data-anchor-id="sec-langmuir-eq">ラングミュア吸着式と二サイトモデル</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“The Langmuir adsorption equation (Nobel Prize in Chemistry, 1932) describes a chemical process in which gas molecules contact a surface, and relates the loading <span class="math inline">q</span> on the surface to the pressure <span class="math inline">p</span> of the gas: <span class="math inline">q = \frac{q_\text{max} K_a p}{1 + K_a p}</span>. The constants <span class="math inline">q_\text{max}</span> and <span class="math inline">K_a</span> characterize the maximum loading and the adsorption strength, respectively. A similar model for a material with two types of adsorption sites yields [the two-site expression].” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio, Dash, ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<section id="忠実な日本語訳" class="level4">
+<h4 class="anchored" data-anchor-id="忠実な日本語訳">忠実な日本語訳</h4>
+<p>ラングミュア吸着式（1932 年ノーベル化学賞）<span class="citation" data-cites="langmuir1918">(<a href="#ref-langmuir1918" role="doc-biblioref">Langmuir 1918</a>)</span> は、気体分子が表面に接触する化学過程を記述し、表面への<strong>吸着量</strong> <span class="math inline">q</span> を気体の<strong>圧力</strong> <span class="math inline">p</span> に関係づける：</p>
+<p><span id="eq-langmuir"><span class="math display">
+q = \frac{q_\text{max}\,K_a\,p}{1 + K_a\,p} .
+\tag{13.1}</span></span></p>
+<p>定数 <span class="math inline">q_\text{max}</span> と <span class="math inline">K_a</span> は、それぞれ<strong>最大吸着量</strong>と<strong>吸着の強さ</strong>を特徴づける。二種類の吸着サイトをもつ材料に対する類似のモデルは、次式を与える：</p>
+<p><span id="eq-langmuir-2site"><span class="math display">
+q = \frac{q_{\text{max},1}\,K_{a,1}\,p}{1 + K_{a,1}\,p} + \frac{q_{\text{max},2}\,K_{a,2}\,p}{1 + K_{a,2}\,p} ,
+\tag{13.2}</span></span></p>
+<p>これは各サイトの最大吸着量と吸着の強さをパラメータとしてもつ。<a href="#eq-langmuir" class="quarto-xref">式&nbsp;<span>13.1</span></a> と <a href="#eq-langmuir-2site" class="quarto-xref">式&nbsp;<span>13.2</span></a> のパラメータは、線形回帰または非線形回帰を用いて実験データに当てはめられ、材料・気体・温度に依存する。</p>
+<p>我々は、メタンのマイカ（雲母）への温度 90 K における吸着について、ラングミュアの 1918 年の論文 <span class="citation" data-cites="langmuir1918">(<a href="#ref-langmuir1918" role="doc-biblioref">Langmuir 1918</a>)</span> のデータを用い、また温度 277 K におけるイソブタンのシリカライトへの吸着について、Sun ら <span class="citation" data-cites="sun1998">(<a href="#ref-sun1998" role="doc-biblioref">Sun ほか 1998</a>)</span>（Table 1）の研究のデータを用いた。いずれの場合も、特定の <span class="math inline">p</span> の値に対する <span class="math inline">q</span> の観測値が与えられており、目標は <span class="math inline">q</span> を <span class="math inline">p</span> の関数として表現することである。我々は SR モジュールに演算子 <span class="math inline">\{+, -, \times, \div\}</span> を与え、2 個および 4 個の定数をもつ最良適合関数を得た。コードは 45 コアで 20 分間実行し、各データセットについてこれらの関数のうち 7 個を表示する。</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：ラングミュア吸着とは何か、なぜ「飽和」するのか
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>吸着とは、気体（や液体）の分子が固体表面に<strong>くっつく</strong>現象である。圧力 <span class="math inline">p</span> を上げるほど多くの分子が表面に付くが、表面のサイト（分子がはまる「席」）の数は有限なので、<span class="math inline">q</span> は際限なく増えず、ある最大値 <span class="math inline">q_\text{max}</span> で<strong>飽和</strong>する。<a href="#eq-langmuir" class="quarto-xref">式&nbsp;<span>13.1</span></a> はこの飽和挙動を最小限のパラメータで表す。直観をつかむために二つの極限を見ておこう。</p>
+<ul>
+<li><strong>低圧極限</strong> <span class="math inline">p \to 0</span>：<span class="math inline">K_a p \ll 1</span> なので分母 <span class="math inline">\approx 1</span>、<span class="math inline">q \approx q_\text{max} K_a\, p</span>。<strong>圧力に比例</strong>して直線的に増える（ヘンリーの法則）。</li>
+<li><strong>高圧極限</strong> <span class="math inline">p \to \infty</span>：<span class="math inline">K_a p \gg 1</span> なので <span class="math inline">q \to q_\text{max}</span>。<strong>最大吸着量に漸近</strong>する。</li>
+</ul>
+<p>この「原点を通り、初期勾配が正で有限、<span class="math inline">p\to\infty</span> で正の有限値に飽和し、全域で単調増加」という<strong>定性的な形</strong>こそが、後で導入する制約集合 <span class="math inline">\mathcal{K}</span>（<a href="#sec-langmuir-K" class="quarto-xref"><span>物理的制約の集合 \mathcal{K} と Mathematica による検証</span></a>）の中身そのものになる。ラングミュア等温線の形を一度頭に焼き付けておくと、本章の議論が一気に見通せる。</p>
+<p>なお <a href="#eq-langmuir-2site" class="quarto-xref">式&nbsp;<span>13.2</span></a> は、性質の異なる二種類のサイト（たとえば結合の強い席と弱い席）が共存する材料を表す。各項が独立にラングミュア型で飽和し、それらの和になる。後述するように、Sun ら のデータでは SR が見つけた式 <span class="math inline">g_5, g_7</span> がこの二サイト型と等価な形をもっていた。</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-langmuir-axioms" class="level3">
+<h3 class="anchored" data-anchor-id="sec-langmuir-axioms">背景理論：5 個の公理</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“To encode the background theory, following Langmuir’s original theory, we elicited the following set <span class="math inline">\mathcal{A}</span> of axioms: (L1) Site balance, (L2) Adsorption rate model, (L3) Desorption rate model, (L4) Equilibrium assumption, (L5) Mass balance on <span class="math inline">q</span>. … Langmuir solved these equations to obtain [the derived expression], which corresponds to Eq. (6), where <span class="math inline">q_\text{max} = S_0</span> and <span class="math inline">K_a = k_\text{ads}/k_\text{des}</span>.” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio, Dash, ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<section id="忠実な日本語訳-1" class="level4">
+<h4 class="anchored" data-anchor-id="忠実な日本語訳-1">忠実な日本語訳</h4>
+<p>背景理論を符号化するために、ラングミュアの original な理論 <span class="citation" data-cites="langmuir1918">(<a href="#ref-langmuir1918" role="doc-biblioref">Langmuir 1918</a>)</span> に従い、次の公理の集合 <span class="math inline">\mathcal{A}</span> を引き出した：</p>
+<p><span id="eq-langmuir-axioms"><span class="math display">
+\begin{aligned}
+&amp;\text{L1: サイト収支（Site balance)} &amp;&amp; S_0 = S + S_a \\
+&amp;\text{L2: 吸着速度モデル（Adsorption rate model)} &amp;&amp; r_\text{ads} = k_\text{ads}\,p\,S \\
+&amp;\text{L3: 脱離速度モデル（Desorption rate model)} &amp;&amp; r_\text{des} = k_\text{des}\,S_a \\
+&amp;\text{L4: 平衡の仮定（Equilibrium assumption)} &amp;&amp; r_\text{ads} = r_\text{des} \\
+&amp;\text{L5: $q$ の質量収支（Mass balance on $q$)} &amp;&amp; q = S_a .
+\end{aligned}
+\tag{13.3}</span></span></p>
+<p>ここで <span class="math inline">S_0</span> はサイトの総数であり、そのうち <span class="math inline">S</span> が<strong>未占有（unoccupied）</strong>、<span class="math inline">S_a</span> が<strong>占有（occupied）</strong>である（L1）。吸着速度 <span class="math inline">r_\text{ads}</span> は、圧力 <span class="math inline">p</span> と未占有サイトの数に比例する（L2）。脱離速度 <span class="math inline">r_\text{des}</span> は、占有サイトの数に比例する（L3）。平衡においては <span class="math inline">r_\text{ads} = r_\text{des}</span> であり（L4）、吸着される総量 <span class="math inline">q</span> は占有サイトの数に等しい（L5）。これはモデルが各サイトは高々 1 分子を吸着すると仮定しているためである。ラングミュアはこれらの方程式を解いて、次を得た：</p>
+<p><span id="eq-langmuir-derived"><span class="math display">
+q = \frac{S_0\,(k_\text{ads}/k_\text{des})\,p}{1 + (k_\text{ads}/k_\text{des})\,p} ,
+\tag{13.4}</span></span></p>
+<p>これは <a href="#eq-langmuir" class="quarto-xref">式&nbsp;<span>13.1</span></a> に対応し、ここで <span class="math inline">q_\text{max} = S_0</span> かつ <span class="math inline">K_a = k_\text{ads}/k_\text{des}</span> である。多サイトのラングミュア式に対する公理的定式化は Supplementary Information に記述されている。さらに、定数と変数は正（たとえば <span class="math inline">S_0 &gt; 0</span>, <span class="math inline">S &gt; 0</span>, <span class="math inline">S_a &gt; 0</span>）または非負（たとえば <span class="math inline">q \geq 0</span>）であるよう制約される。</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：5 個の公理から <a href="#eq-langmuir-derived" class="quarto-xref">式&nbsp;<span>13.4</span></a> を手で導く
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>公理は「速度論的平衡」の素朴な記述にすぎない。実際に解いてみると、<a href="#eq-langmuir-derived" class="quarto-xref">式&nbsp;<span>13.4</span></a> がほぼ自動的に出てくる。これを追体験しておくと、後で定理証明器が何を「導出」しているのかが具体的に分かる。</p>
+<ol type="1">
+<li><strong>L4</strong> より <span class="math inline">r_\text{ads} = r_\text{des}</span>。これに <strong>L2, L3</strong> を代入して <span class="math display">k_\text{ads}\,p\,S = k_\text{des}\,S_a .</span></li>
+<li><strong>L1</strong> より <span class="math inline">S = S_0 - S_a</span>。代入して <span class="math display">k_\text{ads}\,p\,(S_0 - S_a) = k_\text{des}\,S_a .</span></li>
+<li><span class="math inline">S_a</span> について解く。左辺を展開し <span class="math inline">S_a</span> を集めると <span class="math display">k_\text{ads}\,p\,S_0 = S_a\,(k_\text{des} + k_\text{ads}\,p)
+\;\Longrightarrow\;
+S_a = \frac{k_\text{ads}\,p\,S_0}{k_\text{des} + k_\text{ads}\,p} .</span></li>
+<li><strong>L5</strong> より <span class="math inline">q = S_a</span>。分子・分母を <span class="math inline">k_\text{des}</span> で割れば <span class="math display">q = \frac{S_0\,(k_\text{ads}/k_\text{des})\,p}{1 + (k_\text{ads}/k_\text{des})\,p} ,</span> すなわち <a href="#eq-langmuir-derived" class="quarto-xref">式&nbsp;<span>13.4</span></a>。<span class="math inline">q_\text{max} = S_0</span>（全サイトが埋まれば最大）、<span class="math inline">K_a = k_\text{ads}/k_\text{des}</span>（吸着と脱離の競合比＝吸着の強さ）という対応も自然に読み取れる。</li>
+</ol>
+<p>ここで決定的な観察がある。導出結果 <a href="#eq-langmuir-derived" class="quarto-xref">式&nbsp;<span>13.4</span></a> には、<span class="math inline">S_0</span>, <span class="math inline">k_\text{ads}</span>, <span class="math inline">k_\text{des}</span> という<strong>物質依存の記号定数</strong>が残っている。物理（ケプラー・時間遅延）の公理には <span class="math inline">G</span> や <span class="math inline">c</span> という普遍定数しか現れなかったのとは対照的で、この「記号定数が残る」性質こそが、次節の存在量化を必要とする原因である。</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-langmuir-prove" class="level3">
+<h3 class="anchored" data-anchor-id="sec-langmuir-prove">公理からの導出と存在量化</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“SR can only generate numerical expressions … with certain values for constants; for example, the expression <span class="math inline">f = p/(0.709p + 0.157)</span>. … we cannot use Formula (10) directly to prove formulae generated from SR. Instead, we replace each numerical constant of the formula by a logic variable <span class="math inline">c_i</span> … We then quantify the new variables existentially … The final formulation to prove is: <span class="math inline">\exists c_1 \cdots \exists c_n\,(\mathcal{C} \wedge \mathcal{A}) \rightarrow (f' \wedge \mathcal{C}')</span>.” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio, Dash, ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<section id="忠実な日本語訳-2" class="level4">
+<h4 class="anchored" data-anchor-id="忠実な日本語訳-2">忠実な日本語訳</h4>
+<p>証明すべき論理的定式化は、次のとおりである：</p>
+<p><span id="eq-prove"><span class="math display">
+(\mathcal{C} \wedge \mathcal{A}) \rightarrow f ,
+\tag{13.5}</span></span></p>
+<p>ここで <span class="math inline">\mathcal{C}</span> は非負性制約の連言（conjunction）、<span class="math inline">\mathcal{A}</span> は公理の連言であり、<span class="math inline">\mathcal{C}</span> と <span class="math inline">\mathcal{A}</span> の和集合（union）が背景理論 <span class="math inline">\mathcal{B}</span> を構成する。そして <span class="math inline">f</span> は我々が証明したい式である。</p>
+<p>SR は、入力データに現れる（従属および独立）変数を含み、定数が特定の値をとる<strong>数値的な式しか生成できない</strong>。たとえば式 <span class="math inline">f = p/(0.709p + 0.157)</span> である。背景理論の変数と定数から構築される式、たとえば <a href="#eq-langmuir-derived" class="quarto-xref">式&nbsp;<span>13.4</span></a> は、定数（その記号形で）を<strong>明示的に</strong>含む。たとえば <span class="math inline">k_\text{ads}</span> と <span class="math inline">k_\text{des}</span> は <a href="#eq-langmuir-derived" class="quarto-xref">式&nbsp;<span>13.4</span></a> に明示的に現れるが、SR はこれらの定数の比の<strong>数値インスタンスしか生成しない</strong>。したがって、SR から生成された式を証明するために <a href="#eq-prove" class="quarto-xref">式&nbsp;<span>13.5</span></a> を直接用いることはできない。代わりに、式の各数値定数を論理変数 <span class="math inline">c_i</span> で置き換える。たとえば、式</p>
+<p><span class="math display">
+f = p/(0.709p + 0.157)
+</span></p>
+<p>は</p>
+<p><span class="math display">
+f' = p/(c_1 p + c_2)
+</span></p>
+<p>で置き換えられ、二つの新しい変数 <span class="math inline">c_1</span> と <span class="math inline">c_2</span> が導入される。次に、新しい変数を<strong>存在的に量化（quantify existentially）</strong>し、新しい非負性制約の集合 <span class="math inline">\mathcal{C}'</span> を定義する。上の例では <span class="math inline">\mathcal{C}' = c_1 &gt; 0 \wedge c_2 &gt; 0</span> となる。証明すべき最終的な定式化は：</p>
+<p><span id="eq-prove-exists"><span class="math display">
+\exists c_1 \cdots \exists c_n\,(\mathcal{C} \wedge \mathcal{A}) \rightarrow (f' \wedge \mathcal{C}') .
+\tag{13.6}</span></span></p>
+<p>たとえば、<span class="math inline">f' = p/(c_1 p + c_2)</span> は、<span class="math inline">f'</span> が背景理論 <span class="math inline">\mathcal{A}</span> と制約 <span class="math inline">\mathcal{C}</span> を満たすような <span class="math inline">c_1</span> と <span class="math inline">c_2</span> の値が<strong>存在する</strong>ことを推論器が証明できれば、真であると証明される。ここで <span class="math inline">c_1</span> と <span class="math inline">c_2</span> は、定数 <span class="math inline">k_\text{ads}</span>, <span class="math inline">k_\text{des}</span>, <span class="math inline">S_0</span> および／または実数の関数になりうるが、変数 <span class="math inline">q</span> と <span class="math inline">p</span> の関数にはなりえない。</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：なぜ「存在量化」が必要なのか — 数値定数と記号定数の橋渡し
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>ここが本章で最もつまずきやすい所であり、本書が最も丁寧に補いたい論点である。問題を整理しよう。</p>
+<p><strong>ギャップの正体。</strong> 推論器に「<span class="math inline">f</span> は公理から導けるか」と尋ねる素朴な式は <a href="#eq-prove" class="quarto-xref">式&nbsp;<span>13.5</span></a> である。しかし SR が出すのは <span class="math inline">f=p/(0.709p+0.157)</span> のような<strong>具体的な数値</strong>を含む式、公理から導かれる「正解」は <span class="math inline">q = \dfrac{S_0(k_\text{ads}/k_\text{des})p}{1+(k_\text{ads}/k_\text{des})p}</span> という<strong>記号定数</strong>を含む式である。両者を見比べると、</p>
+<p><span class="math display">
+\underbrace{0.709}_{\text{SR の数値}} \;\overset{?}{=}\; \underbrace{\frac{k_\text{ads}/k_\text{des}}{S_0\,(k_\text{ads}/k_\text{des})}}_{\text{記号で書いた係数}},
+\qquad
+\underbrace{0.157}_{\text{SR の数値}} \;\overset{?}{=}\; \underbrace{\frac{1}{S_0\,(k_\text{ads}/k_\text{des})}}_{\text{記号で書いた係数}}
+</span></p>
+<p>のように「数値 ＝ 記号定数の組合せ」を成り立たせる <span class="math inline">k_\text{ads}, k_\text{des}, S_0</span> が<strong>ありさえすればよい</strong>。SR は物質固有の係数の<strong>生の値</strong>を知らない（知る必要もない）。だから「ぴったり一致する係数があるか？」ではなく、「<strong>そういう係数が存在するか？</strong>」を問うのが正しい。これが存在量化のモチベーションである。</p>
+<p><strong>やり方は 2 ステップ。</strong></p>
+<ol type="1">
+<li><strong>抽象化（数値→論理変数）</strong>：<span class="math inline">f=p/(0.709p+0.157)</span> の数値をすべて自由変数に置き換え、<span class="math inline">f'=p/(c_1 p + c_2)</span> とする。これで <span class="math inline">f'</span> は「分母が <span class="math inline">p</span> の 1 次式である有理式」という<strong>構造</strong>だけを表す。</li>
+<li><strong>存在量化</strong>：<span class="math inline">\exists c_1 \exists c_2</span> を前に付け、「公理 <span class="math inline">\mathcal{A}</span> と制約 <span class="math inline">\mathcal{C}</span> のもとで、<span class="math inline">f'</span> と新制約 <span class="math inline">\mathcal{C}'(=c_1&gt;0\wedge c_2&gt;0)</span> をともに成り立たせる <span class="math inline">c_1,c_2</span> が存在する」を証明対象 <a href="#eq-prove-exists" class="quarto-xref">式&nbsp;<span>13.6</span></a> とする。</li>
+</ol>
+<p><strong>直観的な言い換え。</strong> 「この<strong>形</strong>（有理式の骨格）は、適切な物質定数を選べばラングミュア理論と整合するか？」を問うている。<span class="math inline">f'=p/(c_1p+c_2)</span> なら、<span class="math inline">c_1=1/q_\text{max}</span>, <span class="math inline">c_2=1/(q_\text{max}K_a)</span> と置けば <a href="#eq-langmuir" class="quarto-xref">式&nbsp;<span>13.1</span></a> に一致するので、整合する係数は存在する → <strong>導出可能</strong>。一方、たとえば二次の項を含む <span class="math inline">f</span> は、どんな <span class="math inline">c_i</span> を選んでも単一サイトのラングミュア型にはならないため、整合する係数が存在せず → <strong>導出不能</strong>。</p>
+<p><strong>制約 <span class="math inline">c_i</span> は何の関数になれるか。</strong> 重要な但し書きとして、<span class="math inline">c_1, c_2</span> は <span class="math inline">k_\text{ads}, k_\text{des}, S_0</span> や実数の関数にはなれるが、<strong>変数 <span class="math inline">q, p</span> の関数にはなれない</strong>。もし <span class="math inline">c_i</span> が <span class="math inline">p</span> に依存してよいなら、どんな式でも「定数」を <span class="math inline">p</span> 依存にして無理やり一致させられてしまい、証明が無意味になる。<span class="math inline">c_i</span> は飽くまで<strong>物質・系で決まる定数</strong>でなければならない、という条件である。</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-langmuir-K" class="level3">
+<h3 class="anchored" data-anchor-id="sec-langmuir-K">物理的制約の集合 <span class="math inline">\mathcal{K}</span> と Mathematica による検証</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“We also consider background knowledge in the form of a list of desired properties of the relation between <span class="math inline">p</span> and <span class="math inline">q</span>, which helps trim the set of candidate formulae. Thus, we define a collection <span class="math inline">\mathcal{K}</span> of constraints on <span class="math inline">f</span>, where <span class="math inline">q = f(p)</span>, enforcing monotonicity or certain types of limiting behavior. We use Mathematica to verify that a candidate function satisfies the constraints in <span class="math inline">\mathcal{K}</span>.” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio, Dash, ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<section id="忠実な日本語訳-3" class="level4">
+<h4 class="anchored" data-anchor-id="忠実な日本語訳-3">忠実な日本語訳</h4>
+<p>我々はまた、<span class="math inline">p</span> と <span class="math inline">q</span> の関係について望ましい性質のリストという形での背景知識も考慮する。これは候補式の集合を刈り込む（trim）のに役立つ。したがって、<span class="math inline">q = f(p)</span> である <span class="math inline">f</span> に対する制約の集合 <span class="math inline">\mathcal{K}</span> を定義し、<strong>単調性</strong>または<strong>特定の種類の極限挙動</strong>を強制する（Supplementary Information を参照）。候補関数が <span class="math inline">\mathcal{K}</span> の制約を満たすかどうかを検証するために、我々は Mathematica <span class="citation" data-cites="mathematica">(<a href="#ref-mathematica" role="doc-biblioref">Wolfram Research, 日付なし</a>)</span> を用いる。</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：<span class="math inline">\mathcal{K}</span> は <a href="#sec-langmuir-eq" class="quarto-xref"><span>ラングミュア吸着式と二サイトモデル</span></a> で観察したラングミュア等温線の「形」そのもの
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>集合 <span class="math inline">\mathcal{K}</span> の中身は、後掲のコード解説（<a href="#sec-langmuir-code" class="quarto-xref"><span>コード解説：制約 \mathcal{K} の Mathematica 検証</span></a>）にある <code>langmuir_constraints_wolfram.txt</code> から逆算できる。5 個の制約は、まさに <a href="#sec-langmuir-eq" class="quarto-xref"><span>ラングミュア吸着式と二サイトモデル</span></a> の詳細授業で観察したラングミュア等温線の定性的特徴を、機械検証可能な数式に翻訳したものである。</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>#</th>
+<th>物理的意味</th>
+<th>数式（<span class="math inline">q=f(p)</span>）</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>K1</td>
+<td>原点を通る（圧力ゼロで吸着ゼロ）</td>
+<td><span class="math inline">f(0) = 0</span></td>
+</tr>
+<tr class="even">
+<td>K2</td>
+<td>原点での初期勾配が正かつ有限</td>
+<td><span class="math inline">0 &lt; f'(0) &lt; \infty</span></td>
+</tr>
+<tr class="odd">
+<td>K3</td>
+<td>高圧で正の有限値に飽和</td>
+<td><span class="math inline">0 &lt; \lim_{p\to\infty} f(p) &lt; \infty</span></td>
+</tr>
+<tr class="even">
+<td>K4</td>
+<td>圧力が正なら吸着量は正</td>
+<td><span class="math inline">\forall p&gt;0:\ f(p) &gt; 0</span></td>
+</tr>
+<tr class="odd">
+<td>K5</td>
+<td>全域で単調非減少</td>
+<td><span class="math inline">\forall p&gt;0:\ f'(p) \geq 0</span></td>
+</tr>
+</tbody>
+</table>
+<p>これらは <a href="#eq-prove" class="quarto-xref">式&nbsp;<span>13.5</span></a> / <a href="#eq-prove-exists" class="quarto-xref">式&nbsp;<span>13.6</span></a> の「導出可能性」とは<strong>別の絞り込み軸</strong>である点に注意したい。導出可能性は「公理から論理的に導けるか（Yes/No、定理証明器の仕事）」を問い、<span class="math inline">\mathcal{K}</span> は「定性的に物理として妥当な振る舞いか（5 段階の何個を満たすか、記号計算系の仕事）」を問う。後掲の <a href="#tbl-langmuir" class="quarto-xref">表&nbsp;<span>13.1</span></a> で、ある式は導出不能だが <span class="math inline">\mathcal{K}</span> を多く満たし、別の式は導出可能だが <span class="math inline">\mathcal{K}</span> の充足数が少ない、という<strong>非自明なトレードオフ</strong>が観察される。これが「導出可能性だけ／データ適合だけ」では候補を選び切れないことの具体的な証拠になる。</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-langmuir-results" class="level3">
+<h3 class="anchored" data-anchor-id="sec-langmuir-results">二データセットの結果（Table 3, Fig. 5）</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“Among the top two-constant expressions, <span class="math inline">f_1</span> fits the data better than <span class="math inline">f_2</span>, which is derivable from the background theory, whereas <span class="math inline">f_1</span> is not. When we search for four-constant expressions, we get much smaller errors than Eq. (6) or even Eq. (7), but we do not obtain the two-site formula (Eq. (7)) as a candidate expression. For the dataset from Sun et al., <span class="math inline">g_2</span> has a form equivalent to Langmuir’s one-site formula, and <span class="math inline">g_5</span> and <span class="math inline">g_7</span> have forms equivalent to Langmuir’s two-site formula.” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio, Dash, ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<section id="忠実な日本語訳-4" class="level4">
+<h4 class="anchored" data-anchor-id="忠実な日本語訳-4">忠実な日本語訳</h4>
+<p><a href="#tbl-langmuir" class="quarto-xref">表&nbsp;<span>13.1</span></a> において、第 1 列はデータの出典を、第 2 列は我々の SR 実験で用いた「ハイパーパラメータ」を与える。我々は、導出される式に 2 個または 4 個の定数を許す。さらに、<span class="math inline">\mathcal{K}</span> の最初の制約 <span class="math inline">C_1</span> は単にデータ点 <span class="math inline">p = q = 0</span> を加えることでモデル化できるので、「追加点（extra point）」での実験も行う。第 3 列は導出された式を、第 4 列と第 5 列はそれぞれ相対数値誤差 <span class="math inline">\varepsilon^r_2</span> と <span class="math inline">\varepsilon^r_1</span> を与える。もしその式が背景理論から導出可能であれば、第 6 列にそれを示す。これらの結果は <a href="#fig-langmuir" class="quarto-xref">図&nbsp;<span>13.1</span></a> に可視化されている。第 7 列は、各式が満たす <span class="math inline">\mathcal{K}</span> の制約の個数を示し、Mathematica によって検証されている。</p>
+<p>トップの 2 定数の式の中で、<span class="math inline">f_1</span> は <span class="math inline">f_2</span> よりもデータによく当てはまるが、背景理論から導出可能なのは <span class="math inline">f_2</span> であって <span class="math inline">f_1</span> は導出可能ではない。4 定数の式を探索すると、<a href="#eq-langmuir" class="quarto-xref">式&nbsp;<span>13.1</span></a> や <a href="#eq-langmuir-2site" class="quarto-xref">式&nbsp;<span>13.2</span></a> よりもはるかに小さい誤差が得られるが、二サイト式（<a href="#eq-langmuir-2site" class="quarto-xref">式&nbsp;<span>13.2</span></a>）は候補式としては得られない。Sun ら <span class="citation" data-cites="sun1998">(<a href="#ref-sun1998" role="doc-biblioref">Sun ほか 1998</a>)</span> のデータセットについては、<span class="math inline">g_2</span> がラングミュアの単一サイト式と等価な形をもち、<span class="math inline">g_5</span> と <span class="math inline">g_7</span> がラングミュアの二サイト式と等価な形をもつ。<span class="math inline">q_{\text{max},i}</span> と <span class="math inline">K_{a,i}</span>（<span class="math inline">i = 1, 2</span>）の適切な値を伴う。</p>
+<div id="tbl-langmuir" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-langmuir-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;13.1: 表3 | ラングミュア問題の二データセットに対する結果。列は（1）データ出典、（2）定数個数等の条件、（3）導出された式、（4）相対数値誤差 <span class="math inline">\varepsilon^r_2</span>、（5）相対数値誤差 <span class="math inline">\varepsilon^r_1</span>、（6）背景理論からの導出可能性、（7）満たした <span class="math inline">\mathcal{K}</span> の制約数。<span class="math inline">f_2</span>, <span class="math inline">g_2</span> が単一サイト式、<span class="math inline">g_5</span>, <span class="math inline">g_7</span> が二サイト式と等価。<span class="math inline">^*</span> 印の式は 4 定数指定や追加点ありでも生成される（出典: Cornelio et al.&nbsp;2023, Table 3, CC BY 4.0 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio, Dash, ほか 2023</a>)</span>）
+</figcaption>
+<div aria-describedby="tbl-langmuir-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="../assets/images/table3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="表&nbsp;13.1: 表3 | ラングミュア問題の二データセットに対する結果。列は（1）データ出典、（2）定数個数等の条件、（3）導出された式、（4）相対数値誤差 \varepsilon^r_2、（5）相対数値誤差 \varepsilon^r_1、（6）背景理論からの導出可能性、（7）満たした \mathcal{K} の制約数。f_2, g_2 が単一サイト式、g_5, g_7 が二サイト式と等価。^* 印の式は 4 定数指定や追加点ありでも生成される（出典: Cornelio et al.&nbsp;2023, Table 3, CC BY 4.0 [@cornelio2023]）"><img src="../assets/images/table3.png" class="img-fluid figure-img"></a>
+</div>
+</figure>
+</div>
+<p>要点を Markdown 表でも併記する（一部抜粋、<span class="math inline">\varepsilon^r_2</span> / <span class="math inline">\varepsilon^r_1</span> は相対数値誤差、最右列は <span class="math inline">\mathcal{K}</span> の充足数）。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>出典</th>
+<th>条件</th>
+<th>式</th>
+<th><span class="math inline">\varepsilon^r_2</span></th>
+<th><span class="math inline">\varepsilon^r_1</span></th>
+<th>導出可能</th>
+<th><span class="math inline">\mathcal{K}</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Langmuir</td>
+<td>2 const.</td>
+<td><span class="math inline">f_1=\dfrac{p^2+2p-1}{0.00888p^2+0.118p}</span></td>
+<td>0.0631</td>
+<td>0.0486</td>
+<td>Timeout</td>
+<td>2/5</td>
+</tr>
+<tr class="even">
+<td>Langmuir</td>
+<td>2 const.</td>
+<td><span class="math inline">f_2=\dfrac{p}{0.00927p+0.0759}</span></td>
+<td>0.1799</td>
+<td>0.1258</td>
+<td><strong>Yes</strong></td>
+<td><strong>5/5</strong></td>
+</tr>
+<tr class="odd">
+<td>Langmuir</td>
+<td>4 const.</td>
+<td><span class="math inline">f_3=\dfrac{p^2-10.5p-15}{0.00892p^2-1.23}</span></td>
+<td>0.0443</td>
+<td>0.0295</td>
+<td>Timeout</td>
+<td>2/5</td>
+</tr>
+<tr class="even">
+<td>Langmuir</td>
+<td>4 const.</td>
+<td><span class="math inline">f_4=\dfrac{8.86p+13.9}{0.0787p+1}</span></td>
+<td>0.0658</td>
+<td>0.0465</td>
+<td>No</td>
+<td>4/5</td>
+</tr>
+<tr class="odd">
+<td>Sun et al.</td>
+<td>2 const.</td>
+<td><span class="math inline">g_1=\dfrac{p+3}{0.584p+4.01}</span></td>
+<td>0.1625</td>
+<td>0.1007</td>
+<td>No</td>
+<td>4/5</td>
+</tr>
+<tr class="even">
+<td>Sun et al.</td>
+<td>2 const.</td>
+<td><span class="math inline">g_2=\dfrac{p}{0.709p+0.157}</span></td>
+<td>0.9680</td>
+<td>0.5120</td>
+<td><strong>Yes</strong></td>
+<td><strong>5/5</strong></td>
+</tr>
+</tbody>
+</table>
+<div id="fig-langmuir" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-langmuir-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="../assets/images/fig5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;13.1: 図5 | 二つの吸着データセットに対する記号回帰解。(a) 90 K でのメタンのマイカへの吸着、(b) 277 K でのイソブタンのシリカライトへの吸着。f_2 と g_2 は単一サイトのラングミュア式に、g_5 と g_7 は二サイトのラングミュア式に等価（出典: Cornelio et al.&nbsp;2023, Fig. 5, CC BY 4.0 [@cornelio2023]）"><img src="../assets/images/fig5.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-langmuir-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;13.1: 図5 | 二つの吸着データセットに対する記号回帰解。(a) 90 K でのメタンのマイカへの吸着、(b) 277 K でのイソブタンのシリカライトへの吸着。<span class="math inline">f_2</span> と <span class="math inline">g_2</span> は単一サイトのラングミュア式に、<span class="math inline">g_5</span> と <span class="math inline">g_7</span> は二サイトのラングミュア式に等価（出典: Cornelio et al.&nbsp;2023, Fig. 5, CC BY 4.0 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio, Dash, ほか 2023</a>)</span>）
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：<span class="math inline">f_1</span> 対 <span class="math inline">f_2</span> — 「当てはまりの良さ」と「導出可能性」が逆を向く
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="#tbl-langmuir" class="quarto-xref">表&nbsp;<span>13.1</span></a> の最初の 2 行が、本論文全体のメッセージを最も鮮明に示す。</p>
+<ul>
+<li><span class="math inline">f_1=\dfrac{p^2+2p-1}{0.00888p^2+0.118p}</span>：相対誤差 <span class="math inline">\varepsilon^r_1=0.0486</span> と<strong>データへの当てはまりが良い</strong>。しかし分子・分母とも <span class="math inline">p</span> の 2 次式で、これは単一サイトのラングミュア型 <span class="math inline">p/(c_1p+c_2)</span> にはどんな <span class="math inline">c_i</span> を選んでも一致しない。実際、原点で <span class="math inline">f_1(0)=-1/0</span> が発散し <span class="math inline">\mathcal{K}</span> は 2/5 しか満たさず、<strong>導出可能性は Timeout</strong>（証明器が時間内に判定できず）。</li>
+<li><span class="math inline">f_2=\dfrac{p}{0.00927p+0.0759}</span>：相対誤差 <span class="math inline">\varepsilon^r_1=0.1258</span> と<strong>当てはまりは <span class="math inline">f_1</span> に劣る</strong>。しかし構造はまさに <span class="math inline">p/(c_1p+c_2)</span>。<span class="math inline">\exists c_1\exists c_2</span> で <a href="#eq-prove-exists" class="quarto-xref">式&nbsp;<span>13.6</span></a> が成立し、<span class="math inline">\mathcal{K}</span> も 5/5 を満たして<strong>導出可能（Yes）</strong>。</li>
+</ul>
+<p>つまり「データに最もよく当てはまる式」を選ぶと <span class="math inline">f_1</span> になるが、それは<strong>物理的に導けない</strong>式である。背景理論との照合（導出可能性と <span class="math inline">\mathcal{K}</span>）を併用して初めて、当てはまりは劣っても<strong>法則として正しい</strong> <span class="math inline">f_2</span> を選び出せる。これが「データと理論を組み合わせる」という論文タイトルの主張の、最も具体的な実例である。</p>
+<p><strong>4 定数の罠。</strong> 4 定数を許すと <span class="math inline">f_3, f_5</span> のように誤差は劇的に下がる（<span class="math inline">\varepsilon^r_1 \approx 0.03</span>）。しかし誤差が小さい式ほど高次の有理式になり、<span class="math inline">\mathcal{K}</span> の充足数は低く、導出も Timeout/No になりがちである。「自由度を増やせば当てはまりは良くなるが、物理的妥当性は犠牲になる」という過適合の典型が、ここでも導出可能性という新しい軸で可視化される。なお、4 定数まで許しても<strong>二サイト式 <a href="#eq-langmuir-2site" class="quarto-xref">式&nbsp;<span>13.2</span></a> そのもの</strong>は候補に出てこなかった点も率直に報告されている。</p>
+<p><strong>Sun ら のデータでの成功例。</strong> Sun ら のデータでは、<span class="math inline">g_2=p/(0.709p+0.157)</span> が単一サイト式と等価（Yes, 5/5）であるだけでなく、4 定数＋追加点で得た <span class="math inline">g_5, g_7</span> が<strong>二サイト式 <a href="#eq-langmuir-2site" class="quarto-xref">式&nbsp;<span>13.2</span></a> と等価な形</strong>をもっていた。すなわち、適切な実験設定では SR が二サイトのラングミュア理論を再発見しうることが示されている。</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-langmuir-code" class="level3">
+<h3 class="anchored" data-anchor-id="sec-langmuir-code">コード解説：制約 <span class="math inline">\mathcal{K}</span> の Mathematica 検証</h3>
+<p>論文の「<span class="math inline">\mathcal{K}</span> を Mathematica で検証する」工程は、公式実装の <code>reasoning/src/pipeline_mathematica.py</code> と、データ側の <code>data/langmuir/</code> の 3 ファイルに直接対応する <span class="citation" data-cites="aidescartes_repo">(<a href="#ref-aidescartes_repo" role="doc-biblioref">Cornelio ほか 2023</a>)</span>。本節では、論文の手法が実装でどう表れるかをソースを引用して示す。</p>
+<p><strong>(1) 公理 <span class="math inline">\mathcal{A}</span> と制約 <span class="math inline">\mathcal{K}</span> のデータ表現。</strong> <code>data/langmuir/langmuir_axioms.txt</code> は <a href="#eq-langmuir-axioms" class="quarto-xref">式&nbsp;<span>13.3</span></a> をそのまま機械可読にしたものである（抜粋）：</p>
+<pre><code>S0 = S + Sa
+r_ads = k_ads * P * S
+r_des = k_des * Sa
+r_ads = r_des
+Q = Sa</code></pre>
+<p>そして導出すべき正解 <code>langmuir_formula.txt</code> は <a href="#eq-langmuir-derived" class="quarto-xref">式&nbsp;<span>13.4</span></a> と一致する：</p>
+<pre><code>Q = ((S0 * (k_ads / k_des)) * P) / (1 + ((k_ads / k_des) * P))</code></pre>
+<p>制約集合 <span class="math inline">\mathcal{K}</span> は <code>langmuir_constraints_wolfram.txt</code> に Wolfram 言語の述語として 5 行で書かれている。これが <a href="#sec-langmuir-K" class="quarto-xref"><span>物理的制約の集合 \mathcal{K} と Mathematica による検証</span></a> の表の K1–K5 に対応する：</p>
+<pre><code>f(x)==0 x-&gt;0
+And[Limit[D[f(x),x],x-&gt;0]&lt;Infinity,Limit[D[f(x),x],x-&gt;0]&gt;0]
+And[Limit[f(x),x-&gt;Infinity]&lt;Infinity,Limit[f(x),x-&gt;Infinity]&gt;0]
+Resolve[ForAll[x,Implies[x&gt;0,f(x)&gt;0]]]
+Resolve[ForAll[x,Implies[x&gt;0,D[f(x),x]&gt;=0]],Reals]</code></pre>
+<p>順に「原点で 0」「原点の微分が正・有限」「無限大での極限が正・有限」「<span class="math inline">x&gt;0</span> で正」「<span class="math inline">x&gt;0</span> で単調増加」であり、<a href="#sec-langmuir-K" class="quarto-xref"><span>物理的制約の集合 \mathcal{K} と Mathematica による検証</span></a> の K1–K5 と完全に一致する。</p>
+<p><strong>(2) 候補式への制約の代入。</strong> <code>pipeline_mathematica.py</code> の <code>combine_expressions</code> が、候補式の文字列 <span class="math inline">f(x)</span> を各制約のテンプレートに埋め込み、置換ルール <code>/.{x-&gt;0}</code> 等を付けて一本の Wolfram 式を組み立てる：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> combine_expressions(token, expression, axiom):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    axiom_vector <span class="op">=</span> axiom.split(<span class="st">'</span><span class="ch">\t</span><span class="st">'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    combined_expression <span class="op">=</span> axiom_vector[<span class="dv">0</span>].replace(token, expression)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(axiom_vector) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        combined_expression <span class="op">+=</span> <span class="st">'/.{'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> condition <span class="kw">in</span> axiom_vector[<span class="dv">1</span>:]:</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            combined_expression <span class="op">+=</span> condition <span class="op">+</span> <span class="st">","</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        combined_expression <span class="op">=</span> combined_expression[:<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> <span class="st">'}'</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> combined_expression</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>(3) wolframscript の起動と negation-as-failure。</strong> 各候補式 × 各制約について <code>call_wolfram</code> が <code>wolframscript -code ...</code> を subprocess 起動し（<code>mathematica</code> <span class="citation" data-cites="mathematica">(<a href="#ref-mathematica" role="doc-biblioref">Wolfram Research, 日付なし</a>)</span>）、出力を判定する。<code>preprecess_pipeline</code> の判定部が核心である：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>wolfram_output <span class="op">=</span> call_wolfram(condition, debug<span class="op">=</span>debug)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'True'</span> <span class="kw">in</span> wolfram_output:</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    results[expression][axiom] <span class="op">=</span> <span class="st">'YES'</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="st">'False'</span> <span class="kw">in</span> wolfram_output:</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    results[expression][axiom] <span class="op">=</span> <span class="st">'NO'</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="st">'$Failed'</span> <span class="kw">in</span> wolfram_output:</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    results[expression][axiom] <span class="op">=</span> <span class="st">'ERROR'</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    results[expression][axiom] <span class="op">=</span> <span class="st">'NO'</span>  <span class="co"># negation as failure</span></span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
+<p>最後の <code>else</code> 節がポイントで、Mathematica が <code>True</code> とも <code>False</code> とも判定し切れずに（時間切れや判定不能で）曖昧な出力を返した場合、実装は安全側に倒して <code>NO</code>（制約を満たさないとみなす）と判定する。これが <strong>negation-as-failure</strong>（失敗による否定：証明できないものは偽とみなす）である。<a href="#tbl-langmuir" class="quarto-xref">表&nbsp;<span>13.1</span></a> 第 7 列の「<span class="math inline">\mathcal{K}</span> の充足数」は、この 5 制約のうち <code>YES</code> になった個数として算出されている。</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">警告</span>実装上の注意：negation-as-failure の不完全性
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>negation-as-failure は計算を有限時間で打ち切るための実用的な妥協であって、論理的に厳密な否定ではない。Mathematica が判定不能で曖昧を返した制約は、本当は満たされているかもしれないのに <code>NO</code> と数えられる。同様に導出可能性（<a href="#eq-prove-exists" class="quarto-xref">式&nbsp;<span>13.6</span></a>）の判定でも、定理証明器が時間内に証明を見つけられなければ <a href="#tbl-langmuir" class="quarto-xref">表&nbsp;<span>13.1</span></a> は <code>Timeout</code> と記録される（<span class="math inline">f_1, f_3, f_6, f_7</span> が該当）。「<code>Timeout</code> ＝ 導出不能」ではなく「<strong>判定がつかなかった</strong>」である点に注意が要る。これは「データ適合（BARON）」と「導出可能性（KeYmaera X / Mathematica）」を<strong>直列・分離</strong>で解く第一世代システムの構造的弱点であり、後継 AI-Hilbert が両者を単一の最適化に統合する動機の一つとなった <span class="citation" data-cites="corywright2024">(<a href="#ref-corywright2024" role="doc-biblioref">Cory-Wright ほか 2024</a>)</span>。</p>
+</div>
+</div>
+</section>
+<section id="sec-langmuir-demo" class="level3">
+<h3 class="anchored" data-anchor-id="sec-langmuir-demo">対話デモ：ラングミュア等温線</h3>
+<p>下のスライダーで最大吸着量 <span class="math inline">q_\text{max}</span> と吸着の強さ <span class="math inline">K_a</span> を変え、<a href="#eq-langmuir" class="quarto-xref">式&nbsp;<span>13.1</span></a> の単一サイト等温線がどう変わるかを観察しよう。さらに第二サイトのスイッチを入れると、<a href="#eq-langmuir-2site" class="quarto-xref">式&nbsp;<span>13.2</span></a> の二サイト等温線（赤の破線）が重ね描きされる。低圧で直線（<span class="math inline">q\approx q_\text{max}K_a p</span>）、高圧で飽和（<span class="math inline">q\to q_\text{max}</span>、二サイトでは <span class="math inline">q_{\text{max},1}+q_{\text{max},2}</span>）という <a href="#sec-langmuir-eq" class="quarto-xref"><span>ラングミュア吸着式と二サイトモデル</span></a> の定性挙動を、目で確かめてほしい。</p>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>コード</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="0" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -1;"><span id="cb6-0"><a href="#cb6-0" aria-hidden="true" tabindex="-1"></a>viewof lm_qmax <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="fu">tex</span><span class="vs">`q_{</span><span class="sc">\m</span><span class="vs">ax}</span><span class="sc">\ </span><span class="vs">(</span><span class="sc">\t</span><span class="vs">ext{site 1})`</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">3</span>})</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>コード</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb7" data-startfrom="0" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -1;"><span id="cb7-0"><a href="#cb7-0" aria-hidden="true" tabindex="-1"></a>viewof lm_Ka <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.05</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="fu">tex</span><span class="vs">`K_a</span><span class="sc">\ </span><span class="vs">(</span><span class="sc">\t</span><span class="vs">ext{site 1})`</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">1</span>})</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>コード</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb8" data-startfrom="0" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -1;"><span id="cb8-0"><a href="#cb8-0" aria-hidden="true" tabindex="-1"></a>viewof lm_twosite <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">toggle</span>({<span class="dt">label</span><span class="op">:</span> <span class="fu">tex</span><span class="vs">`</span><span class="sc">\t</span><span class="vs">ext{二サイト項を重ねる}`</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="kw">false</span>})</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>コード</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb9" data-startfrom="0" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -1;"><span id="cb9-0"><a href="#cb9-0" aria-hidden="true" tabindex="-1"></a>viewof lm_qmax2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="fu">tex</span><span class="vs">`q_{</span><span class="sc">\m</span><span class="vs">ax,2}</span><span class="sc">\ </span><span class="vs">(</span><span class="sc">\t</span><span class="vs">ext{site 2})`</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="dv">2</span>})</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold hidden">
+<summary>コード</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb10" data-startfrom="0" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line -1;"><span id="cb10-0"><a href="#cb10-0" aria-hidden="true" tabindex="-1"></a>viewof lm_Ka2 <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="fl">0.005</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {<span class="dt">step</span><span class="op">:</span> <span class="fl">0.005</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="fu">tex</span><span class="vs">`K_{a,2}</span><span class="sc">\ </span><span class="vs">(</span><span class="sc">\t</span><span class="vs">ext{site 2})`</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="fl">0.05</span>})</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVkaXQiOnRydWUsImV2YWwiOnRydWUsImlucHV0IjpbImxtX3FtYXgiLCJsbV9LYSIsImxtX3R3b3NpdGUiLCJsbV9xbWF4MiIsImxtX0thMiJdfSwiY29kZSI6ImltcG9ydCBvcywgd2FybmluZ3MsIG1hdHBsb3RsaWJcbmZyb20gbWF0cGxvdGxpYiBpbXBvcnQgZm9udF9tYW5hZ2VyXG53YXJuaW5ncy5zaW1wbGVmaWx0ZXIoXCJpZ25vcmVcIilcbnRyeTpcbiAgICBmcm9tIHB5b2RpZGUuaHR0cCBpbXBvcnQgcHlmZXRjaFxuICAgIGlmIG5vdCBvcy5wYXRoLmV4aXN0cyhcIi90bXAvTm90b1NhbnNKUC50dGZcIik6XG4gICAgICAgIHJlc3AgPSBhd2FpdCBweWZldGNoKFwiLi4vLi4vLi4vYXNzZXRzL2ZvbnRzL05vdG9TYW5zSlAtUmVndWxhci50dGZcIilcbiAgICAgICAgd2l0aCBvcGVuKFwiL3RtcC9Ob3RvU2Fuc0pQLnR0ZlwiLCBcIndiXCIpIGFzIGY6XG4gICAgICAgICAgICBmLndyaXRlKGF3YWl0IHJlc3AuYnl0ZXMoKSlcbiAgICBmb250X21hbmFnZXIuZm9udE1hbmFnZXIuYWRkZm9udChcIi90bXAvTm90b1NhbnNKUC50dGZcIilcbiAgICBtYXRwbG90bGliLnJjUGFyYW1zW1wiZm9udC5mYW1pbHlcIl0gPSBcIk5vdG8gU2FucyBKUFwiXG5leGNlcHQgSW1wb3J0RXJyb3I6XG4gICAgcGFzc1xubWF0cGxvdGxpYi5yY1BhcmFtc1tcImF4ZXMudW5pY29kZV9taW51c1wiXSA9IEZhbHNlXG5tYXRwbG90bGliLnJjUGFyYW1zW1wibWF0aHRleHQuZm9udHNldFwiXSA9IFwiY21cIiAgIyDmlbDlvI8o4oia562JKeOBryBDTSDjgafmj4/nlLvvvIjml6XmnKzoqp7jg5Xjgqnjg7Pjg4jjgaDjgajmoLnlj7fjgYzosYbohZDjgavjgarjgovjgZ/jgoHvvIlcbmltcG9ydCBudW1weSBhcyBucFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG5wID0gbnAubGluc3BhY2UoMCwgMTAwLCA0MDApXG5cbmRlZiBsYW5nbXVpcihwLCBxbWF4LCBLYSk6XG4gICAgcmV0dXJuIHFtYXggKiBLYSAqIHAgLyAoMSArIEthICogcClcblxucTEgPSBsYW5nbXVpcihwLCBsbV9xbWF4LCBsbV9LYSlcblxuZmlnLCBheCA9IHBsdC5zdWJwbG90cyhmaWdzaXplPSg3LCA0LjIpKVxuYXgucGxvdChwLCBxMSwgY29sb3I9XCIjMWY3N2I0XCIsIGx3PTIuMixcbiAgICAgICAgbGFiZWw9Zlwi5Y2Y5LiA44K144Kk44OIICBxX21heD17bG1fcW1heDouMWZ9LCBLYT17bG1fS2E6LjJmfVwiKVxuYXguYXhobGluZShsbV9xbWF4LCBjb2xvcj1cIiMxZjc3YjRcIiwgbHM9XCI6XCIsIGx3PTEsIGFscGhhPTAuNylcblxuaWYgbG1fdHdvc2l0ZTpcbiAgICBxMiA9IGxhbmdtdWlyKHAsIGxtX3FtYXgsIGxtX0thKSArIGxhbmdtdWlyKHAsIGxtX3FtYXgyLCBsbV9LYTIpXG4gICAgYXgucGxvdChwLCBxMiwgY29sb3I9XCIjZDYyNzI4XCIsIGx3PTIuMiwgbHM9XCItLVwiLFxuICAgICAgICAgICAgbGFiZWw9Zlwi5LqM44K144Kk44OIICArKHFfbWF4Mj17bG1fcW1heDI6LjFmfSwgS2EyPXtsbV9LYTI6LjNmfSlcIilcbiAgICBheC5heGhsaW5lKGxtX3FtYXggKyBsbV9xbWF4MiwgY29sb3I9XCIjZDYyNzI4XCIsIGxzPVwiOlwiLCBsdz0xLCBhbHBoYT0wLjcpXG5cbmF4LnNldF94bGFiZWwoXCLlnKflipsgcFwiKVxuYXguc2V0X3lsYWJlbChcIuWQuOedgOmHjyBxXCIpXG5heC5zZXRfdGl0bGUoXCLjg6njg7PjgrDjg5/jg6XjgqLlkLjnnYDnrYnmuKnnt5rvvIjlvI82IC8g5byPN++8iVwiKVxuYXguc2V0X3lsaW0oYm90dG9tPTApXG5heC5sZWdlbmQobG9jPVwibG93ZXIgcmlnaHRcIiwgZm9udHNpemU9OSlcbmF4LmdyaWQoYWxwaGE9MC4zKVxuZmlnLnRpZ2h0X2xheW91dCgpXG5wbHQuc2hvdygpIn0=
+</script>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+ノート
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>スライダーを動かすと、<span class="math inline">q_\text{max}</span> が<strong>飽和の高さ</strong>（点線の漸近線）を、<span class="math inline">K_a</span> が<strong>立ち上がりの急峻さ</strong>（初期勾配 <span class="math inline">q_\text{max}K_a</span>、すなわち何 hPa 程度で飽和に近づくか）を制御することが見て取れる。二サイトを重ねると、強いサイト（大きい <span class="math inline">K_a</span>）が低圧で先に埋まり、弱いサイト（小さい <span class="math inline">K_a</span>）が高圧でゆっくり埋まる「二段の飽和」が現れる。<a href="#tbl-langmuir" class="quarto-xref">表&nbsp;<span>13.1</span></a> で <span class="math inline">g_5, g_7</span> がこの二サイト型と等価とされたのは、まさにこの形のデータがイソブタン／シリカライト系で観測されたためである。</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-langmuir-faq" class="level2">
+<h2 class="anchored" data-anchor-id="sec-langmuir-faq">よくある質問（FAQ）</h2>
+<p>学部生がつまずきやすい点を Q&amp;A 形式で補足します。</p>
+<section id="q1.-具体的な数値0.709-や-0.157があるのになぜわざわざ-c_1-c_2-という変数に戻してそういう係数が存在するかを問う形にするのですか" class="level3">
+<h3 class="anchored" data-anchor-id="q1.-具体的な数値0.709-や-0.157があるのになぜわざわざ-c_1-c_2-という変数に戻してそういう係数が存在するかを問う形にするのですか">Q1. 具体的な数値（0.709 や 0.157）があるのに、なぜわざわざ <span class="math inline">c_1, c_2</span> という変数に戻して「そういう係数が存在するか」を問う形にするのですか？</h3>
+<p>鍵は「SR の数値」と「理論の係数」が<strong>別の言葉で書かれている</strong>ことです。SR が出すのは <span class="math inline">f=p/(0.709p+0.157)</span> のような<strong>生の数値</strong>ですが、理論（<a href="#eq-langmuir-derived" class="quarto-xref">式&nbsp;<span>13.4</span></a>）が持つのは <span class="math inline">k_\text{ads}, k_\text{des}, S_0</span> という<strong>物質ごとに値が違う記号定数</strong>です。本文 <a href="#sec-langmuir-prove" class="quarto-xref"><span>公理からの導出と存在量化</span></a> の詳細授業が示すように、判定したいのは「<span class="math inline">0.709 \overset{?}{=} \frac{k_\text{ads}/k_\text{des}}{S_0(k_\text{ads}/k_\text{des})}</span> などを成り立たせる物質定数が<strong>ありさえすればよい</strong>」ということ。SR はメタンやイソブタンの <span class="math inline">S_0</span> の真の値を知らない（知る必要もない）ので、「ぴったり一致するか」ではなく「<strong>そういう係数が存在するか</strong>」を問うのが筋なのです。</p>
+<p>たとえとしては、誰かが「3.0」というレシピを持ってきたとき、理論側のレシピが「砂糖 ÷ 塩」という形しか分からない状況を想像してください。砂糖と塩の量そのものは分からなくても「比が 3.0 になる砂糖・塩の組合せは存在するか？」と問えば十分です。数値を <span class="math inline">c_1, c_2</span> という自由変数に戻す（<a href="#eq-prove-exists" class="quarto-xref">式&nbsp;<span>13.6</span></a> の <span class="math inline">\exists c_1\exists c_2</span>）のは、まさにこの「存在するか」を機械的に証明できる形にするための一手間です。</p>
+</section>
+<section id="q2.-誤差が小さい-f_1-がなぜ間違いで当てはまりの悪い-f_2-が正しいのですか-データに合う方が良い式ではないのですか" class="level3">
+<h3 class="anchored" data-anchor-id="q2.-誤差が小さい-f_1-がなぜ間違いで当てはまりの悪い-f_2-が正しいのですか-データに合う方が良い式ではないのですか">Q2. 誤差が小さい <span class="math inline">f_1</span> がなぜ「間違い」で、当てはまりの悪い <span class="math inline">f_2</span> が「正しい」のですか？ データに合う方が良い式ではないのですか？</h3>
+<p>機械学習の「誤差が小さいほど良い」という常識は、<strong>データだけを基準にする</strong>ときの話です。この章が選びたいのは単なる当てはめ式ではなく、<strong>ラングミュア理論から導ける物理法則</strong>です。<a href="#tbl-langmuir" class="quarto-xref">表&nbsp;<span>13.1</span></a> の最初の2行を見ると、<span class="math inline">f_1</span> は誤差 <span class="math inline">\varepsilon^r_1=0.0486</span> で確かによく合いますが、分子・分母とも <span class="math inline">p</span> の2次式で、原点で <span class="math inline">f_1(0)=-1/0</span> と発散してしまい、物理制約 <span class="math inline">\mathcal{K}</span> を 2/5 しか満たさず導出もできません。一方 <span class="math inline">f_2=p/(0.00927p+0.0759)</span> は誤差 <span class="math inline">0.1258</span> と劣りますが、構造がまさに <span class="math inline">p/(c_1p+c_2)</span> で、<span class="math inline">\mathcal{K}</span> を 5/5 満たし導出可能（Yes）です。</p>
+<p>つまり <span class="math inline">f_1</span> は「<strong>過適合</strong>（データのノイズまで拾って曲線を無理に通す）」の典型で、見た目の当てはまりは良くても物理的に破綻しています。たとえるなら、5点のテストの点数に6次多項式を通せば誤差ゼロにできますが、その曲線で将来を予測したら意味不明になるのと同じ。この章は「データに合う」だけでなく「理論的に正しい骨格を持つ」式を選ぶことで、外挿しても壊れない<strong>法則</strong>を取り出しているのです。</p>
+</section>
+<section id="q3.-導出可能かeq-prove-existsと制約集合-mathcalk-を満たすかはどちらも式の正しさを調べる作業に見えますなぜ二つに分かれているのですか" class="level3">
+<h3 class="anchored" data-anchor-id="q3.-導出可能かeq-prove-existsと制約集合-mathcalk-を満たすかはどちらも式の正しさを調べる作業に見えますなぜ二つに分かれているのですか">Q3. 「導出可能か（<a href="#eq-prove-exists" class="quarto-xref">式&nbsp;<span>13.6</span></a>）」と「制約集合 <span class="math inline">\mathcal{K}</span> を満たすか」は、どちらも式の正しさを調べる作業に見えます。なぜ二つに分かれているのですか？</h3>
+<p>両者は問う内容も使う道具も別物で、<a href="#sec-langmuir-K" class="quarto-xref"><span>物理的制約の集合 \mathcal{K} と Mathematica による検証</span></a> の詳細授業が「<strong>別の絞り込み軸</strong>」とはっきり区別しています。</p>
+<ul>
+<li><strong>導出可能性（<a href="#eq-prove-exists" class="quarto-xref">式&nbsp;<span>13.6</span></a>）</strong>: 「この式は5つの公理 <span class="math inline">\mathcal{A}</span> から論理的に<strong>導けるか</strong>」を Yes/No で問う、定理証明器の仕事。理論の中身（速度論的平衡）に深く結びついた、厳しい一発勝負の判定です。</li>
+<li><strong>制約 <span class="math inline">\mathcal{K}</span></strong>: 「原点を通る・単調増加・高圧で飽和する」といった<strong>定性的な振る舞い</strong>を満たすかを、5項目中いくつ満たすかで測る、Mathematica（記号計算）の仕事です。</li>
+</ul>
+<p>なぜ片方では足りないか。<span class="math inline">\mathcal{K}</span> は「形がそれっぽいか」を見るゆるい網で、ラングミュア型でない式でも偶然多く満たすことがあります（表で導出不能なのに <span class="math inline">\mathcal{K}</span> 4/5 の式が登場します）。逆に導出可能性だけだと Yes/No が極端で、Timeout で判定不能になることも多い。<a href="#sec-langmuir-K" class="quarto-xref"><span>物理的制約の集合 \mathcal{K} と Mathematica による検証</span></a> が指摘する通り「導出不能だが <span class="math inline">\mathcal{K}</span> を多く満たす式」「導出可能だが <span class="math inline">\mathcal{K}</span> が少ない式」という<strong>非自明なトレードオフ</strong>があるからこそ、二つの軸を併用して初めて候補を選び切れるのです。健康診断で「血液検査」と「レントゲン」を両方撮るのと同じで、見ている側面が違います。</p>
+</section>
+<section id="q4.-timeout導出可能性や-negation-as-failure-によるnomathcalk-の充足判定はその式が間違っていると考えてよいのですか" class="level3">
+<h3 class="anchored" data-anchor-id="q4.-timeout導出可能性や-negation-as-failure-によるnomathcalk-の充足判定はその式が間違っていると考えてよいのですか">Q4. 「Timeout（導出可能性）」や negation-as-failure による「NO（<span class="math inline">\mathcal{K}</span> の充足判定）」は、その式が間違っていると考えてよいのですか？</h3>
+<p>いいえ、「<strong>間違い（偽）</strong>」と「<strong>証明できなかった</strong>」は論理的にまったく別物です。<a href="#sec-langmuir-code" class="quarto-xref"><span>コード解説：制約 \mathcal{K} の Mathematica 検証</span></a> の callout-warning がこの点を強調しています。</p>
+<ul>
+<li><strong>Timeout</strong>: 定理証明器が<strong>時間内に証明を見つけられなかった</strong>だけ。証明が存在しないとは言っていません。表では <span class="math inline">f_1, f_3, f_6, f_7</span> が該当しますが、これは「導出不能と証明された」ではなく「判定がつかなかった」状態です。</li>
+<li><strong>negation-as-failure（失敗による否定）</strong>: Mathematica が True とも False とも判定し切れず曖昧な出力を返したとき、実装が安全側に倒して <code>NO</code>（制約を満たさないとみなす）と数える妥協です。本当は満たしているのに <code>NO</code> と数えられることがあり得ます。</li>
+</ul>
+<p>たとえるなら、容疑者の「<strong>無罪が証明された</strong>」のと「<strong>有罪の証拠が見つからなかった</strong>」が違うのと同じ（推定無罪）。表の上では Timeout も NO も「失敗」のように並んで見えますが、それは<strong>計算を有限時間で打ち切るための実用的な妥協</strong>の表れであって、論理的に「偽」が確定したわけではありません。この「証明できない ≠ 偽」という不完全性こそ、データ適合と導出可能性を直列・分離で解く第一世代システムの構造的弱点で、後継の AI-Hilbert が両者を単一の最適化に統合する動機の一つになっています。</p>
+
+
+<!-- -->
+
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yOC4xL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIiwibnVtcHkiLCJtYXRwbG90bGliIl19fQ==
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHtsbV9xbWF4LCBsbV9LYSwgbG1fdHdvc2l0ZSwgbG1fcW1heDIsIGxtX0thMn0pO1xuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtcHJlbHVkZSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InB5b2RpZGVPanMgPSB7XG4gIGNvbnN0IHtcbiAgICBQeW9kaWRlRXZhbHVhdG9yLFxuICAgIFB5b2RpZGVFbnZpcm9ubWVudE1hbmFnZXIsXG4gICAgc2V0dXBQeXRob24sXG4gICAgc3RhcnRQeW9kaWRlV29ya2VyLFxuICAgIGI2NERlY29kZSxcbiAgICBjb2xsYXBzZVBhdGgsXG4gIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHN0YXR1c0NvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1zdGF0dXNcIik7XG4gIGNvbnN0IGluZGljYXRvckNvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGluZGljYXRvckNvbnRhaW5lci5jbGFzc0xpc3QucmVtb3ZlKFwiZC1ub25lXCIpO1xuXG4gIGxldCBzdGF0dXNUZXh0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKVxuICBzdGF0dXNUZXh0LmNsYXNzTGlzdCA9IFwiZXhlcmNpc2UtbG9hZGluZy1kZXRhaWxzXCI7XG4gIHN0YXR1c1RleHQgPSBzdGF0dXNDb250YWluZXIuYXBwZW5kQ2hpbGQoc3RhdHVzVGV4dCk7XG4gIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5pdGlhbGlzZWA7XG5cbiAgLy8gSG9pc3QgaW5kaWNhdG9yIG91dCBmcm9tIGZpbmFsIHNsaWRlIHdoZW4gcnVubmluZyB1bmRlciByZXZlYWxcbiAgY29uc3QgcmV2ZWFsU3RhdHVzID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgLmV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpZiAocmV2ZWFsU3RhdHVzKSB7XG4gICAgcmV2ZWFsU3RhdHVzLnJlbW92ZSgpO1xuICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsID4gLnNsaWRlc1wiKS5hcHBlbmRDaGlsZChyZXZlYWxTdGF0dXMpO1xuICB9XG5cbiAgLy8gTWFrZSBhbnkgcmV2ZWFsIHNsaWRlcyB3aXRoIGxpdmUgY2VsbHMgc2Nyb2xsYWJsZVxuICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKFwiLnJldmVhbCAuZXhlcmNpc2UtY2VsbFwiKS5mb3JFYWNoKChlbCkgPT4ge1xuICAgIGVsLmNsb3Nlc3QoJ3NlY3Rpb24uc2xpZGUnKS5jbGFzc0xpc3QuYWRkKFwic2Nyb2xsYWJsZVwiKTtcbiAgfSlcblxuICAvLyBQeW9kaWRlIHN1cHBsZW1lbnRhbCBkYXRhIGFuZCBvcHRpb25zXG4gIGNvbnN0IGRhdGFDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtZGF0YVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGRhdGEgPSBKU09OLnBhcnNlKGI2NERlY29kZShkYXRhQ29udGVudCkpO1xuXG4gIC8vIEdyYWIgbGlzdCBvZiByZXNvdXJjZXMgdG8gYmUgZG93bmxvYWRlZFxuICBjb25zdCBmaWxlc0NvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwidmZzLWZpbGVcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBmaWxlcyA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGZpbGVzQ29udGVudCkpO1xuXG4gIGxldCBweW9kaWRlUHJvbWlzZSA9IChhc3luYyAoKSA9PiB7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBQeW9kaWRlYDtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgc3RhcnRQeW9kaWRlV29ya2VyKGRhdGEub3B0aW9ucyk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6IG1pY3JvcGlwYDtcbiAgICBhd2FpdCBweW9kaWRlLmxvYWRQYWNrYWdlKFwibWljcm9waXBcIik7XG4gICAgY29uc3QgbWljcm9waXAgPSBhd2FpdCBweW9kaWRlLnB5aW1wb3J0KFwibWljcm9waXBcIik7XG4gICAgYXdhaXQgZGF0YS5wYWNrYWdlcy5wa2dzLm1hcCgocGtnKSA9PiAoKSA9PiB7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6ICR7cGtnfWA7XG4gICAgICByZXR1cm4gbWljcm9waXAuaW5zdGFsbChwa2cpO1xuICAgIH0pLnJlZHVjZSgoY3VyLCBuZXh0KSA9PiBjdXIudGhlbihuZXh0KSwgUHJvbWlzZS5yZXNvbHZlKCkpO1xuICAgIGF3YWl0IG1pY3JvcGlwLmRlc3Ryb3koKTtcblxuICAgIC8vIERvd25sb2FkIGFuZCBpbnN0YWxsIHJlc291cmNlc1xuICAgIGF3YWl0IGZpbGVzLm1hcCgoZmlsZSkgPT4gYXN5bmMgKCkgPT4ge1xuICAgICAgY29uc3QgbmFtZSA9IGZpbGUuc3Vic3RyaW5nKGZpbGUubGFzdEluZGV4T2YoJy8nKSArIDEpO1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyByZXNvdXJjZTogJHtuYW1lfWA7XG4gICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGZpbGUpO1xuICAgICAgaWYgKCFyZXNwb25zZS5vaykge1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYENhbid0IGRvd25sb2FkIFxcYCR7ZmlsZX1cXGAuIEVycm9yICR7cmVzcG9uc2Uuc3RhdHVzfTogXCIke3Jlc3BvbnNlLnN0YXR1c1RleHR9XCIuYCk7XG4gICAgICB9XG4gICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuYXJyYXlCdWZmZXIoKTtcblxuICAgICAgLy8gU3RvcmUgVVJMcyBpbiB0aGUgY3dkIHdpdGhvdXQgYW55IHN1YmRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGlmIChmaWxlLmluY2x1ZGVzKFwiOi8vXCIpKSB7XG4gICAgICAgIGZpbGUgPSBuYW1lO1xuICAgICAgfVxuXG4gICAgICAvLyBDb2xsYXBzZSBoaWdoZXIgZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgZmlsZSA9IGNvbGxhcHNlUGF0aChmaWxlKTtcblxuICAgICAgLy8gQ3JlYXRlIGRpcmVjdG9yeSB0cmVlLCBpZ25vcmluZyBcImRpcmVjdG9yeSBleGlzdHNcIiBWRlMgZXJyb3JzXG4gICAgICBjb25zdCBwYXJ0cyA9IGZpbGUuc3BsaXQoJy8nKS5zbGljZSgwLCAtMSk7XG4gICAgICBsZXQgcGF0aCA9ICcnO1xuICAgICAgd2hpbGUgKHBhcnRzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgcGF0aCArPSBwYXJ0cy5zaGlmdCgpICsgJy8nO1xuICAgICAgICB0cnkge1xuICAgICAgICAgIGF3YWl0IHB5b2RpZGUuRlMubWtkaXIocGF0aCk7XG4gICAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgICBpZiAoZS5uYW1lICE9PSBcIkVycm5vRXJyb3JcIikgdGhyb3cgZTtcbiAgICAgICAgICBpZiAoZS5lcnJubyAhPT0gMjApIHtcbiAgICAgICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYEZpbGVzeXN0ZW0gRXJyb3IgJHtlLmVycm5vfSBcIiR7ZXJyb3JUZXh0fVwiLmApO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICAvLyBXcml0ZSB0aGlzIGZpbGUgdG8gdGhlIFZGU1xuICAgICAgdHJ5IHtcbiAgICAgICAgcmV0dXJuIGF3YWl0IHB5b2RpZGUuRlMud3JpdGVGaWxlKGZpbGUsIG5ldyBVaW50OEFycmF5KGRhdGEpKTtcbiAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dCA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5VVEY4VG9TdHJpbmcoZXJyb3JUZXh0UHRyKTtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgIH1cbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgUHlvZGlkZSBlbnZpcm9ubWVudCBzZXR1cGA7XG4gICAgYXdhaXQgc2V0dXBQeXRob24ocHlvZGlkZSk7XG5cbiAgICBzdGF0dXNUZXh0LnJlbW92ZSgpO1xuICAgIGlmIChzdGF0dXNDb250YWluZXIuY2hpbGRyZW4ubGVuZ3RoID09IDApIHtcbiAgICAgIHN0YXR1c0NvbnRhaW5lci5wYXJlbnROb2RlLnJlbW92ZSgpO1xuICAgIH1cbiAgICByZXR1cm4gcHlvZGlkZTtcbiAgfSkoKS5jYXRjaCgoZXJyKSA9PiB7XG4gICAgc3RhdHVzVGV4dC5zdHlsZS5jb2xvciA9IFwidmFyKC0tZXhlcmNpc2UtZWRpdG9yLWhsLWVyLCAjQUQwMDAwKVwiO1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBlcnIubWVzc2FnZTtcbiAgICAvL2luZGljYXRvckNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKFwiLnNwaW5uZXItZ3Jvd1wiKS5jbGFzc0xpc3QuYWRkKFwiZC1ub25lXCIpO1xuICAgIHRocm93IGVycjtcbiAgfSk7XG5cbiAgLy8gS2VlcCB0cmFjayBvZiBpbml0aWFsIE9KUyBibG9jayByZW5kZXJcbiAgY29uc3QgcmVuZGVyZWRPanMgPSB7fTtcblxuICBjb25zdCBwcm9jZXNzID0gYXN5bmMgKGNvbnRleHQsIGlucHV0cykgPT4ge1xuICAgIGNvbnN0IHB5b2RpZGUgPSBhd2FpdCBweW9kaWRlUHJvbWlzZTtcbiAgICBjb25zdCBldmFsdWF0b3IgPSBuZXcgUHlvZGlkZUV2YWx1YXRvcihweW9kaWRlLCBjb250ZXh0KTtcbiAgICBhd2FpdCBldmFsdWF0b3IucHJvY2VzcyhpbnB1dHMpO1xuICAgIHJldHVybiBldmFsdWF0b3IuY29udGFpbmVyO1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBweW9kaWRlUHJvbWlzZSxcbiAgICByZW5kZXJlZE9qcyxcbiAgICBwcm9jZXNzLFxuICB9O1xufVxuIn1dfQ==
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-aidescartes_repo" class="csl-entry" role="listitem">
+Cornelio, Cristina ほか. 2023. <span>「<span>AI-Descartes</span> GitHub repository: Combining data and theory for derivable scientific discovery」</span>. <a href="https://github.com/IBM/AI-Descartes" class="uri">https://github.com/IBM/AI-Descartes</a>.
+</div>
+<div id="ref-cornelio2023" class="csl-entry" role="listitem">
+Cornelio, Cristina, Sanjeeb Dash, Vernon Austel, Tyler R. Josephson, Joao Goncalves, Kenneth L. Clarkson, Nimrod Megiddo, Bachir El Khadir, と Lior Horesh. 2023. <span>「Combining data and theory for derivable scientific discovery with <span>AI-Descartes</span>」</span>. <em>Nature Communications</em> 14 (1): 1777. <a href="https://doi.org/10.1038/s41467-023-37236-y">https://doi.org/10.1038/s41467-023-37236-y</a>.
+</div>
+<div id="ref-corywright2024" class="csl-entry" role="listitem">
+Cory-Wright, Ryan, Cristina Cornelio, Sanjeeb Dash, Bachir El Khadir, と Lior Horesh. 2024. <span>「Evolving scientific discovery by unifying data and background knowledge with <span>AI Hilbert</span>」</span>. <em>Nature Communications</em> 15: 5922. <a href="https://doi.org/10.1038/s41467-024-50074-w">https://doi.org/10.1038/s41467-024-50074-w</a>.
+</div>
+<div id="ref-langmuir1918" class="csl-entry" role="listitem">
+Langmuir, Irving. 1918. <span>「The adsorption of gases on plane surfaces of glass, mica and platinum」</span>. <em>Journal of the American Chemical Society</em> 40: 1361–1403.
+</div>
+<div id="ref-sun1998" class="csl-entry" role="listitem">
+Sun, M. S., D. B. Shah, H. H. Xu, と O. Talu. 1998. <span>「Adsorption equilibria of <span>C1</span> to <span>C4</span> alkanes, <span>CO2</span>, and <span>SF6</span> on silicalite」</span>. <em>Journal of Physical Chemistry</em> 102: 1466–73.
+</div>
+<div id="ref-mathematica" class="csl-entry" role="listitem">
+Wolfram Research. 日付なし. <span>「Wolfram Mathematica, Version 12」</span>. <a href="https://www.wolfram.com" class="uri">https://www.wolfram.com</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ── 右サイドバー（目次）トグル ──────────────────────────
+  const rightSidebar = document.getElementById('quarto-margin-sidebar');
+  if (rightSidebar) {
+    const btn = document.createElement('button');
+    btn.id = 'right-sidebar-toggle';
+    btn.setAttribute('aria-label', '目次を折りたたむ');
+    btn.innerHTML = '&#8250;'; // ›
+
+    document.body.appendChild(btn);
+
+    function positionRightBtn() {
+      const rect = rightSidebar.getBoundingClientRect();
+      const visible = rect.width > 10;
+      btn.innerHTML = visible ? '&#8250;' : '&#8249;';
+      btn.style.left = visible
+        ? (rect.left - 24) + 'px'
+        : (window.innerWidth - 14) + 'px';
+    }
+    positionRightBtn();
+
+    btn.addEventListener('click', function () {
+      const isVisible = rightSidebar.getBoundingClientRect().width > 10;
+      if (isVisible) {
+        rightSidebar.style.width = '0';
+        rightSidebar.style.minWidth = '0';
+        rightSidebar.style.overflow = 'hidden';
+        rightSidebar.style.padding = '0';
+        btn.innerHTML = '&#8249;';
+        btn.style.left = (window.innerWidth - 14) + 'px';
+      } else {
+        rightSidebar.style.width = '';
+        rightSidebar.style.minWidth = '';
+        rightSidebar.style.overflow = '';
+        rightSidebar.style.padding = '';
+        btn.innerHTML = '&#8250;';
+        requestAnimationFrame(() => positionRightBtn());
+      }
+    });
+
+    window.addEventListener('resize', positionRightBtn);
+  }
+});
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiBsbV9xbWF4ID0gSW5wdXRzLnJhbmdlKFswLjUsIDVdLCB7c3RlcDogMC4xLCBsYWJlbDogdGV4YHFfe1xcbWF4fVxcIChcXHRleHR7c2l0ZSAxfSlgLCB2YWx1ZTogM30pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgbG1fS2EgPSBJbnB1dHMucmFuZ2UoWzAuMDUsIDVdLCB7c3RlcDogMC4wNSwgbGFiZWw6IHRleGBLX2FcXCAoXFx0ZXh0e3NpdGUgMX0pYCwgdmFsdWU6IDF9KVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0zIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoidmlld29mIGxtX3R3b3NpdGUgPSBJbnB1dHMudG9nZ2xlKHtsYWJlbDogdGV4YFxcdGV4dHvkuozjgrXjgqTjg4jpoIXjgpLph43jga3jgot9YCwgdmFsdWU6IGZhbHNlfSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNCIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiBsbV9xbWF4MiA9IElucHV0cy5yYW5nZShbMC41LCA1XSwge3N0ZXA6IDAuMSwgbGFiZWw6IHRleGBxX3tcXG1heCwyfVxcIChcXHRleHR7c2l0ZSAyfSlgLCB2YWx1ZTogMn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTUiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgbG1fS2EyID0gSW5wdXRzLnJhbmdlKFswLjAwNSwgMV0sIHtzdGVwOiAwLjAwNSwgbGFiZWw6IHRleGBLX3thLDJ9XFwgKFxcdGV4dHtzaXRlIDJ9KWAsIHZhbHVlOiAwLjA1fSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnbG1fcW1heCcpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdsbV9LYScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdsbV90d29zaXRlJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2xtX3FtYXgyJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2xtX0thMicpIn1dfQ==
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../textbook";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "コピーしました");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "コピーしました");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../textbook/10-timedilation.html" class="pagination-link" aria-label="事例 II：相対論的時間遅延">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">事例 II：相対論的時間遅延</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../textbook/12-limitations.html" class="pagination-link" aria-label="システムの限界と将来の発展">
+        <span class="nav-page-text"><span class="chapter-title">システムの限界と将来の発展</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">ソースコード</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "事例 III：ラングミュアの吸着式"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="an">engine:</span><span class="co"> markdown</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - r-wasm/live</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="an">pyodide:</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">  packages:</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">    - numpy</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - matplotlib</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>{{&lt; include _11-langmuir.qmd &gt;}}</span></code></pre></div><button title="コピー" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Journal Club ／ 原論文 © 2023 The Author(s), CC BY 4.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/yama662607/ai-descartes-textbook/edit/main/textbook/11-langmuir.qmd" class="toc-action"><i class="bi bi-github"></i>編集</a></li><li><a href="https://github.com/yama662607/ai-descartes-textbook/issues/new" class="toc-action"><i class="bi empty"></i>問題を報告</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../index.html">
+<p>ホーム</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

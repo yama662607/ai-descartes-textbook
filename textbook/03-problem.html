@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>発見の形式的定式化 ⟨B, C, D, M⟩ – AI-Descartes 精読教科書</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../textbook/04-distance.html" rel="next">
+<link href="../textbook/02-introduction.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-3e8480e34e3b36c3885f95ed1670e7a8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "一致なし",
+    "search-matching-documents-text": "一致した文書",
+    "search-copy-link-title": "検索へのリンクをコピー",
+    "search-hide-matches-text": "追加の検索結果を非表示",
+    "search-more-match-text": "追加の検索結果",
+    "search-more-matches-text": "追加の検索結果",
+    "search-clear-button-title": "消去",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "検索",
+    "search-label": "サーチ"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<!--
+  Quarto Live (filter mode) does not auto-load plotly.js even when a
+  {pyodide} cell uses plotly. Load it from CDN once per page so that
+  mime-type renders (`Plotly.newPlot(...)`) work.
+-->
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../templates/styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">AI-Descartes 精読教科書</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="サーチ"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">ホーム</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/yama662607/ai-descartes-textbook" title="ソースコード" class="quarto-navigation-tool px-1" aria-label="ソースコード"><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../textbook/03-problem.html">第 II 部 — AI-Descartes の枠組み（Results）</a></li><li class="breadcrumb-item"><a href="../textbook/03-problem.html"><span class="chapter-title">発見の形式的定式化 ⟨B, C, D, M⟩</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">AI-Descartes 精読教科書</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 I 部 — 導入と全体像</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/00-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">本書の歩き方と AI-Descartes 全体像</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/01-abstract.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">タイトル・著者・要旨</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/02-introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">導入：なぜ「導出可能な」発見か</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 II 部 — AI-Descartes の枠組み（Results）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/03-problem.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">発見の形式的定式化 ⟨B, C, D, M⟩</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/04-distance.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">距離の一般化：データ誤差 ε と理論誤差 β</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/05-integration.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">統計的 AI と記号的 AI の統合</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/06-interplay.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">データと理論の相互作用：MINLP-SR と定理証明</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/07-validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">実験的検証の全体像</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 III 部 — 考察（Discussion）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/08-discussion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">考察</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 IV 部 — 事例研究（Methods）</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/09-kepler.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 I：ケプラーの第三法則</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/10-timedilation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 II：相対論的時間遅延</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/11-langmuir.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">事例 III：ラングミュアの吸着式</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/12-limitations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">システムの限界と将来の発展</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">第 V 部 — 付録</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="セクションを切り替え">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../textbook/13-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">付録：参考文献・用語集・ライセンス</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">このページの目次</h2>
+   
+  <ul class="collapse">
+  <li><a href="#sec-problem" id="toc-sec-problem" class="nav-link active" data-scroll-target="#sec-problem">発見の形式的定式化 ⟨B, C, D, M⟩</a></li>
+  <li><a href="#sec-problem-faq" id="toc-sec-problem-faq" class="nav-link" data-scroll-target="#sec-problem-faq">よくある質問（FAQ）</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/yama662607/ai-descartes-textbook/edit/main/textbook/03-problem.qmd" class="toc-action"><i class="bi bi-github"></i>編集</a></li><li><a href="https://github.com/yama662607/ai-descartes-textbook/issues/new" class="toc-action"><i class="bi empty"></i>問題を報告</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../textbook/03-problem.html">第 II 部 — AI-Descartes の枠組み（Results）</a></li><li class="breadcrumb-item"><a href="../textbook/03-problem.html"><span class="chapter-title">発見の形式的定式化 ⟨B, C, D, M⟩</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-title">発見の形式的定式化 ⟨B, C, D, M⟩</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> コード</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-problem" class="level2">
+<h2 class="anchored" data-anchor-id="sec-problem">発見の形式的定式化 ⟨B, C, D, M⟩</h2>
+<p>本論文の Results は、まず「科学的発見とは何を入力として何を出力する問題か」を厳密に定義することから始まる。曖昧な「発見」というプロセスを、<strong>4 つ組 ⟨B, C, D, M⟩</strong> という明示的な入力と、満たすべき 4 つの条件をもつ最適化問題へと落とし込むのがこの節の眼目である。ここで導入される記号と前提（とくに背景理論の<strong>完全(complete)・無矛盾(consistent)</strong>）は、以降の章すべての土台になる。</p>
+<section id="sec-problem-setup" class="level3">
+<h3 class="anchored" data-anchor-id="sec-problem-setup">問題設定：未知の記号モデル <span class="math inline">f^*</span> を探す</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“Our automated scientific discovery method aims to discover an unknown symbolic model <span class="math inline">y = f^*(\mathbf{x})</span> (bold letters indicate vectors) where <span class="math inline">\mathbf{x}</span> is the vector <span class="math inline">(x_1, \ldots, x_n)</span> of independent variables, and <span class="math inline">y</span> is the dependent variable. The discovered model <span class="math inline">f</span> (an approximation of <span class="math inline">f^*</span>) should fit a collection of <span class="math inline">m</span> data points, <span class="math inline">((\mathbf{X}^1, Y^1), \cdots, (\mathbf{X}^m, Y^m))</span>, be derivable from a background theory, have low complexity and bounded prediction error. More specifically, the inputs to our system are 4-tuples <span class="math inline">\langle B, C, D, M \rangle</span> as follows.” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<p><strong>忠実な日本語訳</strong>：</p>
+<p>我々の自動科学的発見手法は、未知の記号モデル <span class="math inline">y = f^*(\mathbf{x})</span>（太字はベクトルを表す）を発見することを目指す。ここで <span class="math inline">\mathbf{x}</span> は独立変数のベクトル <span class="math inline">(x_1, \ldots, x_n)</span> であり、<span class="math inline">y</span> は従属変数である。発見されるモデル <span class="math inline">f</span>（<span class="math inline">f^*</span> の近似）は、<span class="math inline">m</span> 個のデータ点の集まり <span class="math inline">((\mathbf{X}^1, Y^1), \cdots, (\mathbf{X}^m, Y^m))</span> に適合し、背景理論から<strong>導出可能</strong>であり、低い<strong>複雑度</strong>をもち、かつ予測誤差が有界であることが求められる。より具体的には、我々のシステムへの入力は、以下のような 4 つ組 <span class="math inline">\langle B, C, D, M \rangle</span> である。</p>
+<p>整理すると、発見されるべきモデル <span class="math inline">f</span> には次の 4 つの要請が課される。</p>
+<p><span id="eq-four-requirements"><span class="math display">
+\underbrace{\text{データ } D \text{ に適合}}_{\text{数値誤差が小}}
+\;\wedge\;
+\underbrace{\text{背景理論 } B \text{ から導出可能}}_{\text{原理整合}}
+\;\wedge\;
+\underbrace{\text{低い複雑度}}_{\text{簡潔さ}}
+\;\wedge\;
+\underbrace{\text{有界な予測誤差}}_{\text{汎化}}
+\tag{5.1}</span></span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：なぜ 4 条件を「同時に」課すのか
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>従来の記号回帰（SR）は、上の 4 条件のうち実質的に <strong>1 番目（データへの適合）と 3 番目（低複雑度）の 2 つだけ</strong> を見ていた。すなわち「与えられたデータ点に小さい誤差で当てはまり、かつ式としてできるだけ短い」候補式を探していたわけである。</p>
+<p>しかしこれだけでは不十分なことが、本論文の出発点である。なぜなら、</p>
+<ul>
+<li>データ点が少なければ、データに同程度よく当てはまる式は無数に存在する（<strong>不良設定問題</strong>）。</li>
+<li>短くてデータに合う式でも、物理法則（背景理論 <span class="math inline">B</span>）に反していれば<strong>外挿で破綻</strong>する。</li>
+</ul>
+<p>そこで本論文は <strong>2 番目（背景理論からの導出可能性）と 4 番目（有界な予測誤差＝汎化）</strong> を新たに課す。とくに 2 番目の「<span class="math inline">B</span> から導出可能」という条件が本研究の核心であり、第三者（自動定理証明器）が論理的に検証する。記号の <span class="math inline">f^*</span> は<strong>真の関数（グラウンドトゥルース）</strong>、<span class="math inline">f</span> はそれを近似する<strong>候補式</strong>であることに注意してほしい。我々が手にできるのは常に <span class="math inline">f</span> であって、<span class="math inline">f^*</span> そのものは直接観測できない。</p>
+<p>具体例（ケプラーの第三法則）で言えば：</p>
+<ul>
+<li><span class="math inline">\mathbf{x} = (m_1, m_2, d)</span> … 太陽質量 <span class="math inline">m_1</span>、惑星質量 <span class="math inline">m_2</span>、軌道長半径 <span class="math inline">d</span></li>
+<li><span class="math inline">y = p</span> … 惑星の公転周期</li>
+<li><span class="math inline">f^*</span> … 真の法則 <span class="math inline">p = 2\pi \sqrt{\dfrac{d^3}{G(m_1+m_2)}}</span></li>
+<li><span class="math inline">f</span> … システムが探し当てる、<span class="math inline">f^*</span> に近い候補式</li>
+</ul>
+<p>「<span class="math inline">m</span> 個のデータ点」とは太陽系の各惑星の観測値であり、惑星はわずか数個しかない（<strong>少数データ</strong>）。だからこそ、データだけでなく背景理論 <span class="math inline">B</span>（ニュートン力学）からの導出可能性が、候補を絞り込む決定的な手がかりになる。</p>
+</div>
+</div>
+</section>
+<section id="sec-problem-tuple" class="level3">
+<h3 class="anchored" data-anchor-id="sec-problem-tuple">4 つの入力 ⟨B, C, D, M⟩</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“<strong>Background Knowledge <span class="math inline">B</span></strong>: a set of domain-specific axioms expressed as logic formulae. … We assume that the background theory <span class="math inline">B</span> is <strong>complete</strong>, that is, it contains all the axioms necessary to comprehensively explain the phenomena under consideration, and <strong>consistent</strong>, that is, the axioms do not contradict one another. These two assumptions guarantee that there exists a unique derivable function <span class="math inline">f_B</span> that logically represents the variable of interest <span class="math inline">y</span>.” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<p><strong>忠実な日本語訳</strong>：</p>
+<ul>
+<li><p><strong>背景知識（Background Knowledge）<span class="math inline">B</span></strong>：論理式として表現された、領域固有の<strong>公理</strong>の集合。これらは <span class="math inline">\mathbf{x}</span>、<span class="math inline">y</span>、および背景理論を定式化するために必要となる可能性のあるその他の変数を含む。本研究では主として、等号・不等号および基本的な算術演算子をもつ一階述語論理の式に焦点を当てる。我々は背景理論 <span class="math inline">B</span> が<strong>完全(complete)</strong>であること、すなわち考察対象の現象を包括的に説明するために必要なすべての公理を含むこと、そして<strong>無矛盾(consistent)</strong>であること、すなわち公理どうしが互いに矛盾しないことを仮定する。これら 2 つの仮定は、興味のある変数 <span class="math inline">y</span> を論理的に表現する<strong>導出可能な関数 <span class="math inline">f_B</span> が一意に存在する</strong>ことを保証する。なお、導出可能な関数は一意であるが、興味のある定義域上で<strong>等価</strong>となる異なる関数形が存在しうる。変数 <span class="math inline">x</span> について 2 点 <span class="math inline">\{0, 1\}</span> からなる定義域を考えると、2 つの関数形 <span class="math inline">f(x) = x</span> と <span class="math inline">f(x) = x^2</span> はどちらも同じ関数を定義する。</p></li>
+<li><p><strong>仮説クラス（Hypothesis Class）<span class="math inline">C</span></strong>：文法（grammar）によって定義される許容可能な記号モデルの集合、冗長な式を避けるための不変性制約（invariance constraints）（例：<span class="math inline">A + B</span> は <span class="math inline">B + A</span> と等価）、および関数形に対する制約（例：単調性 monotonicity）からなる。</p></li>
+<li><p><strong>データ（Data）<span class="math inline">D</span></strong>：<span class="math inline">m</span> 個の例の集合。各例は <span class="math inline">x_1, \ldots, x_n</span> と <span class="math inline">y</span> について、ある特定の値を与える。</p></li>
+<li><p><strong>モデラーの選好（Modeler Preferences）<span class="math inline">M</span></strong>：数値パラメータの集合（例：精度に関する誤差の上限 error bounds）。</p></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：4 つ組を一つずつ具体例で読み解く
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>論文は 4 項目を簡潔に列挙しているだけなので、ここで一つずつ「行間」を補う。</p>
+<p><strong>(1) 背景知識 <span class="math inline">B</span> — 公理として書かれた「物理法則そのもの」</strong></p>
+<p><span class="math inline">B</span> は単なるヒントや制約ではなく、<strong>論理式として機械可読に書かれた物理理論</strong>である。ケプラーの場合、<span class="math inline">B</span> は次のニュートン力学の公理からなる（第 09 章で詳述）：</p>
+<ul>
+<li><strong>向心力（centrifugal force）</strong> の式</li>
+<li><strong>重力（gravitational force, 万有引力）</strong> の式</li>
+<li><strong>力の釣り合い（equilibrium）</strong> の条件</li>
+</ul>
+<p>これらを一階述語論理（等号・不等号・四則演算つき）で表現したものが <span class="math inline">B</span> である。「first-order logic（一階述語論理）に絞る」というのは、<strong>自動定理証明器（ATP）が扱える範囲に問題を収める</strong>ための重要な設計判断であり、高階論理を避けることで導出可能性の判定を現実的にしている。</p>
+<p><strong>(2) 仮説クラス <span class="math inline">C</span> — 「探索してよい式の空間」の定義</strong></p>
+<p><span class="math inline">C</span> は記号回帰が探す<strong>候補式の集合</strong>を、3 種類の規則で定める：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>構成要素</th>
+<th>役割</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>文法 (grammar)</td>
+<td>どの演算子・変数で式を組めるか</td>
+<td><span class="math inline">\{+, -, \times, \div\}</span> と変数 <span class="math inline">p, q</span></td>
+</tr>
+<tr class="even">
+<td>不変性制約</td>
+<td>同じ式の重複表現を排除</td>
+<td><span class="math inline">A+B</span> と <span class="math inline">B+A</span> を同一視</td>
+</tr>
+<tr class="odd">
+<td>関数形制約</td>
+<td>形そのものへの要求</td>
+<td>単調増加であること</td>
+</tr>
+</tbody>
+</table>
+<p>不変性制約がなければ、<span class="math inline">a+b</span>、<span class="math inline">b+a</span>、<span class="math inline">a+b+0</span> … が別々の候補として探索空間を爆発させてしまう。<span class="math inline">C</span> はこの無駄を刈り取る。</p>
+<p><strong>(3) データ <span class="math inline">D</span> — 観測された <span class="math inline">(\mathbf{x}, y)</span> の組</strong></p>
+<p><span class="math inline">D</span> は <span class="math inline">m</span> 個の観測例である。ケプラーなら各惑星 1 行、つまり <span class="math inline">(m_1, m_2, d, p)</span> の組が惑星の数だけある。本研究の主張の一つは「<span class="math inline">m</span> が小さくても（少数データでも）背景理論があれば法則を発見できる」ことなので、<span class="math inline">D</span> のサイズが小さいことはむしろ前提に近い。</p>
+<p><strong>(4) モデラーの選好 <span class="math inline">M</span> — 人が与えるしきい値</strong></p>
+<p><span class="math inline">M</span> は誤差の許容上限など、解析者が設定する<strong>数値パラメータ</strong>である。「どこまでの数値誤差なら許すか」「複雑度の上限はいくつか」といったトレードオフのつまみであり、ここに人間の判断が入る。</p>
+</div>
+</div>
+<section id="sec-problem-unique" class="level4">
+<h4 class="anchored" data-anchor-id="sec-problem-unique">完全性・無矛盾性 ⇒ 導出可能関数 <span class="math inline">f_B</span> の一意性</h4>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：なぜ「完全」かつ「無矛盾」だと <span class="math inline">f_B</span> が一意に決まるのか
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>これは本節で最も注意深く読むべき主張である。論理学の言葉に翻訳すると見通しがよい。</p>
+<ul>
+<li><strong>無矛盾(consistent)</strong>：公理集合 <span class="math inline">B</span> から矛盾（<span class="math inline">P</span> かつ <span class="math inline">\lnot P</span>）が導けない。したがって <span class="math inline">B</span> には少なくとも一つのモデル（解釈）が存在する。直観的には「<span class="math inline">B</span> を満たす関数が<strong>少なくとも 1 つ</strong>ある」。</li>
+<li><strong>完全(complete)</strong>：考察対象の現象を<strong>包括的に</strong>説明するすべての公理が <span class="math inline">B</span> に含まれている。つまり興味のある変数 <span class="math inline">y</span> の振る舞いは <span class="math inline">B</span> によって<strong>完全に決定</strong>され、自由度が残らない。直観的には「<span class="math inline">B</span> を満たす関数が<strong>高々 1 つ</strong>しかない」。</li>
+</ul>
+<p>この 2 つを合わせると、<strong><span class="math inline">y</span> を表現する関数 <span class="math inline">f_B</span> がちょうど 1 つ存在する</strong>——これが「一意な導出可能関数 <span class="math inline">f_B</span>」の意味である。<span class="math inline">f_B</span> は「<span class="math inline">B</span> という公理系から論理的に導かれる、<span class="math inline">y</span> についての唯一の関数」であり、後の章で候補式 <span class="math inline">f</span> の良し悪しを測る<strong>基準点</strong>になる（<span class="math inline">f</span> が <span class="math inline">B</span> から導出可能 ⇔ <span class="math inline">f</span> が <span class="math inline">f_B</span> と一致する、という形で効いてくる）。</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["公理集合 B"] --&gt;|"無矛盾&lt;br/&gt;(解が 1 つ以上)"| C["B を満たす&lt;br/&gt;関数の集合"]
+    A --&gt;|"完全&lt;br/&gt;(解が高々 1 つ)"| C
+    C --&gt; D["導出可能関数 f_B&lt;br/&gt;がちょうど 1 つ"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>なぜこの仮定が重要か。もし <span class="math inline">B</span> が不完全だと、<span class="math inline">B</span> を満たす関数が複数残り「どれが正しい法則か」を論理だけでは決められない。もし <span class="math inline">B</span> が矛盾していれば、矛盾からは任意の命題が導けてしまい（<strong>爆発律</strong>）、<span class="math inline">f_B</span> は意味をなさない。だからこの 2 仮定は、論理側（推論モジュール）が「正解」を一点に定めるための前提なのである。</p>
+<p>なお本論文自身、考察（Discussion）でこの仮定の強さを認めており、「推論コンポーネントの限界の一つは、背景理論の正しさと完全性を仮定している点である」と述べ、不完全性を<strong>仮説推論（abduction）</strong>で部分的に補う将来方向を示している（第 12 章で扱う）。</p>
+</div>
+</div>
+</section>
+<section id="sec-problem-equiv" class="level4">
+<h4 class="anchored" data-anchor-id="sec-problem-equiv">一意でも関数形は一つとは限らない：<span class="math inline">f(x)=x</span> と <span class="math inline">f(x)=x^2</span></h4>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ノート</span>原文（抜粋, English）
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>“Note that although the derivable function is unique, there may exist different functional forms that are equivalent on the domain of interest. Considering the domain with two points <span class="math inline">\{0, 1\}</span> for a variable <span class="math inline">x</span>, the two functional forms <span class="math inline">f(x) = x</span> and <span class="math inline">f(x) = x^2</span> both define the same function.” — Cornelio et al.&nbsp;2023 <span class="citation" data-cites="cornelio2023">(<a href="#ref-cornelio2023" role="doc-biblioref">Cornelio ほか 2023</a>)</span></p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">ヒント</span>詳細授業：「関数」と「関数形」を区別する
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>論文は「導出可能な関数 <span class="math inline">f_B</span> は一意だが、定義域上で等価な異なる<strong>関数形</strong>は複数ありうる」と注意している。ここで<strong>関数 (function)</strong> と<strong>関数形 (functional form)</strong> を厳密に区別することが肝心である。</p>
+<ul>
+<li><strong>関数</strong>：定義域から値域への対応そのもの（入力 → 出力の写像）。</li>
+<li><strong>関数形</strong>：その対応を書き表す<strong>式の見た目</strong>。</li>
+</ul>
+<p>数学的には、関数が等しいとは「定義域上のすべての点で出力が一致すること」を指す。式の形は問わない。</p>
+<p>論文の例を計算で確かめよう。変数 <span class="math inline">x</span> の定義域がたった 2 点 <span class="math inline">\{0, 1\}</span> のとき：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x</span></th>
+<th style="text-align: center;"><span class="math inline">f(x)=x</span></th>
+<th style="text-align: center;"><span class="math inline">f(x)=x^2</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">0</span></td>
+<td style="text-align: center;"><span class="math inline">0</span></td>
+<td style="text-align: center;"><span class="math inline">0^2 = 0</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">1</span></td>
+<td style="text-align: center;"><span class="math inline">1</span></td>
+<td style="text-align: center;"><span class="math inline">1^2 = 1</span></td>
+</tr>
+</tbody>
+</table>
+<p>定義域 <span class="math inline">\{0, 1\}</span> の<strong>すべての点</strong>で両者の出力は一致する。よって <span class="math inline">f(x)=x</span> と <span class="math inline">f(x)=x^2</span> は、この定義域上では<strong>同一の関数</strong>である。式の見た目（関数形）は明らかに異なるのに、関数としては区別できない。</p>
+<p><span id="eq-equiv-domain"><span class="math display">
+f(x)=x \;\equiv\; f(x)=x^2 \qquad \text{on } x \in \{0, 1\}
+\tag{5.2}</span></span></p>
+<p>もちろん定義域を広げれば話は変わる。例えば <span class="math inline">x = 2</span> を加えれば <span class="math inline">f(2)=2 \ne 4 = f(2)^2</span> となり、両者は別の関数になる。つまり<strong>等価性は定義域に依存する</strong>。</p>
+<p>なぜこの注意が実践上重要か。発見システムは候補式 <span class="math inline">f</span> が背景理論から導出可能か（＝ <span class="math inline">f_B</span> と一致するか）を判定するが、その一致は「<strong>興味のある定義域上で</strong>」評価される。したがって、見た目の違う <span class="math inline">f</span> と <span class="math inline">f_B</span> が同じ関数として扱われる、あるいは逆に、限られたデータ点だけでは区別できない複数の関数形が並び立つ、という事態が起こりうる。背景理論 <span class="math inline">B</span> は、まさにこの「データだけでは見分けられない関数形たち」を論理的に切り分けるために導入されている。この主張は、第 10 章（時間の遅れ）や第 11 章（ラングミュア吸着）で「データには同等に当てはまるが導出可能性で差がつく候補式」として具体的に現れる。</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="sec-problem-faq" class="level2">
+<h2 class="anchored" data-anchor-id="sec-problem-faq">よくある質問（FAQ）</h2>
+<p>学部生がつまずきやすい点を Q&amp;A 形式で補足します。</p>
+<section id="q1.-背景理論-b-が完全無矛盾なんて現実の物理理論で本当に用意できるんですか発見前にどうやって確認するんでしょう" class="level3">
+<h3 class="anchored" data-anchor-id="q1.-背景理論-b-が完全無矛盾なんて現実の物理理論で本当に用意できるんですか発見前にどうやって確認するんでしょう">Q1. 背景理論 B が「完全・無矛盾」なんて、現実の物理理論で本当に用意できるんですか？発見前にどうやって確認するんでしょう。</h3>
+<p>これは本当に鋭い指摘で、論文自身も弱点として認めている点です。まず用語を一言で。<strong>無矛盾(consistent)</strong> =「B から <span class="math inline">P</span> かつ <span class="math inline">\lnot P</span> のような矛盾が導けない」、<strong>完全(complete)</strong> =「考察対象の現象を説明しきる公理が B に全部入っていて、<span class="math inline">y</span> の振る舞いに自由度が残らない」ことです（<a href="#sec-problem-unique" class="quarto-xref"><span>完全性・無矛盾性 ⇒ 導出可能関数 f_B の一意性</span></a>）。</p>
+<p>大事なのは、ここで「完全」に決めるのは<strong>発見したい法則そのもの</strong>ではなく、その<strong>土台となる原理</strong>だという点です。ケプラーの例では、B に入れるのは万有引力・向心力・力の釣り合いというニュートン力学の公理であり（<a href="#sec-problem-tuple" class="quarto-xref"><span>4 つの入力 ⟨B, C, D, M⟩</span></a>）、ケプラー第三法則 <span class="math inline">p = 2\pi\sqrt{d^3 / (G(m_1+m_2))}</span> という<strong>結論の式</strong>は B には書かれていません。つまり「より基本的でよく確立した原理(B)」から「未知の法則(<span class="math inline">f_B</span>)」を導く、という階層構造なので、循環にはなっていません。あなたが感じた「未知の法則を一意に決める完全な公理を先に用意する」のではなく、「既知の原理を入れたら、その帰結として法則が一意に定まる」という向きなのです。</p>
+<p>とはいえ「B が本当に完全か」を発見前に保証する一般的手続きは存在しません。だから論文は考察(Discussion)で「推論コンポーネントの限界の一つは背景理論の正しさと完全性を仮定している点だ」と明記し、不完全な B を<strong>仮説推論(abduction)</strong>で補う将来方向を示しています（第 12 章）。実務的には「この問題に必要な原理は出揃っている」と分野の知識から判断して B を組み、もし発見に失敗したら B を疑う、という反復になります。</p>
+</section>
+<section id="q2.-f_b-は一意なのに関数形は一つとは限らないって矛盾ではfxx-と-fxx²-が同じなら結局一意なんですか" class="level3">
+<h3 class="anchored" data-anchor-id="q2.-f_b-は一意なのに関数形は一つとは限らないって矛盾ではfxx-と-fxx²-が同じなら結局一意なんですか">Q2. 「f_B は一意」なのに「関数形は一つとは限らない」って矛盾では？f(x)=x と f(x)=x² が同じなら、結局一意なんですか？</h3>
+<p>矛盾ではなく、<strong>「関数」と「関数形」という別物を同じ「関数」という言葉で呼んでいるせいの混乱</strong>です（<a href="#sec-problem-equiv" class="quarto-xref"><span>一意でも関数形は一つとは限らない：f(x)=x と f(x)=x^2</span></a>）。区別はこうです。</p>
+<ul>
+<li><strong>関数 (function)</strong>：入力 → 出力の対応そのもの（写像）。</li>
+<li><strong>関数形 (functional form)</strong>：その対応を書き表した<strong>式の見た目</strong>。</li>
+</ul>
+<p>数学で「2 つの関数が等しい」とは「<strong>定義域上のすべての点で出力が一致する</strong>」ことで、式の見た目は問いません。だから一意なのは前者の「関数」、複数ありうるのは後者の「関数形」です。</p>
+<p>論文の例で確かめましょう。定義域がたった 2 点 <span class="math inline">\{0,1\}</span> のとき、<span class="math inline">f(x)=x</span> は <span class="math inline">0\mapsto0,\ 1\mapsto1</span>、<span class="math inline">f(x)=x^2</span> は <span class="math inline">0\mapsto0^2=0,\ 1\mapsto1^2=1</span>。全点で出力が一致するので、この定義域上では<strong>同じ一つの関数</strong>です（<a href="#eq-equiv-domain" class="quarto-xref">式&nbsp;<span>5.2</span></a>）。見た目（関数形）は違うのに関数としては区別できない、というだけのこと。なお等価性は定義域依存で、<span class="math inline">x=2</span> を足せば <span class="math inline">f(2)=2\ne4=f(2)^2</span> となり別物になります。だから「<span class="math inline">f_B</span> という関数は 1 つに決まるが、それを表す式の書き方は複数あってよい」が正しい読み方です。</p>
+</section>
+<section id="q3.-b-から-f-が導出可能かどうかは具体的にどう判定数値の当てはまりとどう違うんですか" class="level3">
+<h3 class="anchored" data-anchor-id="q3.-b-から-f-が導出可能かどうかは具体的にどう判定数値の当てはまりとどう違うんですか">Q3. B から f が「導出可能」かどうかは具体的にどう判定？数値の当てはまりとどう違うんですか？</h3>
+<p>これは<strong>2 つの全く別の評価軸</strong>で、ごっちゃにしないことが肝心です。</p>
+<ul>
+<li><strong>数値的フィッティング</strong>：候補式 <span class="math inline">f</span> にデータ <span class="math inline">D</span> の値を代入し、予測値と観測値の<strong>誤差(数値)が小さいか</strong>を測る。電卓的な「計算して比べる」作業です。</li>
+<li><strong>論理的な導出可能性(derivability)</strong>：<span class="math inline">f</span> という式が、公理集合 <span class="math inline">B</span> から<strong>論理規則だけを使って証明できるか</strong>を判定する。数値は一切使いません。</li>
+</ul>
+<p>導出可能性の判定は<strong>自動定理証明器(ATP)</strong>が担います（<a href="#sec-problem-setup" class="quarto-xref"><span>問題設定：未知の記号モデル f^* を探す</span></a> の callout）。イメージとしては、B の公理（万有引力の式、向心力の式、釣り合いの条件など）を出発点に、等号や四則演算の規則で式を機械的に変形・結合していき、「候補式 <span class="math inline">f</span> がその論理的帰結として出てくるか（＝一意な <span class="math inline">f_B</span> と一致するか）」をチェックする操作です。中学・高校で「重力＝向心力」と置いて式変形しケプラー第三法則を<strong>導出</strong>したのと同じ作業を、機械が論理式上で厳密に行うと思ってください。</p>
+<p>両者の違いを一言で言うと、フィッティングは「<strong>手元のデータ点に合うか</strong>」、導出可能性は「<strong>原理から正しく出てくるか</strong>」。前者は少数データだと多数の式が同点で並びますが、後者はそのうち B と整合する式だけを通します。ちなみに「一階述語論理に絞る」という設計判断（<a href="#sec-problem-tuple" class="quarto-xref"><span>4 つの入力 ⟨B, C, D, M⟩</span></a>）は、まさに ATP が現実的に扱える範囲に証明問題を収めるためです。</p>
+</section>
+<section id="q4.-データに合う式が短いだけでなぜダメデータを増やせば一番良い式が決まる気がします" class="level3">
+<h3 class="anchored" data-anchor-id="q4.-データに合う式が短いだけでなぜダメデータを増やせば一番良い式が決まる気がします">Q4. 「データに合う＋式が短い」だけでなぜダメ？データを増やせば一番良い式が決まる気がします。</h3>
+<p>直感が「データ豊富な機械学習」に引っ張られているのが原因です。従来の記号回帰は実質、<a href="#eq-four-requirements" class="quarto-xref">式&nbsp;<span>5.1</span></a> の 4 条件のうち<strong>1 番目（データ適合）と 3 番目（低複雑度）の 2 つだけ</strong>を見ていました（<a href="#sec-problem-setup" class="quarto-xref"><span>問題設定：未知の記号モデル f^* を探す</span></a> の callout）。問題はこの設定が成り立つ前提です。</p>
+<p>科学的発見では、データが<strong>そもそも少ない</strong>ことが多いのです。ケプラーなら観測対象は太陽系の数個の惑星だけ。データ点が少ないと、それらに同じくらいよく当てはまる式は<strong>無数に存在</strong>します（<strong>不良設定問題</strong>）。Q2 で見たように、2 点しかなければ <span class="math inline">f(x)=x</span> と <span class="math inline">f(x)=x^2</span> すら区別できません。「データを増やせば決まる」は正しいのですが、増やせない／増やすコストが高いのが科学の現場です。</p>
+<p>そこで背景理論 <span class="math inline">B</span> が決定的な絞り込み手段になります。データは「点を通るか」しか言えませんが、<span class="math inline">B</span> は「<strong>その式が物理原理から導けるか</strong>」という、データとは独立した第 2 の篩(ふるい)を与えます。短くてデータに合っても <span class="math inline">B</span> に反する式は外挿で破綻するので（<a href="#eq-four-requirements" class="quarto-xref">式&nbsp;<span>5.1</span></a> の 2 番目・4 番目の条件）、これを論理で落とせる。「データだけでは見分けられない関数形たちを、論理で切り分ける」のが <span class="math inline">B</span> の役割で、第 10 章（時間の遅れ）や第 11 章（ラングミュア吸着）で「データには同等に当てはまるが導出可能性で差がつく候補式」として具体的に現れます。</p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-cornelio2023" class="csl-entry" role="listitem">
+Cornelio, Cristina, Sanjeeb Dash, Vernon Austel, Tyler R. Josephson, Joao Goncalves, Kenneth L. Clarkson, Nimrod Megiddo, Bachir El Khadir, と Lior Horesh. 2023. <span>「Combining data and theory for derivable scientific discovery with <span>AI-Descartes</span>」</span>. <em>Nature Communications</em> 14 (1): 1777. <a href="https://doi.org/10.1038/s41467-023-37236-y">https://doi.org/10.1038/s41467-023-37236-y</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ── 右サイドバー（目次）トグル ──────────────────────────
+  const rightSidebar = document.getElementById('quarto-margin-sidebar');
+  if (rightSidebar) {
+    const btn = document.createElement('button');
+    btn.id = 'right-sidebar-toggle';
+    btn.setAttribute('aria-label', '目次を折りたたむ');
+    btn.innerHTML = '&#8250;'; // ›
+
+    document.body.appendChild(btn);
+
+    function positionRightBtn() {
+      const rect = rightSidebar.getBoundingClientRect();
+      const visible = rect.width > 10;
+      btn.innerHTML = visible ? '&#8250;' : '&#8249;';
+      btn.style.left = visible
+        ? (rect.left - 24) + 'px'
+        : (window.innerWidth - 14) + 'px';
+    }
+    positionRightBtn();
+
+    btn.addEventListener('click', function () {
+      const isVisible = rightSidebar.getBoundingClientRect().width > 10;
+      if (isVisible) {
+        rightSidebar.style.width = '0';
+        rightSidebar.style.minWidth = '0';
+        rightSidebar.style.overflow = 'hidden';
+        rightSidebar.style.padding = '0';
+        btn.innerHTML = '&#8249;';
+        btn.style.left = (window.innerWidth - 14) + 'px';
+      } else {
+        rightSidebar.style.width = '';
+        rightSidebar.style.minWidth = '';
+        rightSidebar.style.overflow = '';
+        rightSidebar.style.padding = '';
+        btn.innerHTML = '&#8250;';
+        requestAnimationFrame(() => positionRightBtn());
+      }
+    });
+
+    window.addEventListener('resize', positionRightBtn);
+  }
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "コピーしました");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "コピーしました");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../textbook/02-introduction.html" class="pagination-link" aria-label="導入：なぜ「導出可能な」発見か">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">導入：なぜ「導出可能な」発見か</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../textbook/04-distance.html" class="pagination-link" aria-label="距離の一般化：データ誤差 ε と理論誤差 β">
+        <span class="nav-page-text"><span class="chapter-title">距離の一般化：データ誤差 ε と理論誤差 β</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">ソースコード</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "発見の形式的定式化 ⟨B, C, D, M⟩"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">engine:</span><span class="co"> markdown</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>{{&lt; include _03-problem.qmd &gt;}}</span></code></pre></div><button title="コピー" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Journal Club ／ 原論文 © 2023 The Author(s), CC BY 4.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/yama662607/ai-descartes-textbook/edit/main/textbook/03-problem.qmd" class="toc-action"><i class="bi bi-github"></i>編集</a></li><li><a href="https://github.com/yama662607/ai-descartes-textbook/issues/new" class="toc-action"><i class="bi empty"></i>問題を報告</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../index.html">
+<p>ホーム</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
