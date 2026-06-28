@@ -3,6 +3,10 @@ title: "データと理論の相互作用：MINLP-SR と定理証明"
 engine: markdown
 filters:
   - r-wasm/live
+pyodide:
+  packages:
+    - numpy
+    - matplotlib
 ---
 
 {{< include _06-interplay.qmd >}}

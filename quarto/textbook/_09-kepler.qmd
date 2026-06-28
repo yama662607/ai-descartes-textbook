@@ -327,7 +327,7 @@ ax.set_title(f"ケプラー候補式の (ε, β) 散布（ノイズ σ={sigma:.3
 ax.grid(True, which="both", ls=":", alpha=0.5)
 ax.set_xlim(1e-4, 1e1); ax.set_ylim(1e-5, 1e1)
 plt.tight_layout()
-plt.gcf()
+plt.show()
 ```
 
 ノイズ $\sigma$ を上げると各点の横位置（$\varepsilon$）は右に動き、真の関数 $f^*$ ですら $\varepsilon>0$ になる。一方、縦位置（$\beta$）は背景理論の真の法則との差であり、観測ノイズに左右されない。$\sqrt{0.1319\,d^3}$ が低 $\varepsilon$・低 $\beta$ の左下に、明らかに誤った 2 式が右上に位置する構図は @fig-kepler-eb と一致する。$f^*$ だけが $\beta$ 軸の底（導出可能）に張り付く点に注目してほしい。

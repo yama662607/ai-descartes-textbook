@@ -267,7 +267,7 @@ ax.set_yscale("symlog", linthresh=1e-3)
 ax.grid(True, alpha=0.3)
 ax.legend(loc="upper right", framealpha=0.9)
 fig.tight_layout()
-plt.gcf()
+plt.show()
 ```
 
 ::: {.callout-tip}

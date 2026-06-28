@@ -163,7 +163,7 @@ ax.text(0.98, 0.05,
         bbox=dict(boxstyle="round", fc="white", ec="#888", alpha=0.8))
 
 plt.tight_layout()
-plt.gcf()
+plt.show()
 ```
 
 ::: {.callout-tip}

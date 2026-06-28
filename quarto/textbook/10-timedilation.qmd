@@ -3,6 +3,10 @@ title: "事例 II：相対論的時間遅延"
 engine: markdown
 filters:
   - r-wasm/live
+pyodide:
+  packages:
+    - numpy
+    - matplotlib
 ---
 
 {{< include _10-timedilation.qmd >}}
