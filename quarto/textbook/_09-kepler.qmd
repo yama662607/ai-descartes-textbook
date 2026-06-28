@@ -298,9 +298,9 @@ Y = p * (1.0 + sigma * rng.standard_normal(p.shape))
 
 # 候補式（Table 1 太陽系の3式）
 candidates = {
-    r"$\sqrt{0.1319\,d^3}$":            np.sqrt(0.1319 * d**3),
+    r"$(0.1319\,d^3)^{1/2}$":            np.sqrt(0.1319 * d**3),
     r"$(0.03765d^3+d^2)/(2+d)$":        (0.03765 * d**3 + d**2) / (2 + d),
-    r"$\sqrt{0.1316(d^3+d)}$":          np.sqrt(0.1316 * (d**3 + d)),
+    r"$(0.1316\,(d^3+d))^{1/2}$":          np.sqrt(0.1316 * (d**3 + d)),
 }
 
 def rel_l2(f, ref):

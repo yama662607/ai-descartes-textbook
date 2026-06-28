@@ -144,7 +144,7 @@ true = np.where(ratio >= 0, np.sqrt(np.clip(ratio, 0, None)) - 1.0, np.nan)
 quad = -0.00563 * v ** 2
 
 fig, ax = plt.subplots(figsize=(7, 4.4))
-ax.plot(v, true, color="#1f77b4", lw=2.2, label=r"真の式 $\sqrt{1-v^2/c^2}-1$")
+ax.plot(v, true, color="#1f77b4", lw=2.2, label=r"真の式 $(1-v^2/c^2)^{1/2}-1$")
 ax.plot(v, quad, color="#d62728", lw=1.8, ls="--", label=r"候補 $-0.00563\,v^2$")
 
 # データ領域の目安をハイライト
