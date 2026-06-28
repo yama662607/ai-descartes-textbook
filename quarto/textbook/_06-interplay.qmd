@@ -216,6 +216,7 @@ try:
 except ImportError:
     pass
 matplotlib.rcParams["axes.unicode_minus"] = False
+matplotlib.rcParams["mathtext.fontset"] = "cm"  # 数式(√等)は CM で描画（日本語フォントだと根号が豆腐になるため）
 import numpy as np
 import matplotlib.pyplot as plt
 
